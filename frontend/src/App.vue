@@ -24,5 +24,6 @@ export default {
   text-align: center;
   color: #2c3e50;
   height: auto;
+  background: hsl(0, 0%, 96%);
 }
 </style>
