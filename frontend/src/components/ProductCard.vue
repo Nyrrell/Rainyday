@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  name: 'StickerCard',
+  name: 'ProductCard',
   props: {
     name: Number
   }
@@ -30,7 +30,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .card {
-  flex: 0 0 20%;
+  flex: 0 1 20%;
 }
 
 .card-footer .button {
