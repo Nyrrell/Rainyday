@@ -12,8 +12,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "crypto-js": "^4.1.1",
     "dotenv": "^10.0.0",
     "fastify": "^3.21.2",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.1.2"
   },
   "devDependencies": {
