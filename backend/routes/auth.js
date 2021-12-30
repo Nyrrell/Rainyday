@@ -1,11 +1,11 @@
 import CryptoJS from 'crypto-js';
-import jwt from 'jsonwebtoken'
 import 'dotenv/config';
 
 import User from "../models/User.js";
 
 async function authRoute(fastify, options) {
 
+  // REGISTER
   fastify.post("/register", async (req, res) => {
     const newUser = new User({
       username: req.body.username,
@@ -14,13 +14,15 @@ async function authRoute(fastify, options) {
     });
 
     try {
-      const savedUser = await newUser.save();
-      res.status(201).send(savedUser);
+      const user = await newUser.save();
+      const { password, ...others } = user.toJSON();
+      res.status(201).send({ ...others });
     } catch (e) {
       res.status(500).send(e);
     }
   });
 
+  // LOGIN
   fastify.post("/login", async (req, res) => {
     try {
       const user = await User.findOne({ username: req.body.username });
@@ -31,10 +33,10 @@ async function authRoute(fastify, options) {
 
       originPassword !== req.body.password && res.status(401).send("Wrong Credentials")
 
-      const accessToken = jwt.sign({
-          id: user._id,
-          isAdmin: user.isAdmin
-        }, process.env.JWT_SEC,
+      const accessToken = fastify.jwt.sign({
+          id: user['_id'],
+          isAdmin: user['isAdmin']
+        },
         { expiresIn: "3d" })
 
       const { password, ...others } = user.toJSON();
