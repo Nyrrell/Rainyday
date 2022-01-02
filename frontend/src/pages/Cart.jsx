@@ -1,13 +1,13 @@
-import styled from "styled-components";
-import Navbar from "../components/Navbar.jsx";
 import Announcement from "../components/Announcement.jsx";
-import Footer from "../components/Footer.jsx";
 import { Add, Remove } from "@material-ui/icons";
+import Navbar from "../components/Navbar.jsx";
+import Footer from "../components/Footer.jsx";
+import { useSelector } from "react-redux";
+import styled from "styled-components";
+
 import { mobile } from "../responsive.js";
 
-const Container = styled.div`
-
-`;
+const Container = styled.div``;
 
 const Wrapper = styled.div`
   padding: 20px;
@@ -58,7 +58,11 @@ const Info = styled.div`
 const Product = styled.div`
   display: flex;
   justify-content: space-between;
-  ${mobile({ flexDirection: "column" })}
+  width: 95%;
+  padding-bottom: 5px;
+  margin: 5px 0;
+  border-bottom: 1px solid lightgray;
+  ${mobile({ flexDirection: "column" })};
 `;
 
 const ProductDetail = styled.div`
@@ -139,6 +143,7 @@ const Summary = styled.div`
 
 const SummaryTitle = styled.h1`
   font-weight: 200;
+  text-transform: uppercase;
 `;
 
 const SummaryItem = styled.div`
@@ -162,6 +167,8 @@ const SummaryButton = styled.button`
 `;
 
 const Cart = () => {
+  const cart = useSelector(state => state['cart']);
+
   return (
     <Container>
       <Navbar/>
@@ -178,53 +185,35 @@ const Cart = () => {
         </Top>
         <Bottom>
           <Info>
-            <Product>
-              <ProductDetail>
-                <Image
-                  src={'https://cdn.discordapp.com/attachments/374156179204603914/917509846046216232/StickerApp-3661407.png'}/>
-                <Details>
-                  <ProductName><b>Produit : </b>Sticker 1</ProductName>
-                  <ProductId><b>Id : </b>12345</ProductId>
-                  <ProductColor color={"black"}/>
-                  <ProductSize><b>Taille : </b>L</ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Add/>
-                  <ProductAmount>2</ProductAmount>
-                  <Remove/>
-                </ProductAmountContainer>
-                <ProductPrice>10 €</ProductPrice>
-              </PriceDetail>
-            </Product>
+            {cart.products.map(product => (
+              <Product>
+                <ProductDetail>
+                  <Image
+                    src={product['img']}/>
+                  <Details>
+                    <ProductName><b>Produit : </b>{product['title']}</ProductName>
+                    <ProductId><b>Id : </b>{product['_id']}</ProductId>
+                    {product['color'] && <ProductColor color={product['color']}/>}
+                    {product['size'] && <ProductSize><b>Taille : </b>{product['size']}</ProductSize>}
+                  </Details>
+                </ProductDetail>
+                <PriceDetail>
+                  <ProductAmountContainer>
+                    <Add/>
+                    <ProductAmount>{product['quantity']}</ProductAmount>
+                    <Remove/>
+                  </ProductAmountContainer>
+                  <ProductPrice>{product['price'] * product['quantity']} €</ProductPrice>
+                </PriceDetail>
+              </Product>
+            ))}
             <Hr/>
-            <Product>
-              <ProductDetail>
-                <Image
-                  src={'https://cdn.discordapp.com/attachments/374156179204603914/917509846046216232/StickerApp-3661407.png'}/>
-                <Details>
-                  <ProductName><b>Produit : </b>Sticker 1</ProductName>
-                  <ProductId><b>Id : </b>12345</ProductId>
-                  <ProductColor color={"black"}/>
-                  <ProductSize><b>Taille : </b>L</ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Add/>
-                  <ProductAmount>2</ProductAmount>
-                  <Remove/>
-                </ProductAmountContainer>
-                <ProductPrice>10 €</ProductPrice>
-              </PriceDetail>
-            </Product>
           </Info>
           <Summary>
             <SummaryTitle>Résumé commande</SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Sous-total</SummaryItemText>
-              <SummaryItemPrice>20 €</SummaryItemPrice>
+              <SummaryItemPrice>{cart['total']} €</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Frais de port</SummaryItemText>
@@ -236,7 +225,7 @@ const Cart = () => {
             </SummaryItem>
             <SummaryItem type={"total"}>
               <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>20 €</SummaryItemPrice>
+              <SummaryItemPrice>{cart['total']} €</SummaryItemPrice>
             </SummaryItem>
             <SummaryButton>Payer maintenant</SummaryButton>
           </Summary>

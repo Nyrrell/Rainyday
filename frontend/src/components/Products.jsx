@@ -1,5 +1,7 @@
 import styled from "styled-components";
-import { popularProducts } from "../data.js";
+import { useEffect, useState } from "react";
+
+import { publicRequest } from "../requestApi.js";
 import Product from "./Product.jsx";
 
 const Container = styled.div`
@@ -10,12 +12,44 @@ const Container = styled.div`
 `;
 
 
-const Products = () => {
+const Products = ({ cat, filters, sort }) => {
+  const [products, setProducts] = useState([]);
+  const [filteredProducts, setfilteredProducts] = useState([]);
+
+  useEffect(() => {
+    const getProducts = async () => {
+      try {
+        const res = await publicRequest.get(cat ? `products?category=${cat}` : "/products");
+        setProducts(res.data);
+      } catch (e) {
+      }
+    }
+    getProducts();
+  }, [cat]);
+
+  useEffect(() => {
+    cat && setfilteredProducts(
+      products.filter((item) => Object.entries(filters).every(([key, value]) => item[key].includes(value)))
+    )
+  }, [products, cat, filters]);
+
+  useEffect(() => {
+    if (sort === 'newest') {
+      setfilteredProducts(prev => [...prev].sort((a, b) => a.createdAt - b.createdAt))
+    } else if (sort === 'asc') {
+      setfilteredProducts(prev => [...prev].sort((a, b) => a.price - b.price))
+    } else {
+      setfilteredProducts(prev => [...prev].sort((a, b) => b.price - a.price))
+    }
+  }, [sort])
+
   return (
     <Container>
-      {popularProducts.map(item => (
-        <Product item={item} key={item['id']}/>
-      ))}
+      {
+        cat
+          ? filteredProducts.map(item => <Product item={item} key={item['id']}/>)
+          : products.map(item => <Product item={item} key={item['id']}/>)
+      }
     </Container>
   );
 };

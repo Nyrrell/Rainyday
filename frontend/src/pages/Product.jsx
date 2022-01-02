@@ -1,9 +1,15 @@
 import styled from "styled-components";
-import Navbar from "../components/Navbar.jsx";
+import { useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { Add, Remove } from "@material-ui/icons";
+
 import Announcement from "../components/Announcement.jsx";
 import Newsletter from "../components/Newsletter.jsx";
+import { addProduct } from "../redux/cartRedux.js";
+import { publicRequest } from "../requestApi.js";
+import Navbar from "../components/Navbar.jsx";
 import Footer from "../components/Footer.jsx";
-import { Add, Remove } from "@material-ui/icons";
+import { useEffect, useState } from "react";
 import { mobile } from "../responsive.js";
 
 const Container = styled.div`
@@ -111,14 +117,48 @@ const Button = styled.button`
   background-color: white;
   cursor: pointer;
   font-weight: 500;
-  
-  &:hover{
+
+  &:hover {
     background-color: #f8f4f4;
   }
 `;
 
 
 const Product = () => {
+  const location = useLocation();
+  const id = location.pathname.split('/')[2];
+
+  const [quantity, setQuantity] = useState(1);
+  const [product, setProduct] = useState({});
+  const [color, setColor] = useState("");
+  const [size, setSize] = useState("");
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const res = await publicRequest.get(`products/find/${id}`);
+        setProduct(res.data)
+      } catch (e) {
+      }
+    }
+    getProduct();
+  }, [id]);
+
+  const handleQuantity = (type) => {
+    if (type === 'dec') {
+      quantity > 1 && setQuantity(quantity - 1);
+    } else {
+      setQuantity(quantity + 1);
+    }
+  };
+
+  const handleClick = () => {
+    dispatch(
+      addProduct({ ...product, quantity, color, size })
+    );
+  };
+
   return (
     <Container>
       <Navbar/>
@@ -126,38 +166,35 @@ const Product = () => {
       <Wrapper>
         <ImgContainer>
           <Image
-            src={'https://cdn.discordapp.com/attachments/374156179204603914/917509846046216232/StickerApp-3661407.png'}/>
+            src={product['img']}/>
         </ImgContainer>
         <InfoContainer>
-          <Title>Nice Sticker Bro</Title>
-          <Desc>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium dicta doloremque nisi nobis quos
-            veritatis voluptates. Aperiam autem ducimus fuga iste itaque neque nisi non nulla! Esse neque obcaecati
-            reprehenderit.</Desc>
+          <Title>{product['title']}</Title>
+          <Desc>{product['desc']}</Desc>
           <Price>5€</Price>
           <FilterContainer>
-            <Filter>
-              <FilterTitle>Couleur</FilterTitle>
-              <FilterColor color={"black"}/>
-              <FilterColor color={"darkblue"}/>
-              <FilterColor color={"gray"}/>
-            </Filter>
-            <Filter>
-              <FilterTitle>Taille</FilterTitle>
-              <FilterSize>
-                <FilterSizeOption>S</FilterSizeOption>
-                <FilterSizeOption>M</FilterSizeOption>
-                <FilterSizeOption>L</FilterSizeOption>
-                <FilterSizeOption>XL</FilterSizeOption>
-              </FilterSize>
-            </Filter>
+            {product['color'] > 0 &&
+              <Filter>
+                <FilterTitle>Couleur</FilterTitle>
+                {product['color'].map(color => (<FilterColor color={color} key={color} onClick={setColor(color)}/>))}
+              </Filter>
+            }
+            {product['size'] > 0 &&
+              <Filter>
+                <FilterTitle>Taille</FilterTitle>
+                <FilterSize onChange={e => setSize(e.target.value)}>
+                  {product['size'].map(size => (<FilterSizeOption key={size}>{size}</FilterSizeOption>))}
+                </FilterSize>
+              </Filter>
+            }
           </FilterContainer>
           <AddContainer>
             <AmountContainer>
-              <Remove/>
-              <Amount>1</Amount>
-              <Add/>
+              <Remove cursor={"pointer"} onClick={() => handleQuantity('dec')}/>
+              <Amount>{quantity}</Amount>
+              <Add cursor={"pointer"} onClick={() => handleQuantity('inc')}/>
             </AmountContainer>
-            <Button>Ajouter au panier</Button>
+            <Button onClick={handleClick}>Ajouter au panier</Button>
           </AddContainer>
         </InfoContainer>
       </Wrapper>

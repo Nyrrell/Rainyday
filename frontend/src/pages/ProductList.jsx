@@ -5,6 +5,8 @@ import Products from "../components/Products.jsx";
 import Newsletter from "../components/Newsletter.jsx";
 import Footer from "../components/Footer.jsx";
 import { mobile } from "../responsive.js";
+import { useLocation } from "react-router-dom";
+import { useState } from "react";
 
 
 const Container = styled.div`
@@ -29,7 +31,7 @@ const FilterText = styled.span`
   font-size: 20px;
   font-weight: 800;
   margin-right: 20px;
-  ${mobile({ marginRight: 0})}
+  ${mobile({ marginRight: 0 })}
 `;
 
 const Select = styled.select`
@@ -41,31 +43,44 @@ const Select = styled.select`
 const Option = styled.option``;
 
 const ProductList = () => {
+  const location = useLocation();
+  const cat = location.pathname.split('/')[2];
+  const [filters, setFilters] = useState({});
+  const [sort, setSort] = useState("newest");
+
+  const handleFilters = (e) => {
+    const value = e.target.value;
+    setFilters({
+      ...filters,
+      [e.target.name]: value.toLowerCase()
+    })
+  };
+
   return (
     <Container>
       <Navbar/>
       <Announcement/>
-      <Title>Sticker</Title>
+      <Title>{cat.toUpperCase()}</Title>
       <FilterContainer>
         <Filter>
           <FilterText>Filtrer :</FilterText>
-          <Select>
-            <Option disabled selected>Style</Option>
-            <Option>Shiny</Option>
+          <Select name="style" onChange={handleFilters}>
+            <Option disabled>Style</Option>
+            <Option>Normal</Option>
             <Option>Mat</Option>
-            <Option>Brillant</Option>
+            <Option>Foil</Option>
           </Select>
         </Filter>
         <Filter>
           <FilterText>Trier :</FilterText>
-          <Select>
-            <Option selected>Nouveau</Option>
-            <Option>Prix croissant</Option>
-            <Option>Prix décroissant</Option>
+          <Select onChange={e => setSort(e.target.value)}>
+            <Option value={"newest"}>Nouveau</Option>
+            <Option value={"asc"}>Prix croissant</Option>
+            <Option value={"desc"}>Prix décroissant</Option>
           </Select>
         </Filter>
       </FilterContainer>
-      <Products/>
+      <Products cat={cat} filters={filters} sort={sort}/>
       <Newsletter/>
       <Footer/>
     </Container>

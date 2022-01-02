@@ -26,17 +26,20 @@ export const categories = [
   {
     id: 1,
     img: "https://cdn.discordapp.com/attachments/374156179204603914/917509846046216232/StickerApp-3661407.png",
-    title: "CATEGORY 1",
+    title: "STICKER",
+    cat: "sticker"
   },
   {
     id: 2,
     img: "https://cdn.discordapp.com/attachments/374156179204603914/917509864018829372/StickerApp-4053064.png",
-    title: "CATEGORY 2",
+    title: "DRAPEAU",
+    cat: "drapeau"
   },
   {
     id: 3,
     img: "https://cdn.discordapp.com/attachments/374156179204603914/917509879105728582/StickerApp-4053105.png",
-    title: "CATEGORY 3",
+    title: "AFFICHE",
+    cat: "affiche"
   },
 ];
 
