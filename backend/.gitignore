@@ -22,5 +22,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-.env!/http-client.private.env.json
-!/test-route.http
+/http-client.private.env.json
+/test-route.http
+/.env

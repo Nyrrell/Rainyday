@@ -19,7 +19,7 @@ mongoose.connect(process.env.MONGO_DB)
 
 app.register(jwt, { secret: process.env.JWT_SEC });
 
-app.decorate("authenticate", async function(req, res) {
+app.decorate("authenticate", async function (req, res) {
   try {
     await req.jwtVerify();
   } catch (err) {
