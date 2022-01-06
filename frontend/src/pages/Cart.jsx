@@ -1,11 +1,17 @@
-import Announcement from "../components/Announcement.jsx";
+import StripeCheckout from "react-stripe-checkout";
 import { Add, Remove } from "@material-ui/icons";
-import Navbar from "../components/Navbar.jsx";
-import Footer from "../components/Footer.jsx";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 
+import Announcement from "../components/Announcement.jsx";
+import { userRequest } from "../requestApi.js";
+import Navbar from "../components/Navbar.jsx";
+import Footer from "../components/Footer.jsx";
 import { mobile } from "../responsive.js";
+
+const KEY = process.env.REACT_APP_STRIPE;
 
 const Container = styled.div``;
 
@@ -168,6 +174,31 @@ const SummaryButton = styled.button`
 
 const Cart = () => {
   const cart = useSelector(state => state['cart']);
+  const [stripeToken, setStripeToken] = useState(null);
+  const navigate = useNavigate();
+
+  const onToken = (token) => {
+    setStripeToken(token)
+  };
+
+  useEffect(() => {
+    const makeRequest = async () => {
+      try {
+        const res = await userRequest.post('checkout/payment', {
+          tokenId: stripeToken.id,
+          amount: cart.total * 100,
+        });
+        navigate('/success', {
+          replace: true, state: { // TODO
+            data: res.data,
+            products: cart
+          }
+        });
+      } catch (e) {
+      }
+    }
+    stripeToken && cart.total >= 1 && makeRequest();
+  }, [stripeToken, cart.total, navigate])
 
   return (
     <Container>
@@ -227,7 +258,16 @@ const Cart = () => {
               <SummaryItemText>Total</SummaryItemText>
               <SummaryItemPrice>{cart['total']} €</SummaryItemPrice>
             </SummaryItem>
-            <SummaryButton>Payer maintenant</SummaryButton>
+            <StripeCheckout
+              name={"Sticker Shop"} //TODO
+              billingAddress
+              shippingAddress
+              description={`Prix total du panier ${cart.total}€`}
+              amount={cart.total * 100}
+              token={onToken}
+              stripeKey={KEY}>
+              <SummaryButton>PAYER MAINTENANT</SummaryButton>
+            </StripeCheckout>
           </Summary>
         </Bottom>
       </Wrapper>

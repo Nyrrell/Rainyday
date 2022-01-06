@@ -10,6 +10,7 @@ import Product from "./pages/Product.jsx";
 import Register from "./pages/Register.jsx";
 import Login from "./pages/Login.jsx";
 import Cart from "./pages/Cart.jsx";
+import Success from "./pages/Success.jsx";
 
 const App = () => {
   const user = true
@@ -21,6 +22,7 @@ const App = () => {
       </Route>
       <Route path="/product/:id" element={<Product/>}/>
       <Route path="/cart" element={<Cart/>}/>
+      <Route path="/success" element={<Success/>}/>
       <Route path="/login" element={user ? <Navigate replace to='/'/> : <Login/>} />
       <Route path="/register" element={user ? <Navigate replace to='/'/> : <Register/>}/>
     </Routes>

@@ -4,6 +4,7 @@ import jwt from 'fastify-jwt';
 import "dotenv/config";
 
 import productRoute from '../routes/product.js';
+import stripeRoute from '../routes/stripe.js';
 import orderRoute from '../routes/order.js';
 import usersRoute from '../routes/user.js';
 import authRoute from '../routes/auth.js';
@@ -29,6 +30,7 @@ app.decorate("authenticate", async function (req, res) {
 });
 
 app.register(productRoute, { prefix: '/api/products' });
+app.register(stripeRoute, { prefix: '/api/checkout' });
 app.register(orderRoute, { prefix: '/api/orders' });
 app.register(usersRoute, { prefix: '/api/users' });
 app.register(cartRoute, { prefix: '/api/carts' });

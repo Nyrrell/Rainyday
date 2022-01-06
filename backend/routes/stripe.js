@@ -6,7 +6,7 @@ const stripe = new Stripe(process.env.STRIPE_KEY);
 async function stripeRoute(fastify, options) {
 
   // PAYEMENT
-  fastify.post("/payement", (req, res) => {
+  fastify.post("/payment", (req, res) => {
     stripe.charges.create({
       source: req.body.tokenId,
       amount: req.body.amount,
