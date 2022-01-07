@@ -1,4 +1,8 @@
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { useState } from "react";
+
+import { login } from "../redux/apiCalls.js";
 import { mobile } from "../responsive.js";
 
 const Container = styled.div`
@@ -45,6 +49,11 @@ const Button = styled.button`
   color: white;
   cursor: pointer;
   margin-bottom: 10px;
+
+  &:disabled {
+    background-color: gray;
+    cursor: not-allowed;
+  }
 `;
 
 const Link = styled.a`
@@ -55,15 +64,35 @@ const Link = styled.a`
   text-transform: uppercase;
 `;
 
+const Error = styled.span`
+  color: red;
+`;
+
 const Login = () => {
+  const [username, setUsername] = useState();
+  const [password, setPassword] = useState();
+  const dispatch = useDispatch();
+  const { isFetching, error } = useSelector(state => state.user);
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    login(dispatch, { username, password })
+  }
+
   return (
     <Container>
       <Wrapper>
         <Title>Connexion</Title>
         <Form>
-          <Input placeholder={"Username"}/>
-          <Input placeholder={"Mot de passe"}/>
-          <Button>Connexion</Button>
+          <Input placeholder={"Utilisateur"}
+                 onChange={(e) => setUsername(e.target.value)}
+          />
+          <Input placeholder={"Mot de passe"}
+                 type={'password'}
+                 onChange={(e) => setPassword(e.target.value)}
+          />
+          { error && <Error>Utilisateur ou Mot de passe incorrect</Error>}
+          <Button onClick={handleClick} disabled={isFetching}>Connexion</Button>
           <Link>Mot de passe oublié ?</Link>
           <Link>Créer un compte</Link>
         </Form>
