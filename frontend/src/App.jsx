@@ -10,6 +10,7 @@ import Register from "./pages/Register.jsx";
 import Success from "./pages/Success.jsx";
 import Product from "./pages/Product.jsx";
 import Login from "./pages/Login.jsx";
+import Admin from "./pages/Admin.jsx";
 import Home from "./pages/Home.jsx";
 import Cart from "./pages/Cart.jsx";
 
@@ -26,6 +27,9 @@ const App = () => {
       <Route path="/success" element={<Success/>}/>
       <Route path="/login" element={user ? <Navigate replace to='/'/> : <Login/>} />
       <Route path="/register" element={user ? <Navigate replace to='/'/> : <Register/>}/>
+      <Route path="/admin" element={<Admin/>}>
+        {/*<Route path="/edit" element={<Admin/>}/>*/}
+      </Route>
     </Routes>
   );
 };
