@@ -77,3 +77,30 @@ export const popularProducts = [
     img:"https://cdn.discordapp.com/attachments/374156179204603914/917509900098215936/StickerApp-3661474.png",
   },
 ]
+
+export const monthSales = [
+  { name: 'Janvier', total: 4000 },
+  { name: 'Fevrier', total: 3000 },
+  { name: 'Mars', total: 2000 },
+  { name: 'Avril', total: 2780 },
+  { name: 'Mai', total: 1890 },
+  { name: 'Juin', total: 2390 },
+  { name: 'Juillet', total: 3490 },
+  { name: 'Aout', total: 2490 },
+  { name: 'Septembre', total: 3220 },
+  { name: 'Octobre', total: 3760 },
+  { name: 'Novembre', total: 1080 },
+  { name: 'Decembre', total: 3010 },
+];
+
+export const userList = [
+  { id: 1, user: 'Snow', email: 'Jon', status: 35, transaction: 35 },
+  { id: 2, user: 'Lannister', email: 'Cersei', status: 42, transaction: 35, action: null },
+  { id: 3, user: 'Lannister', email: 'Jaime', status: 45, transaction: 35, action: null },
+  { id: 4, user: 'Stark', email: 'Arya', status: 16, transaction: 35, action: null },
+  { id: 5, user: 'Targaryen', email: 'Daenerys', status: null, transaction: 35, action: null },
+  { id: 6, user: 'Melisandre', email: null, status: 150, transaction: 35, action: null },
+  { id: 7, user: 'Clifford', email: 'Ferrara', status: 44, transaction: 35, action: null },
+  { id: 8, user: 'Frances', email: 'Rossini', status: 36, transaction: 35, action: null },
+  { id: 9, user: 'Roxie', email: 'Harvey', status: 65, transaction: 35, action: null },
+];
