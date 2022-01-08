@@ -5,7 +5,7 @@ import WidgetLg from "../../components/Admin/WidgetLg.jsx";
 import WidgetSm from "../../components/Admin/WidgetSm.jsx";
 import Chart from "../../components/Admin/Chart.jsx";
 
-import { data } from "../../dummyData.js";
+import { monthSales } from "../../data.js";
 
 const Container = styled.div`
   flex: 5;
@@ -20,7 +20,7 @@ const Home = () => {
   return (
     <Container>
       <FeaturedInfo/>
-      <Chart data={data} title={"Analyse des ventes"} dataKey={"uv"} grid/>
+      <Chart data={monthSales} title={"Analyse des ventes"} dataKey={"total"} grid/>
       <Widget>
         <WidgetSm/>
         <WidgetLg/>
