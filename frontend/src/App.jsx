@@ -1,11 +1,11 @@
 import { useSelector } from "react-redux";
 import {
-  BrowserRouter,
   Routes,
   Route,
   Navigate
 } from "react-router-dom";
 
+// SHOP PAGES
 import ProductList from "./pages/ProductList.jsx";
 import Register from "./pages/Register.jsx";
 import NoMatch from "./pages/NoMatch.jsx";
@@ -15,7 +15,7 @@ import Login from "./pages/Login.jsx";
 import Home from "./pages/Home.jsx";
 import Cart from "./pages/Cart.jsx";
 
-// ADMIN IMPORT
+// ADMIN PAGES
 import UserList from "./pages/Admin/UserList.jsx";
 import HomeAdmin from "./pages/Admin/Home.jsx";
 import User from "./pages/Admin/User.jsx";

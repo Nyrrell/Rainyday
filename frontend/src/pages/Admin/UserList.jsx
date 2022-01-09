@@ -1,5 +1,5 @@
-import { DataGrid } from '@material-ui/data-grid';
-import { Delete } from "@material-ui/icons";
+import { DataGrid } from '@mui/x-data-grid';
+import { Delete } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useState } from "react";

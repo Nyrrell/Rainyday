@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { AccountCircle, Visibility } from "@material-ui/icons";
+import { AccountCircle, Visibility } from "@mui/icons-material";
 
 const Container = styled.div`
   flex: 1;

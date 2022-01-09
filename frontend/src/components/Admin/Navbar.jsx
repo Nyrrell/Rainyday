@@ -1,5 +1,5 @@
-import { NotificationsNone, Settings } from "@material-ui/icons";
-import { Badge } from "@material-ui/core";
+import { NotificationsNone, Settings } from "@mui/icons-material";
+import { Badge } from "@mui/material";
 import styled from "styled-components";
 
 import { mobile } from "../../responsive.js";
@@ -10,6 +10,7 @@ const Container = styled.div`
   position: sticky;
   top: 0;
   z-index: 999;
+  box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
   ${mobile({ height: "50px" })}
 `;
 
@@ -18,6 +19,7 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  
   ${mobile({ padding: "10px 0" })}
 `;
 

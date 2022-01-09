@@ -1,7 +1,8 @@
-import { ArrowDownward, ArrowUpward } from "@material-ui/icons";
+import { ArrowDownward, ArrowUpward } from "@mui/icons-material";
 import styled from "styled-components";
 
 const Container = styled.div`
+  margin-top: 20px;
   width: 100%;
   display: flex;
   justify-content: space-between;

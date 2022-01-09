@@ -30,13 +30,15 @@ const Button = styled.button`
   border: none;
   border-radius: 10px;
   background-color: ${props => {
-    switch (props.type) {
+    switch (props['type']) {
       case "approuvé" :
           return "#e5faf2"
       case "declined" :
           return "#fff0f1"
       case "pending" :
-          return"#ebf1fe"
+          return "#ebf1fe"
+      default:
+        return "gray"
     }
   }};
   color: ${props => {
@@ -47,6 +49,8 @@ const Button = styled.button`
           return "#d95087"
       case "pending" :
           return"#2a7ade"
+      default:
+        return "white"
     }
   }};
 `;

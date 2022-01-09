@@ -6,7 +6,6 @@ import Navbar from "../components/Admin/Navbar.jsx";
 
 const Container = styled.div`
   display: flex;
-  margin-top: 10px;
 `;
 
 const Admin = () => {

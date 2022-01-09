@@ -13,7 +13,6 @@ const Title = styled.h3`
 `;
 
 const Chart = ({ title, data, dataKey, grid }) => {
-
   return (
     <Container>
       <Title>{title}</Title>

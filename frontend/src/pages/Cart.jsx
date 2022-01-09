@@ -1,5 +1,5 @@
 import StripeCheckout from "react-stripe-checkout";
-import { Add, Remove } from "@material-ui/icons";
+import { Add, Remove } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -198,7 +198,7 @@ const Cart = () => {
       }
     }
     stripeToken && cart.total >= 1 && makeRequest();
-  }, [stripeToken, cart.total, navigate])
+  }, [stripeToken, cart, navigate])
 
   return (
     <Container>

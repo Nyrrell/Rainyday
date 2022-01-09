@@ -12,7 +12,7 @@ import {
   ChatBubbleOutline,
   WorkOutline,
   Report
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 
 const Container = styled.div`
   flex: 1;

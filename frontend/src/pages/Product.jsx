@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { Add, Remove } from "@material-ui/icons";
+import { Add, Remove } from "@mui/icons-material";
 
 import Announcement from "../components/Announcement.jsx";
 import Newsletter from "../components/Newsletter.jsx";
@@ -28,7 +28,7 @@ const ImgContainer = styled.div`
 
 const Image = styled.img`
   width: 100%;
-  height: 90vh;
+  height: 50vh;
   object-fit: cover;
   ${mobile({ height: "40vh" })}
 `;

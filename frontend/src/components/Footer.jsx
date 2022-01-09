@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { EmailOutlined, Facebook, Instagram, Phone, Room, Twitter } from "@material-ui/icons";
+import { EmailOutlined, Facebook, Instagram, Phone, Room, Twitter } from "@mui/icons-material";
 import { mobile } from "../responsive.js";
 
 const Container = styled.div`
