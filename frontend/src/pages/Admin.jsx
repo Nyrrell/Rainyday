@@ -8,13 +8,20 @@ const Container = styled.div`
   display: flex;
 `;
 
+const Content = styled.div`
+  flex: 6;
+  padding: 20px;
+`;
+
 const Admin = () => {
   return (
     <div>
       <Navbar/>
       <Container>
         <Sidebar/>
-        <Outlet />
+        <Content>
+          <Outlet/>
+        </Content>
       </Container>
     </div>
   );

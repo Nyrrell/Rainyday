@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useState } from "react";
 
-import { userList } from '../../data.js'
+import { productRows } from '../../data.js'
 
 const TitleContainer = styled.div`
   display: flex;
@@ -15,7 +15,7 @@ const TitleContainer = styled.div`
 
 const PageTitle = styled.h1``;
 
-const AddUser = styled.button`
+const AddProduct = styled.button`
   width: 80px;
   border: none;
   padding: 5px;
@@ -24,6 +24,19 @@ const AddUser = styled.button`
   border-radius: 5px;
   color: white;
   font-size: 16px;
+`;
+
+const ProductItem = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const ProductImage = styled.img`
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
 `;
 
 const Button = styled.button`
@@ -36,8 +49,8 @@ const Button = styled.button`
   margin-right: 20px;
 `;
 
-const UserList = () => {
-  const [data, setData] = useState(userList);
+const ProductList = () => {
+  const [data, setData] = useState(productRows);
 
   const handleDelete = (id) => {
     setData(data.filter((item) => item.id !== id));
@@ -45,16 +58,26 @@ const UserList = () => {
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 90 },
-    { field: 'user', headerName: 'Utilisateur', width: 200 },
-    { field: 'email', headerName: 'Email', width: 200 },
+    {
+      field: 'product', headerName: 'Produit', width: 200,
+      renderCell: (params) => {
+        return (
+          <ProductItem>
+            <ProductImage src={params.row.img} alt=""/>
+            {params.row.name}
+          </ProductItem>
+        );
+      },
+    },
+    { field: 'stock', headerName: 'Stock', width: 200 },
     { field: 'status', headerName: 'Status', width: 120 },
-    { field: 'transaction', headerName: 'Transaction', width: 160 },
+    { field: 'price', headerName: 'Prix', width: 160 },
     {
       field: 'action', headerName: 'Action', width: 150,
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/admin/user/" + params.row.id}>
+            <Link to={"/admin/product/" + params.row.id}>
               <Button>Editer</Button>
             </Link>
             <Delete
@@ -70,9 +93,9 @@ const UserList = () => {
   return (
     <>
       <TitleContainer>
-        <PageTitle>Liste des utilisateurs</PageTitle>
-        <Link to={'/admin/user/new'}>
-          <AddUser>Créer</AddUser>
+        <PageTitle>Liste des produits</PageTitle>
+        <Link to={'/admin/product/new'}>
+          <AddProduct>Créer</AddProduct>
         </Link>
       </TitleContainer>
       <DataGrid
@@ -85,4 +108,4 @@ const UserList = () => {
   );
 };
 
-export default UserList;
+export default ProductList;

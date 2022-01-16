@@ -13,6 +13,7 @@ import {
   WorkOutline,
   Report
 } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   flex: 1;
@@ -29,6 +30,11 @@ const Wrapper = styled.div`
 
 const MenuItem = styled.div`
   margin-bottom: 10px;
+
+  & a {
+    text-decoration: none;
+    color: inherit;
+  }
 `;
 
 const Title = styled.h3`
@@ -65,10 +71,12 @@ function Sidebar() {
         <MenuItem>
           <Title>Dashboard</Title>
           <List>
-            <ListItem>
-              <LineStyle/>
-              Accueil
-            </ListItem>
+            <Link to={'/admin/'}>
+              <ListItem>
+                <LineStyle/>
+                Accueil
+              </ListItem>
+            </Link>
             <ListItem>
               <Timeline/>
               Analytiques
@@ -82,14 +90,18 @@ function Sidebar() {
         <MenuItem>
           <Title>Acces Rapide</Title>
           <List>
-            <ListItem>
-              <PermIdentity/>
-              Utilisateurs
-            </ListItem>
-            <ListItem>
-              <Storefront/>
-              Produits
-            </ListItem>
+            <Link to={'/admin/users'}>
+              <ListItem>
+                <PermIdentity/>
+                Utilisateurs
+              </ListItem>
+            </Link>
+            <Link to={'/admin/products'}>
+              <ListItem>
+                <Storefront/>
+                Produits
+              </ListItem>
+            </Link>
             <ListItem>
               <AttachMoney/>
               Transactions

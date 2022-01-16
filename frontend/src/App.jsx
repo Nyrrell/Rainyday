@@ -20,7 +20,10 @@ import UserList from "./pages/Admin/UserList.jsx";
 import HomeAdmin from "./pages/Admin/Home.jsx";
 import User from "./pages/Admin/User.jsx";
 import Admin from "./pages/Admin.jsx";
-
+import UserNew from "./pages/Admin/UserNew.jsx";
+import AdminProductList from "./pages/Admin/ProductList.jsx"
+import AdminProduct from "./pages/Admin/Product.jsx"
+import AdminProductNew from "./pages/Admin/ProductNew.jsx"
 
 const App = () => {
   const user = useSelector(state => state.user.currentUser);
@@ -39,6 +42,10 @@ const App = () => {
           <Route index element={<HomeAdmin />} />
           <Route path="users" element={<UserList />} />
           <Route path="user/:id" element={<User />} />
+          <Route path="user/new" element={<UserNew />} />
+          <Route path="products" element={<AdminProductList />} />
+          <Route path="product/:id" element={<AdminProduct />} />
+          <Route path="product/new" element={<AdminProductNew />} />
         </Route>
         <Route path="*" element={<NoMatch />} />
       </Routes>

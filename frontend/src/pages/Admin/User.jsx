@@ -1,4 +1,4 @@
-import { TextField, Button, FormControl, FormGroup } from "@mui/material";
+import { TextField, Button } from "@mui/material";
 
 import styled from "styled-components";
 import {
@@ -9,30 +9,7 @@ import {
   Stars
 } from "@mui/icons-material";
 
-
-const Container = styled.div`
-  flex: 5;
-  padding: 20px;
-`;
-
-const TitleContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
 const PageTitle = styled.h1``;
-
-const AddUser = styled.button`
-  width: 80px;
-  border: none;
-  padding: 5px;
-  background-color: teal;
-  cursor: pointer;
-  border-radius: 5px;
-  color: white;
-  font-size: 16px;
-`;
 
 const UserContainer = styled.div`
   display: flex;
@@ -43,7 +20,7 @@ const UserContainer = styled.div`
 const UserInfo = styled.div`
   flex: 1;
   margin-right: 20px;
-  padding: 20px;
+  padding: 20px 40px;
   -webkit-box-shadow: 0 0 15px -10px rgba(0, 0, 0, 0.75);
   box-shadow: 0 0 15px -10px rgba(0, 0, 0, 0.75);
 `;
@@ -53,13 +30,11 @@ const Title = styled.h2`
   justify-content: space-between;
   font-size: 30px;
   font-weight: 600;
-  margin: 0 10px 20px 20px;
 `;
 
 const UserShowInfo = styled.div`
   margin: 20px 0;
   color: #444;
-  padding-left: 20px;
   display: flex;
   flex-direction: column;
 `;
@@ -84,35 +59,25 @@ const UserValue = styled.span`
 
 const Form = styled.form`
   flex: 2;
-  padding: 20px;
+  padding: 20px 40px;
   -webkit-box-shadow: 0 0 15px -10px rgba(0, 0, 0, 0.75);
   box-shadow: 0 0 15px -10px rgba(0, 0, 0, 0.75);
 `;
 
-const LeftForm = styled.div`
+const FormGroup = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  margin-left: 20px;
-  flex: 1;
-
 `;
 
-const RightForm = styled.div`
-  margin-left: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  flex: 1;
+const FormLeft = styled.div``;
+
+const FormRight = styled.div`
+  margin-left: 10px;
 `;
 
 const User = () => {
   return (
-    <Container>
-      <TitleContainer>
-        <PageTitle>Utilisateur</PageTitle>
-        <AddUser>Créer</AddUser>
-      </TitleContainer>
+    <>
+      <PageTitle>Utilisateur</PageTitle>
       <UserContainer>
         <UserInfo>
           <Title>
@@ -138,25 +103,30 @@ const User = () => {
         </UserInfo>
         <Form>
           <Title>Edition</Title>
-          <FormControl style={{display: 'flex'}}>
-            <FormGroup style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <TextField label="Nom" variant="outlined" defaultValue={'Becker'} name={'lastName'}/>
-              <TextField label="Prénom" variant="outlined" defaultValue={'Anna'} name={'firstName'}/>
-              <TextField label="Nom d'utilisateur" variant="outlined" defaultValue={'annabeck99'} name={'userName'}/>
-              <TextField label="Adresse email" variant="outlined" defaultValue={'annabeck99@gmail.com'} name={'email'}/>
-            </FormGroup>
-            <FormGroup>
-              <TextField label="Addresse" variant="outlined" defaultValue={'5 Avenue nul oui monsieur'}
-                         name={'address'}/>
-              <TextField label="Code Postal" variant="outlined" defaultValue={'54000'} name={'postalCode'}/>
-              <TextField label="Ville" variant="outlined" defaultValue={'Nancy'} name={'city'}/>
-              <TextField label="Téléphone" variant="outlined" defaultValue={'06 01 02 03 04'} name={'phone'}/>
-            </FormGroup>
-          </FormControl>
+          <FormGroup>
+            <FormLeft>
+              <TextField fullWidth label="Nom" defaultValue={'Becker'} name={'lastName'} size="small" margin="normal"/>
+              <TextField fullWidth label="Prénom" defaultValue={'Anna'} name={'firstName'} size="small"
+                         margin="normal"/>
+              <TextField fullWidth label="Nom d'utilisateur" defaultValue={'annabeck99'} name={'userName'} size="small"
+                         margin="normal"/>
+              <TextField fullWidth label="Adresse email" defaultValue={'annabeck99@gmail.com'} name={'email'}
+                         size="small" margin="normal"/>
+            </FormLeft>
+            <FormRight>
+              <TextField fullWidth label="Addresse" defaultValue={'5 Avenue nul oui monsieur'} name={'address'}
+                         size="small" margin="normal"/>
+              <TextField fullWidth label="Code Postal" defaultValue={'54000'} name={'postalCode'} size="small"
+                         margin="normal"/>
+              <TextField fullWidth label="Ville" defaultValue={'Nancy'} name={'city'} size="small" margin="normal"/>
+              <TextField fullWidth label="Téléphone" defaultValue={'06 01 02 03 04'} name={'phone'} size="small"
+                         margin="normal"/>
+            </FormRight>
+          </FormGroup>
           <Button variant={'contained'} color="info">Update</Button>
         </Form>
       </UserContainer>
-    </Container>
+    </>
   );
 };
 
