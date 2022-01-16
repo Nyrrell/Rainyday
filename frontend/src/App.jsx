@@ -27,6 +27,8 @@ import AdminProductNew from "./pages/Admin/ProductNew.jsx"
 
 const App = () => {
   const user = useSelector(state => state.user.currentUser);
+  const admin = user && user['isAdmin'];
+
   return (
       <Routes>
         <Route path="/" element={<Home/>}/>
@@ -38,7 +40,7 @@ const App = () => {
         <Route path="/success" element={<Success/>}/>
         <Route path="/login" element={user ? <Navigate replace to='/'/> : <Login/>}/>
         <Route path="/register" element={user ? <Navigate replace to='/'/> : <Register/>}/>
-        <Route path="/admin" element={<Admin/>}>
+        <Route path="/admin" element={admin ? <Admin/> : <NoMatch />}>
           <Route index element={<HomeAdmin />} />
           <Route path="users" element={<UserList />} />
           <Route path="user/:id" element={<User />} />

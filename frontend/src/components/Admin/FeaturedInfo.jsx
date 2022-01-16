@@ -1,5 +1,8 @@
 import { ArrowDownward, ArrowUpward } from "@mui/icons-material";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+
+import { userRequest } from "../../requestApi.js";
 
 const Container = styled.div`
   margin-top: 20px;
@@ -41,7 +44,6 @@ const MoneyRate = styled.span`
   & > svg {
     font-size: 15px;
     margin-left: 5px;
-    color: ${props => props['positive'] ? "green" : "red"};;
   }
 `;
 
@@ -50,14 +52,41 @@ const SubTitle = styled.span`
   color: gray;
 `;
 
+styled(ArrowUpward)`
+  color: green;
+`;
+styled(ArrowDownward)`
+  color: red;
+`;
+
 const FeaturedInfo = () => {
+  const [income, setIncome] = useState([]);
+  const [perc, setPerc] = useState(0);
+
+  useEffect(() => {
+    const getIncome = async () => {
+      try {
+        const { data } = await userRequest.get("orders/income");
+        setIncome(data);
+        setPerc((data[1]['total'] * 100) / data[0]['total'] - 100);
+      } catch {
+      }
+    };
+    getIncome();
+  }, []);
+
   return (
     <Container>
       <Item>
         <Title>Revenue</Title>
         <MoneyMenu>
-          <Money>3000€</Money>
-          <MoneyRate>- 100 <ArrowDownward/></MoneyRate>
+          <Money>{income[1]?.['total'] ?? 0} €</Money>
+          <MoneyRate>{Math.floor(perc)}{" %"}
+            {perc < 0 ? (
+              <ArrowDownward color={'success'}/>
+            ) : (
+              <ArrowUpward color={'error'}/>
+            )}</MoneyRate>
         </MoneyMenu>
         <SubTitle>Mois précédent</SubTitle>
       </Item>

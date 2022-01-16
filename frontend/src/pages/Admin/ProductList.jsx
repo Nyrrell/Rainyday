@@ -1,10 +1,12 @@
-import { Delete } from "@mui/icons-material";
+import { DeleteOutline, EditOutlined } from "@mui/icons-material";
+import { useDispatch, useSelector } from "react-redux";
 import { DataGrid } from '@mui/x-data-grid';
+import { Checkbox, IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect } from "react";
 
-import { productRows } from '../../data.js'
+import { deleteProduct, getProducts } from "../../redux/apiCalls.js";
 
 const TitleContainer = styled.div`
   display: flex;
@@ -39,51 +41,46 @@ const ProductImage = styled.img`
   margin-right: 10px;
 `;
 
-const Button = styled.button`
-  border: none;
-  border-radius: 10px;
-  padding: 5px 10px;
-  background-color: #3bb077;
-  color: white;
-  cursor: pointer;
-  margin-right: 20px;
-`;
-
 const ProductList = () => {
-  const [data, setData] = useState(productRows);
+  const dispatch = useDispatch();
+  const products = useSelector((state) => state.product.products);
+
+  useEffect(() => {
+    getProducts(dispatch);
+  }, [dispatch]);
 
   const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+    deleteProduct(id, dispatch);
   };
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 90 },
+    { field: '_id', headerName: 'ID', width: 220 },
     {
       field: 'product', headerName: 'Produit', width: 200,
       renderCell: (params) => {
         return (
           <ProductItem>
             <ProductImage src={params.row.img} alt=""/>
-            {params.row.name}
+            {params.row.title}
           </ProductItem>
         );
       },
     },
-    { field: 'stock', headerName: 'Stock', width: 200 },
-    { field: 'status', headerName: 'Status', width: 120 },
-    { field: 'price', headerName: 'Prix', width: 160 },
+    { field: 'inStock', headerName: 'Stock', width: 200, renderCell: params => <Checkbox checked={params.row.inStock} />},
+    { field: 'price', headerName: 'Prix', width: 160, renderCell: params => <>{`${params.row.price} €`}</>},
     {
       field: 'action', headerName: 'Action', width: 150,
-      renderCell: (params) => {
+      renderCell: params => {
         return (
           <>
-            <Link to={"/admin/product/" + params.row.id}>
-              <Button>Editer</Button>
+            <Link to={"/admin/product/" + params.row._id}>
+              <IconButton aria-label="éditer" color={'info'}>
+                <EditOutlined/>
+              </IconButton>
             </Link>
-            <Delete
-              style={{ color: '#e33838', cursor: 'pointer' }}
-              onClick={() => handleDelete(params.row.id)}
-            />
+            <IconButton aria-label="delete" color={"warning"} onClick={() => handleDelete(params.row._id)}>
+              <DeleteOutline/>
+            </IconButton>
           </>
         )
       }
@@ -99,9 +96,10 @@ const ProductList = () => {
         </Link>
       </TitleContainer>
       <DataGrid
-        rows={data}
+        rows={products}
         disableSelectionOnClick
         columns={columns}
+        getRowId={row => row._id}
         checkboxSelection
       />
     </>

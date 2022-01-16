@@ -1,5 +1,7 @@
+import { Publish } from "@mui/icons-material";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
-
+import { useState } from "react";
 import {
   Button, FormControl,
   FormControlLabel, IconButton,
@@ -9,7 +11,8 @@ import {
   Switch,
   TextField
 } from "@mui/material";
-import { Publish } from "@mui/icons-material";
+
+import { addProduct, updateProduct } from "../../redux/apiCalls.js";
 
 const Form = styled.form`
   display: flex;
@@ -66,46 +69,63 @@ const Submit = styled(Button)`
   align-self: flex-start;
 `;
 
-const ProductForm = ({ data }) => {
+const ProductForm = ({ data, type }) => {
+  const [inputs, setInputs] = useState(data ?? { title: '', desc: '', price: '', inStock: true, });
+  const [file, setFile] = useState(null);
+  const dispatch = useDispatch();
+
+  const handleChange = (e) => {
+    setInputs((prev) => {
+      return { ...prev, [e.target.name]: e.target.name === 'inStock' ? e.target.checked : e.target.value };
+    });
+  };
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    const product = { ...inputs, img: ' ' }; // TODO IMAGE
+    if (e.target.id === 'update') updateProduct(inputs['_id'], product, dispatch);
+    else addProduct(product, dispatch);
+  }
+
   return (
     <Form>
-      { data && <Title>Edition</Title> }
+      {data && <Title>Edition</Title>}
       <InputContainer>
         <FormLeft>
           <FormPanel>
-            <TextField fullWidth label="Nom" name={'name'} size="small" margin="normal" defaultValue={data?.['name']}/>
+            <TextField fullWidth label="Nom" name={'title'} size="small" margin="normal" value={inputs['title']}
+                       onChange={handleChange}/>
             <TextField fullWidth label="Description" name={'desc'} size="small" margin="normal" multiline rows={3}
-                       defaultValue=""/>
-            <TextField fullWidth label="Style" name={'style'} size="small" margin="normal"/>
+                       value={inputs['desc']} onChange={handleChange}/>
           </FormPanel>
           <FormPanel className={'groupRight'}>
             <FormControl fullWidth margin="normal" size="small">
               <InputLabel>Prix</InputLabel>
               <OutlinedInput fullWidth label="Prix" id={'price'} name={'price'}
                              endAdornment={<InputAdornment position="end">€</InputAdornment>}
-                             defaultValue={data?.['price']}/>
+                             value={inputs['price']} onChange={handleChange}/>
             </FormControl>
-            <TextField fullWidth label="Stock" name={'stock'} size="small" margin="normal"
-                       defaultValue={data?.['stock']}/>
             <FormControl fullWidth margin={'normal'}>
-              <FormControlLabel control={<Switch checked={data?.['status'] === 'active'}/>} label="Disponible"
+              <FormControlLabel control={<Switch name={'inStock'} checked={inputs['inStock']} onChange={handleChange}/>}
+                                label="Disponible"
                                 labelPlacement="start"/>
             </FormControl>
           </FormPanel>
         </FormLeft>
 
         <FormRight>
-          <Img src={data?.['img']}/>
+          <Img src={inputs['img']}/>
           <Label htmlFor="file">
             <InputImage accept="image/*" id="file" multiple type="file"/>
-            <IconButton aria-label="upload picture">
+            <IconButton aria-label="upload picture" name={'img'} component={'span'}
+                        onChange={(e) => setFile(e.target.files[0])}>
               <Publish/>
             </IconButton>
           </Label>
         </FormRight>
       </InputContainer>
 
-      <Submit variant={'contained'} color="info">Update</Submit>
+      <Submit variant={'contained'} color="info" onClick={handleClick} id={type}>{ type }</Submit>
     </Form>
   );
 };

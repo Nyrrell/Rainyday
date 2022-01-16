@@ -1,7 +1,11 @@
-import ProductForm from "../../components/Admin/ProductForm.jsx";
-import { productData, productRows } from "../../data.js";
-import Chart from "../../components/Admin/Chart.jsx";
+import { useEffect, useMemo, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
+
+import ProductForm from "../../components/Admin/ProductForm.jsx";
+import Chart from "../../components/Admin/Chart.jsx";
+import { userRequest } from "../../requestApi.js";
 
 const PageTitle = styled.h1``;
 
@@ -63,25 +67,70 @@ const ProductInfoValue = styled.span`
 `;
 
 const Product = () => {
+  const location = useLocation();
+  const productId = location.pathname.split("/")[3];
+  const [pStats, setPStats] = useState([]);
+
+  const product = useSelector((state) =>
+    state.product.products.find((product) => product._id === productId)
+  );
+
+  const MONTHS = useMemo(
+    () => [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Agu",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ],
+    []
+  );
+
+  useEffect(() => {
+    const getStats = async () => {
+      try {
+        const res = await userRequest.get("orders/income?pid=" + productId);
+        const list = res.data.sort((a,b)=>{
+          return a._id - b._id
+        })
+        list.map((item) =>
+          setPStats((prev) => [
+            ...prev,
+            { name: MONTHS[item._id - 1], Sales: item.total },
+          ])
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getStats();
+  }, [productId, MONTHS]);
+
+
   return (
     <>
       <PageTitle>Edition Article</PageTitle>
 
       <ProductTop>
         <TopLeft>
-          <Chart data={productData} dataKey="Sales" title="Sales Performance"/>
+          <Chart data={pStats} dataKey="Sales" title="Sales Performance"/>
         </TopLeft>
         <TopRight>
           <ProductInfoTop>
-            <img
-              src="https://images.pexels.com/photos/7156886/pexels-photo-7156886.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-              alt="" className="productInfoImg"/>
-            <ProductName>Apple Airpods</ProductName>
+            <img src={product['img']} alt=""/>
+            <ProductName>{product['title']}</ProductName>
           </ProductInfoTop>
           <ProductInfoBottom>
             <ProductInfoItem>
               <ProductInfoKey>ID :</ProductInfoKey>
-              <ProductInfoValue>123</ProductInfoValue>
+              <ProductInfoValue>{product['_id']}</ProductInfoValue>
             </ProductInfoItem>
             <ProductInfoItem>
               <ProductInfoKey>Ventes :</ProductInfoKey>
@@ -93,14 +142,13 @@ const Product = () => {
             </ProductInfoItem>
             <ProductInfoItem>
               <ProductInfoKey>En Stock :</ProductInfoKey>
-              <ProductInfoValue>Non</ProductInfoValue>
+              <ProductInfoValue>{product['inStock']}</ProductInfoValue>
             </ProductInfoItem>
           </ProductInfoBottom>
         </TopRight>
       </ProductTop>
 
-      <ProductForm data={productRows[0]} >
-
+      <ProductForm data={product} type={'update'}>
       </ProductForm>
     </>
   );

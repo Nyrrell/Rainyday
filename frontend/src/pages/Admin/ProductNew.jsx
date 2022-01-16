@@ -7,7 +7,7 @@ const ProductNew = () => {
   return (
     <>
       <PageTitle>Nouvel Article</PageTitle>
-      <ProductForm>
+      <ProductForm type={'enregister'}>
       </ProductForm>
     </>
   );

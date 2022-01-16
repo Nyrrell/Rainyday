@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import { useEffect, useState } from "react";
+import { userRequest } from "../../requestApi.js";
 
 const Container = styled.div`
   flex: 2;
@@ -16,6 +18,11 @@ const Table = styled.table`
   width: 100%;
   border-spacing: 20px;
 `;
+
+const THead = styled.thead``;
+
+const TBody = styled.tbody``;
+
 const Tr = styled.tr``;
 
 const Th = styled.th`
@@ -32,11 +39,11 @@ const Button = styled.button`
   background-color: ${props => {
     switch (props['type']) {
       case "approuvé" :
-          return "#e5faf2"
+        return "#e5faf2"
       case "declined" :
-          return "#fff0f1"
+        return "#fff0f1"
       case "pending" :
-          return "#ebf1fe"
+        return "#ebf1fe"
       default:
         return "gray"
     }
@@ -44,11 +51,11 @@ const Button = styled.button`
   color: ${props => {
     switch (props.type) {
       case "approuvé" :
-          return "#3bb077"
+        return "#3bb077"
       case "declined" :
-          return "#d95087"
+        return "#d95087"
       case "pending" :
-          return"#2a7ade"
+        return "#2a7ade"
       default:
         return "white"
     }
@@ -56,37 +63,52 @@ const Button = styled.button`
 `;
 
 const WidgetLg = () => {
+  const [orders, setOrders] = useState([])
+
+  useEffect(() => {
+    const getOrders = async () => {
+      try {
+        const { data } = await userRequest.get("orders");
+        setOrders(data);
+      } catch {
+      }
+    };
+    getOrders();
+  }, []);
 
   const Status = ({ type }) => <Button type={type}>{type}</Button>
+
+  const formatDate = (date) => {
+    return new Intl.RelativeTimeFormat('fr').format(
+      Math.ceil(
+        (new Date(date) - new Date()) / 1000 / 60 / 60 / 24
+      ),
+      "day"
+    )
+  }
 
   return (
     <Container>
       <Title>Dernières transactions</Title>
       <Table>
-        <Tr>
-          <Th>Client</Th>
-          <Th>Date</Th>
-          <Th>Montant</Th>
-          <Th>Status</Th>
-        </Tr>
-        <Tr>
-          <Td fontWeight={600}>TA MERE</Td>
-          <Td fontWeight={300}>1 Jan. 2022</Td>
-          <Td fontWeight={300}>25 €</Td>
-          <Td><Status type={"approuvé"}/></Td>
-        </Tr>
-        <Tr>
-          <Td fontWeight={600}>TA MERE</Td>
-          <Td fontWeight={300}>1 Jan. 2022</Td>
-          <Td fontWeight={300}>25 €</Td>
-          <Td><Status type={"pending"}/></Td>
-        </Tr>
-        <Tr>
-          <Td fontWeight={600}>TA MERE</Td>
-          <Td fontWeight={300}>1 Jan. 2022</Td>
-          <Td fontWeight={300}>25 €</Td>
-          <Td><Status type={"declined"}/></Td>
-        </Tr>
+        <THead>
+          <Tr>
+            <Th>Client</Th>
+            <Th>Date</Th>
+            <Th>Montant</Th>
+            <Th>Status</Th>
+          </Tr>
+        </THead>
+        <TBody>
+          {orders.map(order => (
+            <Tr key={order['_id']}>
+              <Td fontWeight={600}>{order['userId']}</Td>
+              <Td fontWeight={300}>{formatDate(order['createdAt'])}</Td>
+              <Td fontWeight={300}>{order['amount']} €</Td>
+              <Td><Status type={order['status']}/></Td>
+            </Tr>
+          ))}
+        </TBody>
       </Table>
     </Container>
   );

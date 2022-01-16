@@ -1,5 +1,8 @@
-import styled from "styled-components";
 import { AccountCircle, Visibility } from "@mui/icons-material";
+import styled from "styled-components";
+import { useEffect, useState } from "react";
+
+import { userRequest } from "../../requestApi.js";
 
 const Container = styled.div`
   flex: 1;
@@ -57,21 +60,36 @@ const Button = styled.button`
 `;
 
 const WidgetSm = () => {
+  const [users, setUsers] = useState([])
+
+  useEffect(() => {
+    const getUsers = async () => {
+      try {
+        const { data } = await userRequest.get("users/?new=true");
+        setUsers(data);
+      } catch {}
+    };
+    getUsers();
+  }, []);
+
   return (
     <Container>
       <Title>Nouveaux membres</Title>
       <List>
-        <ListItem>
-          <AccountCircle/>
-          <ListContainer>
-            <ListTitle>MA BI</ListTitle>
-            <ListDesc> EST UN ZOLTAN</ListDesc>
-          </ListContainer>
-          <Button>
-            <Visibility/>
-            Afficher
-          </Button>
-        </ListItem>
+        {users.map(user => (
+          <ListItem key={user['_id']}>
+            <AccountCircle/>
+            <ListContainer>
+              <ListTitle>{user['username']}</ListTitle>
+              <ListDesc>{user['email']}</ListDesc>
+            </ListContainer>
+            <Button>
+              <Visibility/>
+              Afficher
+            </Button>
+          </ListItem>
+        ))
+        }
       </List>
     </Container>
   );
