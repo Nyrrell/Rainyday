@@ -1,4 +1,5 @@
 import Order from "../models/Order.js";
+import User from "../models/User.js";
 
 async function orderRoute(fastify) {
 
@@ -84,7 +85,7 @@ async function orderRoute(fastify) {
     });
 
   //GET MONTHLY INCOME
-  fastify.get('/stats', {
+  fastify.get('/income', {
       preValidation: [fastify.authenticate]
     },
     async (req, res) => {
@@ -108,18 +109,49 @@ async function orderRoute(fastify) {
           {
             $project: {
               month: { $month: "$createdAt" },
-              sales:"$amount"
+              sales: "$amount",
+            },
+          },
+          {
+            $group: {
+              _id: "$month",
+              total: { $sum: "$sales" },
+            },
+          },
+        ]);
+        res.status(200).send(income);
+      } catch (e) {
+        res.status(500).send(e);
+      }
+    });
+
+  //GET STATS
+  fastify.get('/stats', {
+      preValidation: [fastify.authenticate]
+    },
+    async (req, res) => {
+      if (!req.user.isAdmin) return res.code(403).send('Unauthorized');
+
+      const date = new Date();
+      const lastYear = new Date(date.setFullYear(date.getFullYear() - 1));
+
+      try {
+        const data = await User.aggregate([
+          { $match: { createdAt: { $gte: lastYear } } },
+          {
+            $project: {
+              month: { $month: "$createdAt" }
             }
           },
           {
             $group: {
               _id: "$month",
-              total: { $sum: "$sales" }
+              total: { $sum: 1 }
             }
           }
         ]);
 
-        res.status(200).send(income);
+        res.status(200).send(data);
       } catch (e) {
         res.status(500).send(e);
       }
