@@ -1,6 +1,7 @@
 import { NotificationsNone, Settings } from "@mui/icons-material";
-import { Badge } from "@mui/material";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { Badge } from "@mui/material";
 
 import { mobile } from "../../responsive.js";
 
@@ -19,7 +20,7 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  
+
   ${mobile({ padding: "10px 0" })}
 `;
 
@@ -52,11 +53,13 @@ function Navbar() {
     <Container>
       <Wrapper>
         <Left>
-          <Logo>STICKER SHOP</Logo>
+          <Link to={'/'} style={{ textDecoration: "none", color: "inherit"}}>
+            <Logo>{process.env.REACT_APP_NAME}</Logo>
+          </Link>
         </Left>
         <Right>
           <MenuItem>
-            <Badge badgeContent={1} color={"error"} >
+            <Badge badgeContent={1} color={"error"}>
               <NotificationsNone/>
             </Badge>
           </MenuItem>

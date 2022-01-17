@@ -85,7 +85,7 @@ const Footer = () => {
   return (
     <Container>
       <Left>
-        <Logo>STICKER SHOP</Logo>
+        <Logo>{process.env.REACT_APP_NAME}</Logo>
         <Desc>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur cupiditate deserunt doloremque
           doloribus eum eveniet facilis illum, minus molestiae neque nobis non omnis porro possimus quas, ratione sequi
           sunt vero?</Desc>
@@ -121,7 +121,7 @@ const Footer = () => {
           <Phone style={{marginRight:"10px"}}/> Telephone :
         </ContactItem>
         <ContactItem>
-          <EmailOutlined style={{marginRight:"10px"}}/> Email : contact@shop.fr
+          <EmailOutlined style={{marginRight:"10px"}}/> Email : contact@rainyday.fr
         </ContactItem>
         <Payment src={'https://i.ibb.co/Qfvn4z6/payement.png'}/>
       </Right>

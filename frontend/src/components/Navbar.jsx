@@ -93,7 +93,7 @@ const Navbar = () => {
           {/*</SearchContainer>*/}
         </Left>
         <Link to={'/'}>
-          <Center><Logo>STICKER SHOP</Logo></Center>
+          <Center><Logo>{process.env.REACT_APP_NAME}</Logo></Center>
         </Link>
         <Right>
           {!user ? (

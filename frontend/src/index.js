@@ -7,6 +7,8 @@ import React from 'react';
 import { store, persistor } from './redux/store.js';
 import App from './App';
 
+document.title = process.env.REACT_APP_NAME;
+
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
