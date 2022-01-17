@@ -3,12 +3,13 @@ import { useEffect, useState } from "react";
 
 import { publicRequest } from "../requestApi.js";
 import Product from "./Product.jsx";
+import {popularProducts} from '../data'
 
 const Container = styled.div`
   padding: 20px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-evenly;
 `;
 
 
@@ -19,8 +20,9 @@ const Products = ({ cat, filters, sort }) => {
   useEffect(() => {
     const getProducts = async () => {
       try {
-        const res = await publicRequest.get(cat ? `products?category=${cat}` : "/products");
-        setProducts(res.data);
+        // const res = await publicRequest.get(cat ? `products?category=${cat}` : "/products");
+        // setProducts(res.data);
+        setProducts(popularProducts);
       } catch (e) {
       }
     }

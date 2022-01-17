@@ -1,6 +1,9 @@
 import { FavoriteBorderOutlined, SearchOutlined, ShoppingCartOutlined } from "@mui/icons-material";
-import styled from "styled-components";
+import {addProduct} from "../redux/cartRedux";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
+import {useState} from "react";
 
 const Info = styled.div`
   opacity: 0;
@@ -15,12 +18,20 @@ const Info = styled.div`
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
+  gap: 10px;
+
+  & > a {
+    border-radius: 50%;
+    text-decoration: none;
+    color: inherit;
+  }
 `;
 
 const Container = styled.div`
   flex: 1;
   margin: 5px;
   min-width: 280px;
+  max-width: 280px;
   height: 350px;
   display: flex;
   align-items: center;
@@ -54,7 +65,6 @@ const Icon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 10px;
   transition: all 0.2s ease;
   cursor: pointer;
 
@@ -65,19 +75,31 @@ const Icon = styled.div`
 `;
 
 const Product = ({ item }) => {
+    const [quantity, setQuantity] = useState(1);
+    const [product, setProduct] = useState({});
+    const [color, setColor] = useState("");
+    const [size, setSize] = useState("");
+    const dispatch = useDispatch();
+
+    const handleClick = () => {
+        dispatch(
+            addProduct({ ...product, quantity, color, size })
+        );
+    };
+
   return (
     <Container>
       <Circle/>
       <Image src={item['img']}/>
       <Info>
-        <Icon>
+        <Icon onClick={handleClick}>
           <ShoppingCartOutlined/>
         </Icon>
-        <Icon>
           <Link to={`/product/${item['_id']}`}>
+        <Icon>
             <SearchOutlined/>
-          </Link>
         </Icon>
+          </Link>
         <Icon>
           <FavoriteBorderOutlined/>
         </Icon>
