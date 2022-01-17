@@ -24,14 +24,16 @@ import UserNew from "./pages/Admin/UserNew.jsx";
 import AdminProductList from "./pages/Admin/ProductList.jsx"
 import AdminProduct from "./pages/Admin/Product.jsx"
 import AdminProductNew from "./pages/Admin/ProductNew.jsx"
+import Client from "./pages/Client.jsx";
 
 const App = () => {
-  const user = useSelector(state => state.user.currentUser);
+  const user = useSelector(state => state['user']['currentUser']);
   const admin = user && user['isAdmin'];
 
   return (
-      <Routes>
-        <Route path="/" element={<Home/>}/>
+    <Routes>
+      <Route path="/" element={<Client/>}>
+        <Route index element={<Home/>}/>
         <Route path="/products" element={<ProductList/>}>
           <Route path=":category" element={<ProductList/>}/>
         </Route>
@@ -40,17 +42,18 @@ const App = () => {
         <Route path="/success" element={<Success/>}/>
         <Route path="/login" element={user ? <Navigate replace to='/'/> : <Login/>}/>
         <Route path="/register" element={user ? <Navigate replace to='/'/> : <Register/>}/>
-        <Route path="/admin" element={admin ? <Admin/> : <NoMatch />}>
-          <Route index element={<HomeAdmin />} />
-          <Route path="users" element={<UserList />} />
-          <Route path="user/:id" element={<User />} />
-          <Route path="user/new" element={<UserNew />} />
-          <Route path="products" element={<AdminProductList />} />
-          <Route path="product/:id" element={<AdminProduct />} />
-          <Route path="product/new" element={<AdminProductNew />} />
-        </Route>
-        <Route path="*" element={<NoMatch />} />
-      </Routes>
+      </Route>
+      <Route path="/admin" element={admin ? <Admin/> : <NoMatch/>}>
+        <Route index element={<HomeAdmin/>}/>
+        <Route path="users" element={<UserList/>}/>
+        <Route path="user/:id" element={<User/>}/>
+        <Route path="user/new" element={<UserNew/>}/>
+        <Route path="products" element={<AdminProductList/>}/>
+        <Route path="product/:id" element={<AdminProduct/>}/>
+        <Route path="product/new" element={<AdminProductNew/>}/>
+      </Route>
+      <Route path="*" element={<NoMatch/>}/>
+    </Routes>
   );
 };
 

@@ -25,5 +25,5 @@ const userRedux = createSlice({
   }
 });
 
-export const { loginStart, loginSuccess, loginFailed } = userRedux.actions;
+export const { loginStart, loginSuccess, loginFailed, logout } = userRedux.actions;
 export default userRedux.reducer;

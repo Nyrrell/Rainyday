@@ -31,13 +31,15 @@ const Container = styled.div`
   flex: 1;
   margin: 5px;
   min-width: 280px;
-  max-width: 280px;
+  max-width: 350px;
   height: 350px;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: #f5fbfd;
   position: relative;
+  border-radius: 5px;
+  border: 1px solid rgba(128, 128, 128, 0.2);
 
   &:hover ${Info} {
     opacity: 1;
@@ -45,15 +47,15 @@ const Container = styled.div`
 `;
 
 const Circle = styled.div`
-  width: 200px;
-  height: 200px;
+  width: 85%;
+  height: 85%;
   border-radius: 50%;
   background-color: white;
   position: absolute;
 `;
 
 const Image = styled.img`
-  height: 75%;
+  height: 85%;
   z-index: 2;
 `;
 
@@ -75,15 +77,14 @@ const Icon = styled.div`
 `;
 
 const Product = ({ item }) => {
-    const [quantity, setQuantity] = useState(1);
-    const [product, setProduct] = useState({});
-    const [color, setColor] = useState("");
-    const [size, setSize] = useState("");
+    const [quantity] = useState(1);
+    const [product] = useState({});
+
     const dispatch = useDispatch();
 
     const handleClick = () => {
         dispatch(
-            addProduct({ ...product, quantity, color, size })
+            addProduct({ ...product, quantity })
         );
     };
 
@@ -100,9 +101,9 @@ const Product = ({ item }) => {
             <SearchOutlined/>
         </Icon>
           </Link>
-        <Icon>
-          <FavoriteBorderOutlined/>
-        </Icon>
+        {/*<Icon>*/}
+        {/*  <FavoriteBorderOutlined/>*/}
+        {/*</Icon>*/}
       </Info>
     </Container>
   );

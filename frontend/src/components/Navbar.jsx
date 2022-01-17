@@ -1,14 +1,21 @@
 import { Search, ShoppingCartOutlined } from '@mui/icons-material';
 import { Badge } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import styled from 'styled-components';
 import React from 'react';
 
 import { mobile } from "../responsive.js";
+import { userLogout } from "../redux/apiCalls.js";
 
 const Container = styled.div`
   height: 60px;
+
+  & a {
+    text-decoration: none;
+    color: inherit;
+  }
+
   ${mobile({ height: "50px" })}
 `;
 
@@ -55,6 +62,7 @@ const Right = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
+
   ${mobile({ flex: 2, justifyContent: "center" })}
 `;
 
@@ -66,21 +74,45 @@ const MenuItem = styled.div`
 `;
 
 const Navbar = () => {
-  const quantity = useSelector(state => state.cart.quantity)
+  const quantity = useSelector(state => state['cart']['quantity']);
+  const user = useSelector(state => state['user']['currentUser']);
+  const dispatch = useDispatch();
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    userLogout(dispatch)
+  };
 
   return (
     <Container>
       <Wrapper>
         <Left>
-          <SearchContainer>
-            <Input/>
-            <Search style={{ color: 'gray', fontSize: 16 }}/>
-          </SearchContainer>
+          {/*<SearchContainer>*/}
+          {/*  <Input/>*/}
+          {/*  <Search style={{ color: 'gray', fontSize: 16 }}/>*/}
+          {/*</SearchContainer>*/}
         </Left>
-        <Center><Logo>STICKER SHOP</Logo></Center>
+        <Link to={'/'}>
+          <Center><Logo>STICKER SHOP</Logo></Center>
+        </Link>
         <Right>
-          <MenuItem>REGISTER</MenuItem>
-          <MenuItem>SIGN IN</MenuItem>
+          {!user ? (
+            <>
+              <Link to={'/register'}>
+                <MenuItem>INSCRIPTION</MenuItem>
+              </Link>
+              <Link to={'/login'}>
+                <MenuItem>CONNEXION</MenuItem>
+              </Link>
+            </>
+          ) : (
+            <>
+              <MenuItem onClick={handleClick}>DÉCONNEXION</MenuItem>
+              <Link to={'/account'}>
+                <MenuItem>MON COMPTE</MenuItem>
+              </Link>
+            </>
+          )}
           <Link to={'/cart'}>
             <MenuItem>
               <Badge badgeContent={quantity} color={"error"}>

@@ -4,6 +4,7 @@ import { mobile } from "../responsive.js";
 
 
 const Container = styled.div`
+  width: 100%;
   height: 60vh;
   background-color: #fcf5f5;
   display: flex;

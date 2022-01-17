@@ -1,4 +1,4 @@
-import { loginFailed, loginStart, loginSuccess } from "./userRedux.js";
+import { loginFailed, loginStart, loginSuccess, logout } from "./userRedux.js";
 import { publicRequest, userRequest } from "../requestApi.js";
 import {
   getProductFailure,
@@ -25,6 +25,10 @@ export const login = async (dispatch, user) => {
   }
 };
 
+export const userLogout = async (dispatch) => {
+  dispatch(logout())
+}
+
 export const getProducts = async (dispatch) => {
   dispatch(getProductStart());
   try {
@@ -49,7 +53,7 @@ export const updateProduct = async (id, product, dispatch) => {
   dispatch(updateProductStart());
   try {
     const { data } = await userRequest.put(`/products/${id}`, product);
-    dispatch(updateProductSuccess({ id, product }));
+    dispatch(updateProductSuccess({ id, data }));
   } catch (err) {
     dispatch(updateProductFailure());
   }

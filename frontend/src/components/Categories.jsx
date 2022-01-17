@@ -4,6 +4,8 @@ import CategoryItem from "./CategoryItem.jsx";
 import { mobile } from "../responsive.js";
 
 const Container = styled.div`
+  width: 75vw;
+  margin: 0 auto;
   display: flex;
   padding: 20px;
   justify-content: space-between;

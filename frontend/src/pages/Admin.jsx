@@ -15,7 +15,7 @@ const Content = styled.div`
 
 const Admin = () => {
   return (
-    <div>
+    <>
       <Navbar/>
       <Container>
         <Sidebar/>
@@ -23,7 +23,7 @@ const Admin = () => {
           <Outlet/>
         </Content>
       </Container>
-    </div>
+    </>
   );
 };
 

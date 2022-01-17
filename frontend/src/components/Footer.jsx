@@ -3,6 +3,7 @@ import { EmailOutlined, Facebook, Instagram, Phone, Room, Twitter } from "@mui/i
 import { mobile } from "../responsive.js";
 
 const Container = styled.div`
+  margin-top: 3rem;
   display: flex;
   ${mobile({ flexDirection: "column" })}
 `;
@@ -101,7 +102,7 @@ const Footer = () => {
         </SocialContainer>
       </Left>
       <Center>
-        <Title>Liens Utils</Title>
+        <Title>Liens Utiles</Title>
         <List>
           <ListItem>Accueil</ListItem>
           <ListItem>Panier</ListItem>

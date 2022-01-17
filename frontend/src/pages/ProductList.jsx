@@ -1,16 +1,12 @@
 import styled from "styled-components";
-import Navbar from "../components/Navbar.jsx";
-import Announcement from "../components/Announcement.jsx";
 import Products from "../components/Products.jsx";
-import Newsletter from "../components/Newsletter.jsx";
-import Footer from "../components/Footer.jsx";
 import { mobile } from "../responsive.js";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 
-
 const Container = styled.div`
-
+  width: 75vw;
+  margin: 0 auto;
 `;
 
 const Title = styled.h1`
@@ -58,8 +54,6 @@ const ProductList = () => {
 
   return (
     <Container>
-      <Navbar/>
-      <Announcement/>
       <Title>{cat?.toUpperCase()}</Title>
       <FilterContainer>
         <Filter>
@@ -81,8 +75,6 @@ const ProductList = () => {
         </Filter>
       </FilterContainer>
       <Products cat={cat} filters={filters} sort={sort}/>
-      <Newsletter/>
-      <Footer/>
     </Container>
   );
 };

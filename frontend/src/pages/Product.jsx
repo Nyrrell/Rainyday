@@ -3,17 +3,14 @@ import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { Add, Remove } from "@mui/icons-material";
 
-import Announcement from "../components/Announcement.jsx";
-import Newsletter from "../components/Newsletter.jsx";
 import { addProduct } from "../redux/cartRedux.js";
 import { publicRequest } from "../requestApi.js";
-import Navbar from "../components/Navbar.jsx";
-import Footer from "../components/Footer.jsx";
 import { useEffect, useState } from "react";
 import { mobile } from "../responsive.js";
 
 const Container = styled.div`
-
+  width: 75vw;
+  margin: 0 auto;
 `;
 
 const Wrapper = styled.div`
@@ -137,8 +134,8 @@ const Product = () => {
   useEffect(() => {
     const getProduct = async () => {
       try {
-        const res = await publicRequest.get(`products/find/${id}`);
-        setProduct(res.data)
+        const { data } = await publicRequest.get(`products/find/${id}`);
+        setProduct(data)
       } catch (e) {
       }
     }
@@ -161,8 +158,6 @@ const Product = () => {
 
   return (
     <Container>
-      <Navbar/>
-      <Announcement/>
       <Wrapper>
         <ImgContainer>
           <Image
@@ -198,8 +193,6 @@ const Product = () => {
           </AddContainer>
         </InfoContainer>
       </Wrapper>
-      <Newsletter/>
-      <Footer/>
     </Container>
   );
 };
