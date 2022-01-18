@@ -5,8 +5,9 @@ import { sliderItems } from "../data.js"
 import { mobile } from "../responsive.js";
 
 const Container = styled.div`
-  width: 100%;
-  height: 100vh;
+  width: 65%;
+  margin: 0 auto;
+  height: 80vh;
   display: flex;
   position: relative;
   overflow: hidden;
@@ -15,17 +16,16 @@ const Container = styled.div`
 
 const Arrow = styled.div`
   width: 50px;
-  height: 50px;
-  background-color: #fff7f7;
-  border-radius: 50%;
+  height: 100%;
+  background-color: var(--color-dark-alt);
+  color: var(--color-light);
   display: flex;
   align-items: center;
   justify-content: center;
   position: absolute;
   top: 0;
-  bottom: 0;
-  left: ${props => props.direction === 'left' && '10px'};
-  right: ${props => props.direction === 'right' && '10px'};
+  left: ${props => props['direction'] === 'left' && '0'};
+  right: ${props => props['direction'] === 'right' && '0'};
   margin: auto;
   cursor: pointer;
   opacity: 0.5;
@@ -33,18 +33,16 @@ const Arrow = styled.div`
 `;
 
 const Wrapper = styled.div`
-  height: 100px;
   display: flex;
   transition: all 1.5s ease;
-  transform: translateX(${props => props.slideIndex * -100}vw);
+  transform: translateX(${props => props['slideIndex'] * -100}vw);
 `;
 
 const Slide = styled.div`
   width: 100vw;
-  height: 100vh;
   display: flex;
   align-items: center;
-  background-color: #${props => props.bg};
+  background-color: #${props => props['bg']};
 `;
 
 const ImgContainer = styled.div`
@@ -53,11 +51,13 @@ const ImgContainer = styled.div`
 `;
 
 const Image = styled.img`
-  height: 80%;
+  height: 80vh;
+  width: 65%;
+  object-fit: cover;
 `;
 
 const InfoContainer = styled.div`
-  flex: 1;
+  flex: 2;
   padding: 50px;
 `;
 
@@ -95,7 +95,7 @@ const Slider = () => {
   return (
     <Container>
       <Arrow direction={'left'} onClick={() => handleClick("left")}>
-        <ArrowLeftOutlined/>
+        <ArrowLeftOutlined fontSize="large"/>
       </Arrow>
       <Wrapper slideIndex={slideIndex}>
         {sliderItems.map(item => (
@@ -113,7 +113,7 @@ const Slider = () => {
         ))}
       </Wrapper>
       <Arrow direction={'right'} onClick={() => handleClick("right")}>
-        <ArrowRightOutlined/>
+        <ArrowRightOutlined fontSize="large"/>
       </Arrow>
     </Container>
   );

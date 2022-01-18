@@ -3,8 +3,10 @@ import { EmailOutlined, Facebook, Instagram, Phone, Room, Twitter } from "@mui/i
 import { mobile } from "../responsive.js";
 
 const Container = styled.div`
-  margin-top: 3rem;
+  border-top: 1px solid var(--color-gray);
+  background-color: var(--color-dark-alt);
   display: flex;
+  color: var(--color-light);
   ${mobile({ flexDirection: "column" })}
 `;
 

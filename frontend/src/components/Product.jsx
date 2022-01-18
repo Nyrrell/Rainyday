@@ -1,11 +1,8 @@
-import { FavoriteBorderOutlined, SearchOutlined, ShoppingCartOutlined } from "@mui/icons-material";
-import {addProduct} from "../redux/cartRedux";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
-import {useState} from "react";
+import { Button } from "@mui/material";
+import { Link } from "react-router-dom";
 
-const Info = styled.div`
+const Hover = styled.div`
   opacity: 0;
   width: 100%;
   height: 100%;
@@ -14,97 +11,103 @@ const Info = styled.div`
   left: 0;
   background-color: rgba(0, 0, 0, 0.2);
   z-index: 3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   transition: all 0.2s ease;
-  gap: 10px;
-
-  & > a {
-    border-radius: 50%;
-    text-decoration: none;
-    color: inherit;
-  }
 `;
 
 const Container = styled.div`
   flex: 1;
   margin: 5px;
-  min-width: 280px;
-  max-width: 350px;
-  height: 350px;
+  min-width: 300px;
+  max-width: 300px;
+  padding-bottom: 20px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  background-color: #f5fbfd;
-  position: relative;
-  border-radius: 5px;
-  border: 1px solid rgba(128, 128, 128, 0.2);
+  flex-direction: column;
+  background: var(--color-dark);
+  background: linear-gradient(190deg, var(--color-dark-alt) 0%, var(--color-dark) 100%);
+  border: 1px solid var(--color-gray);
 
-  &:hover ${Info} {
+  &:hover ${Hover} {
     opacity: 1;
   }
+
 `;
 
-const Circle = styled.div`
-  width: 85%;
-  height: 85%;
-  border-radius: 50%;
-  background-color: white;
-  position: absolute;
+const ImageContainer = styled(Link)`
+  position: relative;
+  color: inherit;
+  text-decoration: none;
 `;
 
 const Image = styled.img`
-  height: 85%;
-  z-index: 2;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
 `;
 
-const Icon = styled.div`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  cursor: pointer;
+const SoldOut = styled.span`
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 4;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--color-light);
+  text-align: right;
+  line-height: 0.9em;
+  text-shadow: 2px 2px var(--color-dark);
+`;
 
+const Info = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+`;
+
+const Title = styled.p`
+  padding: 20px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-light);
+  text-transform: uppercase;
+`;
+
+const Price = styled.p`
+  padding: 20px;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--color-light);
+`;
+
+const Btn = styled(Button)`
+  transition: all 0.2s ease;
+  border-radius: unset;
+  cursor: ${props => props['cursor']};
+  
   &:hover {
-    background-color: #e9f5f5;
-    transform: scale(1.1);
+    ${props => !props['cursor'] && 'transform: scale(1.1)'}
   }
 `;
 
 const Product = ({ item }) => {
-    const [quantity] = useState(1);
-    const [product] = useState({});
-
-    const dispatch = useDispatch();
-
-    const handleClick = () => {
-        dispatch(
-            addProduct({ ...product, quantity })
-        );
-    };
-
   return (
     <Container>
-      <Circle/>
-      <Image src={item['img']}/>
+      <ImageContainer to={`/product/${item['_id']}`}>
+        {!item['stock'] && <SoldOut>SOLD <br />OUT</SoldOut>}
+        <Image src={item['img']}/>
+        <Hover/>
+      </ImageContainer>
+
       <Info>
-        <Icon onClick={handleClick}>
-          <ShoppingCartOutlined/>
-        </Icon>
-          <Link to={`/product/${item['_id']}`}>
-        <Icon>
-            <SearchOutlined/>
-        </Icon>
-          </Link>
-        {/*<Icon>*/}
-        {/*  <FavoriteBorderOutlined/>*/}
-        {/*</Icon>*/}
+        <Title>{item['title']}</Title>
+        <Price>{item['price']} €</Price>
       </Info>
+      {item['stock']
+        ? <Btn href={`/product/${item['_id']}`} variant="outlined">commander</Btn>
+        : <Btn href={`/product/${item['_id']}`} cursor={'not-allowed'} color={'error'} variant="outlined">victime de son
+          succes</Btn>}
     </Container>
   );
 };

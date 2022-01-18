@@ -8,7 +8,7 @@ import React from 'react';
 import { mobile } from "../responsive.js";
 import { userLogout } from "../redux/apiCalls.js";
 
-const Container = styled.div`
+const Container = styled.nav`
   height: 60px;
 
   & a {

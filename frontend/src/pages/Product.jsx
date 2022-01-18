@@ -7,6 +7,7 @@ import { addProduct } from "../redux/cartRedux.js";
 import { publicRequest } from "../requestApi.js";
 import { useEffect, useState } from "react";
 import { mobile } from "../responsive.js";
+import { popularProducts } from "../data";
 
 const Container = styled.div`
   width: 75vw;
@@ -134,8 +135,9 @@ const Product = () => {
   useEffect(() => {
     const getProduct = async () => {
       try {
-        const { data } = await publicRequest.get(`products/find/${id}`);
-        setProduct(data)
+        // const { data } = await publicRequest.get(`products/find/${id}`);
+        // setProduct(data)
+        setProduct(popularProducts[id-1])
       } catch (e) {
       }
     }
@@ -166,7 +168,7 @@ const Product = () => {
         <InfoContainer>
           <Title>{product['title']}</Title>
           <Desc>{product['desc']}</Desc>
-          <Price>5€</Price>
+          <Price>{product['price']} €</Price>
           <FilterContainer>
             {product['color'] > 0 &&
               <Filter>
