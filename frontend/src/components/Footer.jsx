@@ -2,11 +2,11 @@ import styled from "styled-components";
 import { EmailOutlined, Facebook, Instagram, Phone, Room, Twitter } from "@mui/icons-material";
 import { mobile } from "../responsive.js";
 
-const Container = styled.div`
-  border-top: 1px solid var(--color-gray);
+const Container = styled.footer`
+  margin-top: 3rem;
+  border-top: 3px solid var(--color-gray);
   background-color: var(--color-dark-alt);
   display: flex;
-  color: var(--color-light);
   ${mobile({ flexDirection: "column" })}
 `;
 

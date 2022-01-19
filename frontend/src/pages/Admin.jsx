@@ -11,6 +11,7 @@ const Container = styled.div`
 const Content = styled.div`
   flex: 6;
   padding: 20px;
+  background: white;
 `;
 
 const Admin = () => {

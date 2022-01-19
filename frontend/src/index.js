@@ -16,6 +16,10 @@ const GlobalStyles = createGlobalStyle`
     --color-gray: #363a3d;
     --color-primary: rgb(78, 204, 163);
   }
+  #root {
+    background-color: var(--color-dark);
+    color: var(--color-light);
+  }
 `;
 
 document.title = process.env.REACT_APP_NAME;

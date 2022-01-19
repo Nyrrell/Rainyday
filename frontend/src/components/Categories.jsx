@@ -3,11 +3,11 @@ import { categories } from "../data.js";
 import CategoryItem from "./CategoryItem.jsx";
 import { mobile } from "../responsive.js";
 
-const Container = styled.div`
+const Container = styled.nav`
   width: 65vw;
   margin: 0 auto;
   display: flex;
-  padding: 20px;
+  padding: 20px 0;
   justify-content: space-between;
   background-color: var(--color-dark);
 

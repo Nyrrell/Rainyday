@@ -5,14 +5,12 @@ import { publicRequest } from "../requestApi.js";
 import Product from "./Product.jsx";
 import { popularProducts } from "../data";
 
-const Container = styled.div`
+const Container = styled.section`
   width: 65vw;
   margin: 0 auto;
-  padding: 0 3rem 3rem 3rem;
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
-  background-color: #181a1b;
+  gap: 1rem;
 `;
 
 

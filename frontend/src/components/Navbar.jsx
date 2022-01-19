@@ -8,23 +8,24 @@ import React from 'react';
 import { mobile } from "../responsive.js";
 import { userLogout } from "../redux/apiCalls.js";
 
-const Container = styled.nav`
+const Wrapper = styled.nav`
   height: 60px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #1A2F4B;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 
   & a {
     text-decoration: none;
     color: inherit;
   }
-
-  ${mobile({ height: "50px" })}
-`;
-
-const Wrapper = styled.div`
-  padding: 10px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  ${mobile({ padding: "10px 0" })}
+  
+  ${mobile({ padding: "10px 0", height: "50px" })}
 `;
 
 const Left = styled.div`
@@ -84,7 +85,6 @@ const Navbar = () => {
   };
 
   return (
-    <Container>
       <Wrapper>
         <Left>
           {/*<SearchContainer>*/}
@@ -122,9 +122,7 @@ const Navbar = () => {
           </Link>
         </Right>
       </Wrapper>
-    </Container>
-  )
-    ;
+  );
 };
 
 export default Navbar;

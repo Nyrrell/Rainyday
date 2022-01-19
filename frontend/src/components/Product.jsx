@@ -14,9 +14,7 @@ const Hover = styled.div`
   transition: all 0.2s ease;
 `;
 
-const Container = styled.div`
-  flex: 1;
-  margin: 5px;
+const Container = styled.article`
   min-width: 300px;
   max-width: 300px;
   padding-bottom: 20px;
@@ -24,7 +22,7 @@ const Container = styled.div`
   align-items: center;
   flex-direction: column;
   background: var(--color-dark);
-  background: linear-gradient(190deg, var(--color-dark-alt) 0%, var(--color-dark) 100%);
+  background: linear-gradient(180deg, var(--color-dark-alt) 50%, var(--color-dark) 100%);
   border: 1px solid var(--color-gray);
 
   &:hover ${Hover} {

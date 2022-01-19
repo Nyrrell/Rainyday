@@ -1,0 +1,39 @@
+
+
+.inner {
+    white-space: nowrap;
+    transition: transform 0.3s;
+}
+
+.carousel-item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background-color: green;
+    color: #fff;
+}
+
+.indicators {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    right: 50%;
+    display: flex;
+    justify-content: center;
+
+}
+
+.indicators > button {
+    margin: 5px;
+    border-radius: 50%;
+    width: 40px;
+height: 50px;
+    border: none;
+    background-color: gray;
+}
+
+.indicators > button.active {
+    background-color: green;
+    color: #fff;
+}

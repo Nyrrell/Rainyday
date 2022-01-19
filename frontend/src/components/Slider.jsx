@@ -3,14 +3,16 @@ import { ArrowLeftOutlined, ArrowRightOutlined } from "@mui/icons-material";
 import { useState } from "react";
 import { sliderItems } from "../data.js"
 import { mobile } from "../responsive.js";
+import Carousel, { CarouselItem } from "./Carousel";
 
-const Container = styled.div`
+const Container = styled.section`
   width: 65%;
   margin: 0 auto;
   height: 80vh;
   display: flex;
   position: relative;
   overflow: hidden;
+  color: black;
   ${mobile({ display: "none" })}
 `;
 
@@ -39,26 +41,20 @@ const Wrapper = styled.div`
 `;
 
 const Slide = styled.div`
-  width: 100vw;
+  width: 100%;
   display: flex;
   align-items: center;
   background-color: #${props => props['bg']};
 `;
 
-const ImgContainer = styled.div`
-  height: 100%;
-  flex: 1;
-`;
-
 const Image = styled.img`
-  height: 80vh;
-  width: 65%;
+  height: 100%;
+  width: 100%;
   object-fit: cover;
 `;
 
 const InfoContainer = styled.div`
-  flex: 2;
-  padding: 50px;
+  position: absolute;
 `;
 
 const Title = styled.h1`
@@ -93,29 +89,33 @@ const Slider = () => {
   }
 
   return (
-    <Container>
-      <Arrow direction={'left'} onClick={() => handleClick("left")}>
-        <ArrowLeftOutlined fontSize="large"/>
-      </Arrow>
-      <Wrapper slideIndex={slideIndex}>
-        {sliderItems.map(item => (
-          <Slide bg={item['bg']} key={item['id']}>
-            <ImgContainer>
-              <Image
-                src={item['img']}/>
-            </ImgContainer>
-            <InfoContainer>
-              <Title>{item['title']}</Title>
-              <Description>{item['desc']}</Description>
-              <Button>SHOW NOW</Button>
-            </InfoContainer>
-          </Slide>
-        ))}
-      </Wrapper>
-      <Arrow direction={'right'} onClick={() => handleClick("right")}>
-        <ArrowRightOutlined fontSize="large"/>
-      </Arrow>
-    </Container>
+    // <Container>
+    //   <Arrow direction={'left'} onClick={() => handleClick("left")}>
+    //     <ArrowLeftOutlined fontSize="large"/>
+    //   </Arrow>
+    //   <Wrapper slideIndex={slideIndex}>
+    //     {sliderItems.map(item => (
+    //       <Slide bg={item['bg']} key={item['id']}>
+    //         <Image src={item['img']}/>
+    //         <InfoContainer>
+    //           <Title>{item['title']}</Title>
+    //           <Description>{item['desc']}</Description>
+    //           <Button>SHOW NOW</Button>
+    //         </InfoContainer>
+    //       </Slide>
+    //     ))}
+    //   </Wrapper>
+    //   <Arrow direction={'right'} onClick={() => handleClick("right")}>
+    //     <ArrowRightOutlined fontSize="large"/>
+    //   </Arrow>
+    // </Container>
+    <>
+      <Carousel>
+        <CarouselItem>Item 1</CarouselItem>
+        <CarouselItem>Item 2</CarouselItem>
+        <CarouselItem>Item 3</CarouselItem>
+      </Carousel>
+    </>
   );
 };
 
