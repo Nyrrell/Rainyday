@@ -25,23 +25,28 @@ export const sliderItems = [
 export const categories = [
   {
     id: 1,
-    cat: "sticker"
+    cat: "sticker",
+    img:"https://cdn.discordapp.com/attachments/374156179204603914/917509846046216232/StickerApp-3661407.png",
   },
   {
     id: 2,
-    cat: "hoodie"
+    cat: "hoodie",
+    img:"https://cdn.discordapp.com/attachments/374156179204603914/917509864018829372/StickerApp-4053064.png"
   },
   {
     id: 3,
-    cat: "affiche"
+    cat: "affiche",
+    img:"https://cdn.discordapp.com/attachments/374156179204603914/917509879105728582/StickerApp-4053105.png"
   },
   {
     id: 4,
-    cat: "grigri"
+    cat: "grigri",
+    img:"https://cdn.discordapp.com/attachments/374156179204603914/917509900098215936/StickerApp-3661474.png"
   },
   {
     id: 5,
-    cat: "trucmachin"
+    cat: "trucmachin",
+    img:"https://cdn.discordapp.com/attachments/374156179204603914/917509864018829372/StickerApp-4053064.png"
   },
 ];
 

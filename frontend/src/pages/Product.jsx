@@ -10,7 +10,7 @@ import { mobile } from "../responsive.js";
 import { popularProducts } from "../data";
 
 const Container = styled.div`
-  width: 75vw;
+  width: var(--container-size);
   margin: 0 auto;
 `;
 

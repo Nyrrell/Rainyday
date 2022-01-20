@@ -5,12 +5,13 @@ import { useLocation } from "react-router-dom";
 import { useState } from "react";
 
 const Container = styled.div`
-  width: 75vw;
+  width: var(--container-size);
   margin: 0 auto;
 `;
 
 const Title = styled.h1`
   margin: 20px;
+  text-transform: uppercase;
 `;
 
 const FilterContainer = styled.div`
@@ -54,7 +55,7 @@ const ProductList = () => {
 
   return (
     <Container>
-      <Title>{cat?.toUpperCase()}</Title>
+      <Title>{cat}</Title>
       <FilterContainer>
         <Filter>
           <FilterText>Filtrer :</FilterText>

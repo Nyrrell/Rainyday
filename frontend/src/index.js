@@ -16,7 +16,8 @@ const GlobalStyles = createGlobalStyle`
     --color-gray: #363a3d;
     --color-primary: rgb(78, 204, 163);
     --color-blue: #1A2F4B;
-    --color-yellow: #F0A500;
+    --color-yellow: rgb(240, 165, 0);
+    --container-size: 65vw;
   }
 
   #root {

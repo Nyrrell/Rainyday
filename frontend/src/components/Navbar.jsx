@@ -22,10 +22,8 @@ const Wrapper = styled.nav`
   z-index: 100;
 
   & a {
-    font-weight: 600;
     text-decoration: none;
     color: inherit;
-    text-transform: uppercase;
   }
 
   ${mobile({ padding: "10px 0", height: "50px" })}
@@ -57,6 +55,8 @@ const Right = styled.div`
 `;
 
 const MenuItem = styled.div`
+  font-weight: 600;
+  text-transform: uppercase;
   font-size: 14px;
   cursor: pointer;
   margin-left: 25px;
@@ -71,6 +71,7 @@ const CartBadge = styled(Badge)`
 
 const StyledLink = styled(Link)`
   border-bottom: ${({ active }) => active && '2px solid var(--color-yellow)'};
+  transition: 0.1s;
   &:hover {
     border-bottom: 2px solid var(--color-yellow);
   }
@@ -83,7 +84,7 @@ const NavLink = ({ children, to, ...props }) => {
 
   return (
     <MenuItem>
-      <StyledLink to={to} active={match} {...props}>{children}</StyledLink>
+      <StyledLink to={to} active={match && 'true'} {...props}>{children}</StyledLink>
     </MenuItem>
   );
 }
@@ -101,8 +102,8 @@ const Navbar = () => {
   return (
     <Wrapper>
       <Left>
-        <NavLink to={'/'} test={'oui'}>home</NavLink>
-        {categories.map(item => <NavLink to={`/products/${item['cat']}`}>{item['cat']}</NavLink>)}
+        <NavLink to={'/'}>home</NavLink>
+        {categories.map(item => <NavLink to={`/products/${item['cat']}`} key={item['cat']}>{item['cat']}</NavLink>)}
       </Left>
       <Center>
         <Logo>

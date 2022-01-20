@@ -21,13 +21,13 @@ const Button = styled.button`
   position: absolute;
   top: 50px;
   left: 100px;
-  padding: 10px;
+  padding: 20px;
   color: var(--color-light);
   font-size: 20px;
   font-weight: 800;
-  border: 2px solid rgba(255,255,255,0.2);
-  min-width: 10vw;
-  min-height: 10vh;
+  border: 2px solid rgba(255,255,255,0.3);
+  min-width: 5vw;
+  min-height: 5vh;
   text-transform: uppercase;
   background-color: rgba(0,0,0,0.3);
   cursor: pointer;

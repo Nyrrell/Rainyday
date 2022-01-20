@@ -23,13 +23,12 @@ const Arrow = styled.div`
 `;
 
 const Container = styled.section`
-  width: 65%;
-  margin: 0 auto;
-  height: 80vh;
+  width: var(--container-size);
+  margin: 1.2rem auto;
+  height: 45vh;
   overflow: hidden;
   position: relative;
   border: 2px solid var(--color-gray);
-  border-top: none;
   ${mobile({ display: "none" })}
   
   &:hover ${Arrow} {

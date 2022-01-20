@@ -6,7 +6,7 @@ import Product from "./Product.jsx";
 import { popularProducts } from "../data";
 
 const Container = styled.section`
-  width: 65vw;
+  width: var(--container-size);
   margin: 0 auto;
   display: flex;
   flex-wrap: wrap;

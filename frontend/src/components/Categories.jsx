@@ -4,15 +4,13 @@ import { categories } from "../data.js";
 import CategoryItem from "./CategoryItem.jsx";
 import { mobile } from "../responsive.js";
 
-const Container = styled.ul`
-  width: 65vw;
-  height: 3rem;
-  margin: 20px auto;
+const Container = styled.section`
+  width: var(--container-size);
+  height: 30vh;
+  margin: 1.2rem auto;
   display: flex;
-  background: var(--color-blue);
-  border: 1px solid var(--color-gray);
-  padding: 0;
-  list-style: none;
+  justify-content: space-between;
+  gap: 1rem;
   
   ${mobile({ padding: 0, flexDirection: "column" })}
 `;

@@ -11,7 +11,7 @@ import { mobile } from "../responsive.js";
 const KEY = process.env.REACT_APP_STRIPE;
 
 const Wrapper = styled.div`
-  width: 75vw;
+  width: var(--container-size);
   margin: 0 auto;
   padding: 20px;
   ${mobile({ padding: "10px" })}
