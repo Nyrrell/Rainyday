@@ -1,9 +1,11 @@
-import styled from "styled-components";
+import { LinearProgress } from "@mui/material";
 import { mobile } from "../responsive.js";
+import styled from "styled-components";
 
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
+  color: var(--color-dark);
   background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5)), url("https://images.unsplash.com/photo-1625768376503-68d2495d78c5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8");
   background-size: cover;
   display: flex;
@@ -13,6 +15,7 @@ const Container = styled.div`
 
 
 const Wrapper = styled.div`
+  position: absolute;
   width: 40%;
   padding: 20px;
   background-color: white;
@@ -51,10 +54,18 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
+const Fetching = styled(LinearProgress)`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+`;
+
 const Register = () => {
   return (
     <Container>
       <Wrapper>
+        <Fetching />
         <Title>Créer un compte</Title>
         <Form>
           <Input placeholder={"Nom"}/>

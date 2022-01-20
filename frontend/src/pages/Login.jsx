@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
+import { LinearProgress } from "@mui/material";
 import styled from "styled-components";
 import { useState } from "react";
 
@@ -13,10 +14,12 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  color: var(--color-dark);
 `;
 
 
 const Wrapper = styled.div`
+  position: absolute;
   width: 20%;
   padding: 20px;
   background-color: white;
@@ -68,11 +71,18 @@ const Error = styled.span`
   color: red;
 `;
 
+const Fetching = styled(LinearProgress)`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+`;
+
 const Login = () => {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
   const dispatch = useDispatch();
-  const { isFetching, error } = useSelector(state => state.user);
+  const { isFetching, error } = useSelector(state => state['user']);
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -82,6 +92,7 @@ const Login = () => {
   return (
     <Container>
       <Wrapper>
+        {isFetching && <Fetching />}
         <Title>Connexion</Title>
         <Form>
           <Input placeholder={"Utilisateur"}

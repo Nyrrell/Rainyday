@@ -1,30 +1,33 @@
-import { Search, ShoppingCartOutlined } from '@mui/icons-material';
-import { Badge } from '@mui/material';
+import { Link, useMatch, useResolvedPath } from "react-router-dom";
+import { ShoppingCartOutlined } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from "react-router-dom";
 import styled from 'styled-components';
+import { Badge } from '@mui/material';
 import React from 'react';
 
-import { mobile } from "../responsive.js";
 import { userLogout } from "../redux/apiCalls.js";
+import { mobile } from "../responsive.js";
+import { categories } from "../data";
 
 const Wrapper = styled.nav`
   height: 60px;
   padding: 0 20px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  background-color: #1A2F4B;
-  color: white;
+  justify-content: space-evenly;
+  background-color: var(--color-blue);
+  color: var(--color-light);
   position: sticky;
   top: 0;
   z-index: 100;
 
   & a {
+    font-weight: 600;
     text-decoration: none;
     color: inherit;
+    text-transform: uppercase;
   }
-  
+
   ${mobile({ padding: "10px 0", height: "50px" })}
 `;
 
@@ -32,20 +35,6 @@ const Left = styled.div`
   flex: 1;
   display: flex;
   align-items: center;
-`;
-
-const SearchContainer = styled.div`
-  border: 0.5px solid lightgray;
-  display: flex;
-  align-items: center;
-  margin-left: 25px;
-  padding: 5px;
-  ${mobile({ marginLeft: "10px" })}
-`;
-
-const Input = styled.input`
-  border: none;
-  ${mobile({ width: "50px" })}
 `;
 
 const Center = styled.div`
@@ -74,6 +63,31 @@ const MenuItem = styled.div`
   ${mobile({ fontSize: "12px", marginLeft: "10px" })}
 `;
 
+const CartBadge = styled(Badge)`
+  .MuiBadge-badge {
+    font-weight: 600;
+  }
+`;
+
+const StyledLink = styled(Link)`
+  border-bottom: ${({ active }) => active && '2px solid var(--color-yellow)'};
+  &:hover {
+    border-bottom: 2px solid var(--color-yellow);
+  }
+`;
+
+
+const NavLink = ({ children, to, ...props }) => {
+  let resolved = useResolvedPath(to);
+  let match = useMatch({ path: resolved.pathname, end: true });
+
+  return (
+    <MenuItem>
+      <StyledLink to={to} active={match} {...props}>{children}</StyledLink>
+    </MenuItem>
+  );
+}
+
 const Navbar = () => {
   const quantity = useSelector(state => state['cart']['quantity']);
   const user = useSelector(state => state['user']['currentUser']);
@@ -85,43 +99,45 @@ const Navbar = () => {
   };
 
   return (
-      <Wrapper>
-        <Left>
-          {/*<SearchContainer>*/}
-          {/*  <Input/>*/}
-          {/*  <Search style={{ color: 'gray', fontSize: 16 }}/>*/}
-          {/*</SearchContainer>*/}
-        </Left>
-        <Link to={'/'}>
-          <Center><Logo>{process.env.REACT_APP_NAME}</Logo></Center>
-        </Link>
-        <Right>
-          {!user ? (
-            <>
-              <Link to={'/register'}>
-                <MenuItem>INSCRIPTION</MenuItem>
-              </Link>
-              <Link to={'/login'}>
-                <MenuItem>CONNEXION</MenuItem>
-              </Link>
-            </>
-          ) : (
-            <>
-              <MenuItem onClick={handleClick}>DÉCONNEXION</MenuItem>
-              <Link to={'/account'}>
-                <MenuItem>MON COMPTE</MenuItem>
-              </Link>
-            </>
-          )}
-          <Link to={'/cart'}>
-            <MenuItem>
-              <Badge badgeContent={quantity} color={"error"}>
-                <ShoppingCartOutlined/>
-              </Badge>
-            </MenuItem>
+    <Wrapper>
+      <Left>
+        <NavLink to={'/'} test={'oui'}>home</NavLink>
+        {categories.map(item => <NavLink to={`/products/${item['cat']}`}>{item['cat']}</NavLink>)}
+      </Left>
+      <Center>
+        <Logo>
+          <Link to={'/'}>
+            {process.env.REACT_APP_NAME}
           </Link>
-        </Right>
-      </Wrapper>
+        </Logo>
+      </Center>
+      <Right>
+        {!user ? (
+          <>
+            <MenuItem>
+              <Link to={'/register'}>inscription</Link>
+            </MenuItem>
+            <MenuItem>
+              <Link to={'/login'}>connexion</Link>
+            </MenuItem>
+          </>
+        ) : (
+          <>
+            <MenuItem onClick={handleClick}>DÉCONNEXION</MenuItem>
+            <MenuItem>
+              <Link to={'/account'}>MON COMPTE</Link>
+            </MenuItem>
+          </>
+        )}
+        <MenuItem>
+          <Link to={'/cart'}>
+            <CartBadge badgeContent={quantity} color={"error"}>
+              <ShoppingCartOutlined/>
+            </CartBadge>
+          </Link>
+        </MenuItem>
+      </Right>
+    </Wrapper>
   );
 };
 

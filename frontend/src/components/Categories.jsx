@@ -1,25 +1,26 @@
 import styled from "styled-components";
+
 import { categories } from "../data.js";
 import CategoryItem from "./CategoryItem.jsx";
 import { mobile } from "../responsive.js";
 
-const Container = styled.nav`
+const Container = styled.ul`
   width: 65vw;
-  margin: 0 auto;
+  height: 3rem;
+  margin: 20px auto;
   display: flex;
-  padding: 20px 0;
-  justify-content: space-between;
-  background-color: var(--color-dark);
-
+  background: var(--color-blue);
+  border: 1px solid var(--color-gray);
+  padding: 0;
+  list-style: none;
+  
   ${mobile({ padding: 0, flexDirection: "column" })}
 `;
 
 const Categories = () => {
   return (
     <Container>
-      {categories.map(item => (
-        <CategoryItem item={item} key={item['id']}/>
-      ))}
+      {categories.map(item => <CategoryItem item={item} key={item['id']}/>)}
     </Container>
   );
 };

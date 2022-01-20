@@ -15,7 +15,10 @@ const GlobalStyles = createGlobalStyle`
     --color-dark-alt: #2f3031;
     --color-gray: #363a3d;
     --color-primary: rgb(78, 204, 163);
+    --color-blue: #1A2F4B;
+    --color-yellow: #F0A500;
   }
+
   #root {
     background-color: var(--color-dark);
     color: var(--color-light);
