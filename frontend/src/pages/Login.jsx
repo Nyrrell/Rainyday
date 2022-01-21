@@ -7,7 +7,7 @@ import { login } from "../redux/apiCalls.js";
 import { mobile } from "../responsive.js";
 
 const Container = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5)), url("https://images.unsplash.com/photo-1625768376503-68d2495d78c5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8");
   background-size: cover;

@@ -11,11 +11,11 @@ import App from './App';
 const GlobalStyles = createGlobalStyle`
   html {
     --color-light: rgb(238, 238, 238);
-    --color-dark: #181a1b;
-    --color-dark-alt: #2f3031;
-    --color-gray: #363a3d;
+    --color-dark: rgb(24, 26, 27);
+    --color-dark-alt: rgb(47, 48, 49);
+    --color-gray: rgb(54, 58, 61);
     --color-primary: rgb(78, 204, 163);
-    --color-blue: #1A2F4B;
+    --color-blue: rgb(26, 47, 75);
     --color-yellow: rgb(240, 165, 0);
     --container-size: 65vw;
   }

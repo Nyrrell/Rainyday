@@ -3,7 +3,6 @@ import { EmailOutlined, Facebook, Instagram, Phone, Room, Twitter } from "@mui/i
 import { mobile } from "../responsive.js";
 
 const Container = styled.footer`
-  margin-top: 3rem;
   border-top: 3px solid var(--color-gray);
   background-color: var(--color-dark-alt);
   display: flex;

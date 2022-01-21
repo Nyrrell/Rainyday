@@ -1,7 +1,8 @@
-import styled from "styled-components";
-import { useDispatch } from "react-redux";
-import { useLocation } from "react-router-dom";
 import { Add, Remove } from "@mui/icons-material";
+import { useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Button } from "@mui/material";
+import styled from "styled-components";
 
 import { addProduct } from "../redux/cartRedux.js";
 import { publicRequest } from "../requestApi.js";
@@ -11,13 +12,24 @@ import { popularProducts } from "../data";
 
 const Container = styled.div`
   width: var(--container-size);
-  margin: 0 auto;
+  margin: 0 auto 3rem auto;
+  background: var(--color-dark-alt);
+  background: linear-gradient(180deg, var(--color-dark-alt) 50%, var(--color-dark) 100%);
+
+  ${mobile({ width: "100vw"})}
 `;
 
 const Wrapper = styled.div`
-  padding: 50px;
+  padding: 40px;
   display: flex;
-  ${mobile({ padding: "10px", flexDirection: "column" })}
+  border: 3px solid var(--color-gray);
+  border-top: none;
+
+  ${mobile({ 
+    padding: "10px", 
+    flexDirection: "column",
+    border: 'none'
+  })}
 `;
 
 const ImgContainer = styled.div`
@@ -25,9 +37,10 @@ const ImgContainer = styled.div`
 `;
 
 const Image = styled.img`
-  width: 100%;
-  height: 50vh;
+  width: 80%;
   object-fit: cover;
+  border: 1px solid var(--color-gray);
+
   ${mobile({ height: "40vh" })}
 `;
 
@@ -38,15 +51,24 @@ const InfoContainer = styled.div`
 `;
 
 const Title = styled.h1`
-  font-weight: 200;
+  font-size: 3rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, .4);
+  background: linear-gradient(to top, transparent 10%, rgba(240, 165, 0, 0.8) 10.01%,
+  rgba(240, 165, 0, 0.8) 40%, transparent 40.01%) content-box no-repeat left bottom / 100% 100%;
+  display: inline-flex;
+
+  ${mobile({ fontSize: "2rem" })}
 `;
 
 const Desc = styled.p`
   margin: 20px 0;
+  font-size: 18px;
 `;
 
 const Price = styled.span`
-  font-weight: 100;
+  font-weight: 600;
   font-size: 40px;
 `;
 
@@ -85,7 +107,7 @@ const FilterSize = styled.select`
 const FilterSizeOption = styled.option``;
 
 const AddContainer = styled.div`
-  width: 50%;
+  width: 60%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -102,22 +124,20 @@ const Amount = styled.span`
   width: 30px;
   height: 30px;
   border-radius: 10px;
-  border: 1px solid teal;
+  border: 2px solid var(--color-yellow);
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 5px;
 `;
 
-const Button = styled.button`
-  padding: 15px;
-  border: 2px solid teal;
-  background-color: white;
-  cursor: pointer;
-  font-weight: 500;
+const Btn = styled(Button)`
+  transition: all 0.2s ease;
+  border-radius: unset;
+  cursor: ${props => props['cursor']};
 
   &:hover {
-    background-color: #f8f4f4;
+    ${props => !props['cursor'] && 'transform: scale(1.1)'}
   }
 `;
 
@@ -137,7 +157,7 @@ const Product = () => {
       try {
         // const { data } = await publicRequest.get(`products/find/${id}`);
         // setProduct(data)
-        setProduct(popularProducts[id-1])
+        setProduct(popularProducts[id - 1])
       } catch (e) {
       }
     }
@@ -162,8 +182,7 @@ const Product = () => {
     <Container>
       <Wrapper>
         <ImgContainer>
-          <Image
-            src={product['img']}/>
+          <Image src={product['img']}/>
         </ImgContainer>
         <InfoContainer>
           <Title>{product['title']}</Title>
@@ -186,12 +205,18 @@ const Product = () => {
             }
           </FilterContainer>
           <AddContainer>
-            <AmountContainer>
-              <Remove cursor={"pointer"} onClick={() => handleQuantity('dec')}/>
-              <Amount>{quantity}</Amount>
-              <Add cursor={"pointer"} onClick={() => handleQuantity('inc')}/>
-            </AmountContainer>
-            <Button onClick={handleClick}>Ajouter au panier</Button>
+            {product['stock']
+              ? <>
+                <AmountContainer>
+                  <Remove cursor={"pointer"} onClick={() => handleQuantity('dec')}/>
+                  <Amount>{quantity}</Amount>
+                  <Add cursor={"pointer"} onClick={() => handleQuantity('inc')}/>
+                </AmountContainer>
+                <Btn onClick={handleClick} variant={'outlined'}>Ajouter au panier</Btn>
+              </>
+              : <Btn variant={'outlined'} cursor={'not-allowed'} color={'error'}>Victime de son
+                succes</Btn>
+            }
           </AddContainer>
         </InfoContainer>
       </Wrapper>

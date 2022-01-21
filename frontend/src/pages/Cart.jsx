@@ -1,6 +1,6 @@
 import StripeCheckout from "react-stripe-checkout";
 import { Add, Remove } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
@@ -12,13 +12,14 @@ const KEY = process.env.REACT_APP_STRIPE;
 
 const Wrapper = styled.div`
   width: var(--container-size);
-  margin: 0 auto;
+  margin: 3rem auto;
   padding: 20px;
   ${mobile({ padding: "10px" })}
 `;
 
 const Title = styled.h1`
-  font-weight: 300;
+  font-weight: 600;
+  font-size: 30px;
   text-align: center;
 `;
 
@@ -38,16 +39,6 @@ const TopButton = styled.button`
   color: ${props => props.type === "filled" && "white"};
 `;
 
-const TopTexts = styled.div`
-  ${mobile({ display: "none" })}
-`;
-
-const TopText = styled.span`
-  text-decoration: underline;
-  cursor: pointer;
-  margin: 0 10px;
-`;
-
 const Bottom = styled.div`
   display: flex;
   justify-content: space-between;
@@ -56,6 +47,12 @@ const Bottom = styled.div`
 
 const Info = styled.div`
   flex: 3;
+
+  ${({ empty }) => empty && {
+    'display': 'flex',
+    'justify-content': 'center',
+    'align-items': 'center',
+  }}
 `;
 
 const Product = styled.div`
@@ -64,7 +61,7 @@ const Product = styled.div`
   width: 95%;
   padding-bottom: 5px;
   margin: 5px 0;
-  border-bottom: 1px solid lightgray;
+  border-bottom: 1px solid var(--color-light);
   ${mobile({ flexDirection: "column" })};
 `;
 
@@ -75,6 +72,7 @@ const ProductDetail = styled.div`
 
 const Image = styled.img`
   width: 150px;
+  border: 1px solid var(--color-gray);
 `;
 
 const Details = styled.div`
@@ -85,11 +83,19 @@ const Details = styled.div`
 `;
 
 const ProductName = styled.span`
+  font-weight: 600;
+  font-size: 1.4rem;
+  border-bottom: 2px solid var(--color-yellow);
+  transition: .3s;
 
-`;
+  &:hover {
+    border-bottom: 2px solid var(--color-light);
+  }
 
-const ProductId = styled.span`
-
+  & > a {
+    text-decoration: none;
+    color: inherit;
+  }
 `;
 
 const ProductColor = styled.div`
@@ -114,7 +120,6 @@ const PriceDetail = styled.div`
 const ProductAmountContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
 `;
 
 const ProductAmount = styled.div`
@@ -125,15 +130,10 @@ const ProductAmount = styled.div`
 
 const ProductPrice = styled.div`
   font-size: 30px;
-  font-weight: 200;
+  font-weight: 600;
+  color: var(--color-yellow);
+  margin-bottom: 20px;
   ${mobile({ marginBottom: "20px" })}
-`;
-
-const Hr = styled.hr`
-  background-color: #eee;
-  border: none;
-  height: 1px;
-  margin: 5px 0;
 `;
 
 const Summary = styled.div`
@@ -169,10 +169,17 @@ const SummaryButton = styled.button`
   font-weight: 600;
 `;
 
+const Empty = styled.div`
+  font-size: 4rem;
+  font-weight: 800;
+  opacity: 0.4;
+`;
+
 const Cart = () => {
   const cart = useSelector(state => state['cart']);
   const [stripeToken, setStripeToken] = useState(null);
   const navigate = useNavigate();
+  const isEmpty = cart['products'] <= 0;
 
   const onToken = (token) => {
     setStripeToken(token)
@@ -199,40 +206,38 @@ const Cart = () => {
 
   return (
     <Wrapper>
-      <Title>Ton panier</Title>
+      <Title>Panier</Title>
       <Top>
-        <TopButton>Continuer tes achats</TopButton>
-        <TopTexts>
-          <TopText>Panier (2)</TopText>
-          <TopText>Liste de souhait (0)</TopText>
-        </TopTexts>
+        <TopButton type="filled">Continuer tes achats</TopButton>
         <TopButton type="filled">Passer la commande</TopButton>
       </Top>
       <Bottom>
-        <Info>
-          {cart.products.map(product => (
-            <Product>
-              <ProductDetail>
-                <Image
-                  src={product['img']}/>
-                <Details>
-                  <ProductName><b>Produit : </b>{product['title']}</ProductName>
-                  <ProductId><b>Id : </b>{product['_id']}</ProductId>
-                  {product['color'] && <ProductColor color={product['color']}/>}
-                  {product['size'] && <ProductSize><b>Taille : </b>{product['size']}</ProductSize>}
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Add/>
-                  <ProductAmount>{product['quantity']}</ProductAmount>
-                  <Remove/>
-                </ProductAmountContainer>
-                <ProductPrice>{product['price'] * product['quantity']} €</ProductPrice>
-              </PriceDetail>
-            </Product>
-          ))}
-          <Hr/>
+        <Info empty={isEmpty}>
+          {!isEmpty
+            ? cart['products'].map(product => (
+              <Product>
+                <ProductDetail>
+                  <Link to={`/product/${product['_id']}`}><Image src={product['img']}/></Link>
+                  <Details>
+                    <ProductName>
+                      <Link to={`/product/${product['_id']}`}>{product['title']}</Link>
+                    </ProductName>
+                    {product['color'] && <ProductColor color={product['color']}/>}
+                    {product['size'] && <ProductSize><b>Taille : </b>{product['size']}</ProductSize>}
+                  </Details>
+                </ProductDetail>
+                <PriceDetail>
+                  <ProductPrice>{product['price'] * product['quantity']} €</ProductPrice>
+                  <ProductAmountContainer>
+                    <Add/>
+                    <ProductAmount>{product['quantity']}</ProductAmount>
+                    <Remove/>
+                  </ProductAmountContainer>
+                </PriceDetail>
+              </Product>
+            ))
+            : <Empty>Panier vide</Empty>
+          }
         </Info>
         <Summary>
           <SummaryTitle>Résumé commande</SummaryTitle>

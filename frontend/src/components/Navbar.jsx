@@ -50,7 +50,8 @@ const Right = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-
+  margin-right: 25px;
+  
   ${mobile({ flex: 2, justifyContent: "center" })}
 `;
 
@@ -71,7 +72,7 @@ const CartBadge = styled(Badge)`
 
 const StyledLink = styled(Link)`
   border-bottom: ${({ active }) => active && '2px solid var(--color-yellow)'};
-  transition: 0.1s;
+  transition: all 0.1s;
   &:hover {
     border-bottom: 2px solid var(--color-yellow);
   }

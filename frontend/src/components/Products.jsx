@@ -7,7 +7,7 @@ import { popularProducts } from "../data";
 
 const Container = styled.section`
   width: var(--container-size);
-  margin: 0 auto;
+  margin: 0 auto 3rem auto;
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;

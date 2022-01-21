@@ -1,7 +1,9 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import { popularProducts } from "../data.js";
 import Carousel from "./Carousel.jsx";
+
 
 const Article = styled.article`
   display: inline-flex;
@@ -25,12 +27,17 @@ const Button = styled.button`
   color: var(--color-light);
   font-size: 20px;
   font-weight: 800;
-  border: 2px solid rgba(255,255,255,0.3);
+  border: 2px solid rgba(255, 255, 255, 0.3);
   min-width: 5vw;
   min-height: 5vh;
   text-transform: uppercase;
-  background-color: rgba(0,0,0,0.3);
+  background-color: rgba(0, 0, 0, 0.3);
   cursor: pointer;
+  transition: 0.3s;
+  
+  &:hover{
+    color: var(--color-yellow)
+  }
 `;
 
 const Slider = () => {
@@ -39,8 +46,10 @@ const Slider = () => {
       <Carousel>
         {popularProducts.map(item => (
           <Article>
-            <Image src={item['img']} key={item['id']}/>
-            <Button>{item['title']}</Button>
+            <Image src={item['img']} key={item['_id']}/>
+            <Link to={`/product/${item['_id']}`}>
+              <Button>{item['title']}</Button>
+            </Link>
           </Article>
         ))}
       </Carousel>
