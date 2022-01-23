@@ -19,6 +19,11 @@ const GlobalStyles = createGlobalStyle`
     --color-yellow: rgb(240, 165, 0);
     --container-size: 65vw;
   }
+  
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
 
   #root {
     background-color: var(--color-dark);

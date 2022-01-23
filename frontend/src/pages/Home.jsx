@@ -1,18 +1,20 @@
+import styled from "styled-components";
 import React from 'react';
 
-import Slider from "../components/Slider.jsx";
+import Newsletter from "../components/Newsletter.jsx";
 import Categories from "../components/Categories.jsx";
 import Products from "../components/Products.jsx";
-import Newsletter from "../components/Newsletter.jsx";
-import styled from "styled-components";
+import Slider from "../components/Slider.jsx";
 
 const Title = styled.h2`
   width: var(--container-size);
   margin: 2rem auto;
-  font-size: 30px;
+  font-size: 1.8rem;
   font-weight: 800;
   text-transform: uppercase;
   text-shadow: 2px 2px 2px rgba(0, 0, 0, .4);
+  text-align: right;
+  padding-right: 2rem;
   
  & > span {
    background: linear-gradient(to top, transparent 10%, rgba(240, 165, 0, 0.8) 10.01%,
@@ -24,7 +26,7 @@ const Home = () => {
   return (
     <>
       <Slider/>
-      <Title><span>Catégorie</span></Title>
+      <Title><span>Catégories</span></Title>
       <Categories/>
       <Title><span>Produits populaire</span></Title>
       <Products/>

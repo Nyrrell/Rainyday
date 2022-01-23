@@ -16,15 +16,11 @@ const Wrapper = styled.nav`
   align-items: center;
   justify-content: space-evenly;
   background-color: var(--color-blue);
+  box-shadow:  0 12px 24px -12px rgba(0, 0, 0, 0.5);
   color: var(--color-light);
   position: sticky;
   top: 0;
   z-index: 100;
-
-  & a {
-    text-decoration: none;
-    color: inherit;
-  }
 
   ${mobile({ padding: "10px 0", height: "50px" })}
 `;
@@ -72,7 +68,6 @@ const CartBadge = styled(Badge)`
 
 const StyledLink = styled(Link)`
   border-bottom: ${({ active }) => active && '2px solid var(--color-yellow)'};
-  transition: all 0.1s;
   &:hover {
     border-bottom: 2px solid var(--color-yellow);
   }
@@ -108,9 +103,7 @@ const Navbar = () => {
       </Left>
       <Center>
         <Logo>
-          <Link to={'/'}>
-            {process.env.REACT_APP_NAME}
-          </Link>
+          <Link to={'/'}>{process.env.REACT_APP_NAME}</Link>
         </Logo>
       </Center>
       <Right>
@@ -125,9 +118,9 @@ const Navbar = () => {
           </>
         ) : (
           <>
-            <MenuItem onClick={handleClick}>DÉCONNEXION</MenuItem>
+            <MenuItem onClick={handleClick}>déconnexion</MenuItem>
             <MenuItem>
-              <Link to={'/account'}>MON COMPTE</Link>
+              <Link to={'/account'}>mon compte</Link>
             </MenuItem>
           </>
         )}

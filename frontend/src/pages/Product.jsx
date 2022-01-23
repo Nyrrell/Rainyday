@@ -1,5 +1,5 @@
+import { Link, useLocation } from "react-router-dom";
 import { Add, Remove } from "@mui/icons-material";
-import { useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Button } from "@mui/material";
 import styled from "styled-components";
@@ -12,21 +12,31 @@ import { popularProducts } from "../data";
 
 const Container = styled.div`
   width: var(--container-size);
-  margin: 0 auto 3rem auto;
-  background: var(--color-dark-alt);
-  background: linear-gradient(180deg, var(--color-dark-alt) 50%, var(--color-dark) 100%);
+  margin: 3rem auto;
 
-  ${mobile({ width: "100vw"})}
+  ${mobile({ width: "100vw" })}
+`;
+
+const BackToProduct = styled(Link)`
+  font-weight: 600;
+  font-size: 1.4rem;
+  
+  &::before {
+    content: '‹';
+    margin-right: 1rem;
+  }
 `;
 
 const Wrapper = styled.div`
+  background: var(--color-dark-alt);
+  background: linear-gradient(180deg, var(--color-dark-alt) 50%, var(--color-dark) 100%);
   padding: 40px;
   display: flex;
   border: 3px solid var(--color-gray);
-  border-top: none;
+  margin-top: 1rem;
 
-  ${mobile({ 
-    padding: "10px", 
+  ${mobile({
+    padding: "10px",
     flexDirection: "column",
     border: 'none'
   })}
@@ -50,7 +60,7 @@ const InfoContainer = styled.div`
   ${mobile({ padding: "10px" })}
 `;
 
-const Title = styled.h1`
+const Article = styled.h1`
   font-size: 3rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -180,12 +190,13 @@ const Product = () => {
 
   return (
     <Container>
+      <BackToProduct to={`/products/${product['cat']}`}>Retour à la liste des articles</BackToProduct>
       <Wrapper>
         <ImgContainer>
           <Image src={product['img']}/>
         </ImgContainer>
         <InfoContainer>
-          <Title>{product['title']}</Title>
+          <Article>{product['title']}</Article>
           <Desc>{product['desc']}</Desc>
           <Price>{product['price']} €</Price>
           <FilterContainer>

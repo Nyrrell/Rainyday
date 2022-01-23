@@ -12,6 +12,7 @@ const Content = styled.div`
   flex: 6;
   padding: 20px;
   background: white;
+  color: black;
 `;
 
 const Admin = () => {

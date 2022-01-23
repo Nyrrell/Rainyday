@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { EmailOutlined, Facebook, Instagram, Phone, Room, Twitter } from "@mui/icons-material";
+import { EmailOutlined, Instagram, Phone, Room } from "@mui/icons-material";
 import { mobile } from "../responsive.js";
 
 const Container = styled.footer`
@@ -16,9 +16,7 @@ const Left = styled.div`
   padding: 20px;
 `;
 
-const Logo = styled.h1`
-
-`;
+const Logo = styled.h1``;
 
 const Desc = styled.p`
   margin: 20px 0;
@@ -80,8 +78,6 @@ const Payment = styled.img`
   width: 40%;
 `;
 
-
-
 const Footer = () => {
   return (
     <Container>
@@ -91,15 +87,11 @@ const Footer = () => {
           doloribus eum eveniet facilis illum, minus molestiae neque nobis non omnis porro possimus quas, ratione sequi
           sunt vero?</Desc>
         <SocialContainer>
-          <SocialIcon color={'3B5999'}>
-            <Facebook/>
-          </SocialIcon>
+
           <SocialIcon color={'E4405F'}>
             <Instagram/>
           </SocialIcon>
-          <SocialIcon color={'55ACEE'}>
-            <Twitter/>
-          </SocialIcon>
+
         </SocialContainer>
       </Left>
       <Center>

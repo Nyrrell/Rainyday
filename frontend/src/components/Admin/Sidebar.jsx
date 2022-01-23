@@ -1,17 +1,10 @@
 import styled from "styled-components";
 import {
   LineStyle,
-  Timeline,
-  TrendingUp,
   PermIdentity,
   Storefront,
   AttachMoney,
-  BarChart,
-  MailOutline,
-  DynamicFeed,
-  ChatBubbleOutline,
-  WorkOutline,
-  Report
+  Category
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 
@@ -30,11 +23,6 @@ const Wrapper = styled.div`
 
 const MenuItem = styled.div`
   margin-bottom: 10px;
-
-  & a {
-    text-decoration: none;
-    color: inherit;
-  }
 `;
 
 const Title = styled.h3`
@@ -64,6 +52,14 @@ const ListItem = styled.li`
   }
 `;
 
+const Element = ({ to, children }) => (
+  <Link to={to}>
+    <ListItem>
+      {children}
+    </ListItem>
+  </Link>
+);
+
 function Sidebar() {
   return (
     <Container>
@@ -71,84 +67,23 @@ function Sidebar() {
         <MenuItem>
           <Title>Dashboard</Title>
           <List>
-            <Link to={'/admin/'}>
-              <ListItem>
-                <LineStyle/>
-                Accueil
-              </ListItem>
-            </Link>
-            <ListItem>
-              <Timeline/>
-              Analytiques
-            </ListItem>
-            <ListItem>
-              <TrendingUp/>
-              Ventes
-            </ListItem>
+            <Element to={'/admin/'}><LineStyle/> Accueil</Element>
+            <Element to={'/admin/sales'}><AttachMoney/> Ventes</Element>
           </List>
         </MenuItem>
+
         <MenuItem>
-          <Title>Acces Rapide</Title>
+          <Title>Gestion</Title>
           <List>
-            <Link to={'/admin/users'}>
-              <ListItem>
-                <PermIdentity/>
-                Utilisateurs
-              </ListItem>
-            </Link>
-            <Link to={'/admin/products'}>
-              <ListItem>
-                <Storefront/>
-                Produits
-              </ListItem>
-            </Link>
-            <ListItem>
-              <AttachMoney/>
-              Transactions
-            </ListItem>
-            <ListItem>
-              <BarChart/>
-              Raports
-            </ListItem>
-          </List>
-        </MenuItem>
-        <MenuItem>
-          <Title>Notifications</Title>
-          <List>
-            <ListItem>
-              <MailOutline/>
-              Mail
-            </ListItem>
-            <ListItem>
-              <DynamicFeed/>
-              Retour
-            </ListItem>
-            <ListItem>
-              <ChatBubbleOutline/>
-              Messages
-            </ListItem>
-          </List>
-        </MenuItem>
-        <MenuItem>
-          <Title>Staff</Title>
-          <List>
-            <ListItem>
-              <WorkOutline/>
-              Configurer
-            </ListItem>
-            <ListItem>
-              <Timeline/>
-              Analyses
-            </ListItem>
-            <ListItem>
-              <Report/>
-              Rapports
-            </ListItem>
+            <Element to={'/admin/users'}><PermIdentity/> Utilisateurs</Element>
+            <Element to={'/admin/categories'}><Category/> Catégories</Element>
+            <Element to={'/admin/products'}><Storefront/> Produits</Element>
           </List>
         </MenuItem>
       </Wrapper>
     </Container>
-  );
+  )
+    ;
 }
 
 export default Sidebar;

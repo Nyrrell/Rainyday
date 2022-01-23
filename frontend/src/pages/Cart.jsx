@@ -1,14 +1,11 @@
-import StripeCheckout from "react-stripe-checkout";
-import { Add, Remove } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
+import { Add, Remove } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 import { userRequest } from "../requestApi.js";
 import { mobile } from "../responsive.js";
-
-const KEY = process.env.REACT_APP_STRIPE;
 
 const Wrapper = styled.div`
   width: var(--container-size);
@@ -18,9 +15,14 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.h1`
-  font-weight: 600;
-  font-size: 30px;
-  text-align: center;
+  margin-left: 1.6rem;
+  font-size: 1.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  display: inline-flex;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, .4);
+  background: linear-gradient(to top, transparent 10%, rgba(240, 165, 0, 0.8) 10.01%,
+  rgba(240, 165, 0, 0.8) 40%, transparent 40.01%) no-repeat left bottom / 100% 100%;
 `;
 
 const Top = styled.div`
@@ -34,9 +36,9 @@ const TopButton = styled.button`
   padding: 10px;
   font-weight: 600;
   cursor: pointer;
-  border: ${props => props.type === "filled" && "none"};
-  background-color: ${props => props.type === "filled" ? "black" : "transparent"};
-  color: ${props => props.type === "filled" && "white"};
+  border: ${({ type }) => type === "filled" && "none"};
+  background-color: ${({ type }) => type === "filled" ? "black" : "transparent"};
+  color: ${({ type }) => type === "filled" && "white"};
 `;
 
 const Bottom = styled.div`
@@ -90,11 +92,6 @@ const ProductName = styled.span`
 
   &:hover {
     border-bottom: 2px solid var(--color-light);
-  }
-
-  & > a {
-    text-decoration: none;
-    color: inherit;
   }
 `;
 
@@ -257,16 +254,7 @@ const Cart = () => {
             <SummaryItemText>Total</SummaryItemText>
             <SummaryItemPrice>{cart['total']} €</SummaryItemPrice>
           </SummaryItem>
-          <StripeCheckout
-            name={"Sticker Shop"} //TODO
-            billingAddress
-            shippingAddress
-            description={`Prix total du panier ${cart.total}€`}
-            amount={cart.total * 100}
-            token={onToken}
-            stripeKey={KEY}>
-            <SummaryButton>PAYER MAINTENANT</SummaryButton>
-          </StripeCheckout>
+          <SummaryButton>PAYER MAINTENANT</SummaryButton>
         </Summary>
       </Bottom>
     </Wrapper>

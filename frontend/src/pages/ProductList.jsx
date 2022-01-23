@@ -6,12 +6,18 @@ import { useState } from "react";
 
 const Container = styled.div`
   width: var(--container-size);
-  margin: 0 auto;
+  margin: 3rem auto;
 `;
 
 const Title = styled.h1`
-  margin: 20px;
+  margin-left: 1.6rem;
+  font-size: 1.8rem;
+  font-weight: 800;
   text-transform: uppercase;
+  display: inline-flex;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, .4);
+  background: linear-gradient(to top, transparent 10%, rgba(240, 165, 0, 0.8) 10.01%,
+  rgba(240, 165, 0, 0.8) 40%, transparent 40.01%) no-repeat left bottom / 100% 100%;
 `;
 
 const FilterContainer = styled.div`
@@ -20,7 +26,7 @@ const FilterContainer = styled.div`
 `;
 
 const Filter = styled.div`
-  margin: 20px;
+  margin: 1.6rem;
   ${mobile({ margin: "0px 20px", display: "flex", flexDirection: "column" })}
 `;
 

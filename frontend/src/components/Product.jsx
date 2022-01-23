@@ -23,12 +23,12 @@ const Container = styled.article`
   flex-direction: column;
   background: var(--color-dark);
   background: linear-gradient(180deg, var(--color-dark-alt) 50%, var(--color-dark) 100%);
+  box-shadow:  0 5px 16px -12px rgba(255, 255, 255, 0.5);
   border: 1px solid var(--color-gray);
 
   &:hover ${Hover} {
     opacity: 1;
   }
-
 `;
 
 const ImageContainer = styled(Link)`

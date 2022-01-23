@@ -25,7 +25,7 @@ const Button = styled.button`
   left: 100px;
   padding: 20px;
   color: var(--color-light);
-  font-size: 20px;
+  font-size: 1.2rem;
   font-weight: 800;
   border: 2px solid rgba(255, 255, 255, 0.3);
   min-width: 5vw;
@@ -34,9 +34,11 @@ const Button = styled.button`
   background-color: rgba(0, 0, 0, 0.3);
   cursor: pointer;
   transition: 0.3s;
+  box-shadow: 0 10px 16px -12px var(--color-dark);
   
   &:hover{
-    color: var(--color-yellow)
+    color: var(--color-yellow);
+    border-color: var(--color-yellow);
   }
 `;
 

@@ -2,6 +2,18 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { mobile } from "../responsive.js";
 
+const Hover = styled.div`
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 3;
+  transition: all 0.2s ease;
+`;
+
 const Category = styled.article`
   flex: 1;
   border: 1px solid var(--color-gray);
@@ -15,8 +27,13 @@ const Category = styled.article`
     text-transform: uppercase;
   }
 
-  & > a:hover {
-    color: green;
+  &:hover button{
+    color: var(--color-yellow);
+    border-color: var(--color-yellow);
+  }
+
+  &:hover ${Hover} {
+    opacity: 1;
   }
 `;
 
@@ -36,21 +53,28 @@ const Info = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  padding: 2rem 0;
+  justify-content: space-between;
+  z-index: 4;
 `;
 
-const Title = styled.h1`
-  color: white;
-  margin-bottom: 20px;
+const Title = styled.h2`
+  color: var(--color-light);
+  text-shadow: 2px 2px var(--color-dark);
 `;
 
 const Button = styled.button`
-  border: none;
+  font-weight: 800;
+  font-size: 1.2rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  width: 50%;
   padding: 10px;
-  background-color: white;
-  color: gray;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: var(--color-light);
+  text-transform: uppercase;
   cursor: pointer;
-  font-weight: 600;
+  transition: 0.3s;
+  box-shadow: 0 10px 16px -12px var(--color-dark);
 `;
 
 const CategoryItem = ({ item }) => {
@@ -58,9 +82,10 @@ const CategoryItem = ({ item }) => {
     <Category>
       <Link to={`/products/${item['cat']}`}>
         <Image src={item['img']}/>
+        <Hover/>
         <Info>
           <Title>{item['cat']}</Title>
-          <Button>SHOP NOW</Button>
+          <Button>voir</Button>
         </Info>
       </Link>
     </Category>
