@@ -6,6 +6,7 @@ import styled from "styled-components";
 
 import { addProduct } from "../redux/cartRedux.js";
 import { publicRequest } from "../requestApi.js";
+import Products from "../components/Products";
 import { useEffect, useState } from "react";
 import { mobile } from "../responsive.js";
 import { popularProducts } from "../data";
@@ -20,7 +21,7 @@ const Container = styled.div`
 const BackToProduct = styled(Link)`
   font-weight: 600;
   font-size: 1.4rem;
-  
+
   &::before {
     content: '‹';
     margin-right: 1rem;
@@ -127,18 +128,19 @@ const AddContainer = styled.div`
 const AmountContainer = styled.div`
   display: flex;
   align-items: center;
-  font-weight: 700;
 `;
 
-const Amount = styled.span`
-  width: 30px;
-  height: 30px;
+const Amount = styled.input`
+  width: 40px;
+  height: 40px;
   border-radius: 10px;
+  font-weight: 800;
+  font-size: 1rem;
   border: 2px solid var(--color-yellow);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: transparent;
+  color: inherit;
   margin: 0 5px;
+  text-align: center;
 `;
 
 const Btn = styled(Button)`
@@ -151,6 +153,19 @@ const Btn = styled(Button)`
   }
 `;
 
+const RecommendedContainer = styled.section`
+  margin-top: 3rem;
+`;
+
+const Subtitle = styled.h2`
+
+  display: inline-flex;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, .4);
+  background: linear-gradient(to top, transparent 10%, rgba(240, 165, 0, 0.8) 10.01%,
+  rgba(240, 165, 0, 0.8) 40%, transparent 40.01%) no-repeat left bottom / 100% 100%;
+`;
 
 const Product = () => {
   const location = useLocation();
@@ -183,7 +198,7 @@ const Product = () => {
   };
 
   const handleClick = () => {
-    dispatch(
+    quantity > 0 && dispatch(
       addProduct({ ...product, quantity, color, size })
     );
   };
@@ -219,18 +234,21 @@ const Product = () => {
             {product['stock']
               ? <>
                 <AmountContainer>
-                  <Remove cursor={"pointer"} onClick={() => handleQuantity('dec')}/>
-                  <Amount>{quantity}</Amount>
-                  <Add cursor={"pointer"} onClick={() => handleQuantity('inc')}/>
+                  <Remove cursor={"pointer"} fontSize="large" onClick={() => handleQuantity('dec')}/>
+                  <Amount type={'numeric'} value={quantity} onChange={({target: {value}}) => !isNaN(value) && setQuantity(Number(value))}/>
+                  <Add cursor={"pointer"} fontSize="large" onClick={() => handleQuantity('inc')}/>
                 </AmountContainer>
                 <Btn onClick={handleClick} variant={'outlined'}>Ajouter au panier</Btn>
               </>
-              : <Btn variant={'outlined'} cursor={'not-allowed'} color={'error'}>Victime de son
-                succes</Btn>
+              : <Btn variant={'outlined'} cursor={'not-allowed'} color={'error'}>Victime de son succes</Btn>
             }
           </AddContainer>
         </InfoContainer>
       </Wrapper>
+      <RecommendedContainer>
+        <Subtitle>Produits recommandés</Subtitle>
+        <Products limit={4}/>
+      </RecommendedContainer>
     </Container>
   );
 };

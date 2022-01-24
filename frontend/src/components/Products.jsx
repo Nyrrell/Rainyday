@@ -14,7 +14,7 @@ const Container = styled.section`
 `;
 
 
-const Products = ({ cat, filters, sort }) => {
+const Products = ({ cat, filters, sort, limit }) => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setfilteredProducts] = useState([]);
 
@@ -23,7 +23,7 @@ const Products = ({ cat, filters, sort }) => {
       try {
         // const { data } = await publicRequest.get(cat ? `products?category=${cat}` : "/products");
         // setProducts(data);
-        setProducts(popularProducts)
+        setProducts(!limit ? popularProducts : popularProducts.slice(0, limit))
       } catch (e) {
       }
     }
