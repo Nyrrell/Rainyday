@@ -1,5 +1,4 @@
 import { Link, useLocation } from "react-router-dom";
-import { Add, Remove } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
 import { Button } from "@mui/material";
 import styled from "styled-components";
@@ -10,6 +9,7 @@ import Products from "../components/Products";
 import { useEffect, useState } from "react";
 import { mobile } from "../responsive.js";
 import { popularProducts } from "../data";
+import AmountProduct from "../components/AmountProduct";
 
 const Container = styled.div`
   width: var(--container-size);
@@ -125,24 +125,6 @@ const AddContainer = styled.div`
   ${mobile({ width: "100%" })}
 `;
 
-const AmountContainer = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const Amount = styled.input`
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  font-weight: 800;
-  font-size: 1rem;
-  border: 2px solid var(--color-yellow);
-  background: transparent;
-  color: inherit;
-  margin: 0 5px;
-  text-align: center;
-`;
-
 const Btn = styled(Button)`
   transition: all 0.2s ease;
   border-radius: unset;
@@ -158,7 +140,6 @@ const RecommendedContainer = styled.section`
 `;
 
 const Subtitle = styled.h2`
-
   display: inline-flex;
   margin-bottom: 1rem;
   text-transform: uppercase;
@@ -198,14 +179,12 @@ const Product = () => {
   };
 
   const handleClick = () => {
-    quantity > 0 && dispatch(
-      addProduct({ ...product, quantity, color, size })
-    );
+    quantity > 0 && dispatch(addProduct({ ...product, quantity, color, size }));
   };
 
   return (
     <Container>
-      <BackToProduct to={`/products/${product['cat']}`}>Retour à la liste des articles</BackToProduct>
+      <BackToProduct to={`/products/${product['cat'] || ''}`}>Retour à la liste des articles</BackToProduct>
       <Wrapper>
         <ImgContainer>
           <Image src={product['img']}/>
@@ -233,11 +212,7 @@ const Product = () => {
           <AddContainer>
             {product['stock']
               ? <>
-                <AmountContainer>
-                  <Remove cursor={"pointer"} fontSize="large" onClick={() => handleQuantity('dec')}/>
-                  <Amount type={'numeric'} value={quantity} onChange={({target: {value}}) => !isNaN(value) && setQuantity(Number(value))}/>
-                  <Add cursor={"pointer"} fontSize="large" onClick={() => handleQuantity('inc')}/>
-                </AmountContainer>
+                <AmountProduct test={setQuantity} amount={quantity}/>
                 <Btn onClick={handleClick} variant={'outlined'}>Ajouter au panier</Btn>
               </>
               : <Btn variant={'outlined'} cursor={'not-allowed'} color={'error'}>Victime de son succes</Btn>

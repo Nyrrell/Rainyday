@@ -65,6 +65,7 @@ export const popularProducts = [
     desc: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aliquam aliquid aperiam aut cupiditate dolor dolore, earum, exercitationem harum ipsa, itaque laboriosam laborum minima optio quibusdam rem sequi velit veritatis.',
     stock: 5,
     price: 13,
+    size: 'Grande taille',
     img:"https://cdn.discordapp.com/attachments/374156179204603914/917509864018829372/StickerApp-4053064.png",
   },
   {

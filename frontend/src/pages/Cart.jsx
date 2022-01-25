@@ -1,21 +1,28 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Add, Remove } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 import { userRequest } from "../requestApi.js";
 import { mobile } from "../responsive.js";
+import AmountProduct from "../components/AmountProduct";
+import { Clear } from "@mui/icons-material";
+import { IconButton } from "@mui/material";
 
 const Wrapper = styled.div`
   width: var(--container-size);
   margin: 3rem auto;
-  padding: 20px;
   ${mobile({ padding: "10px" })}
+`;
+
+const Top = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const Title = styled.h1`
   margin-left: 1.6rem;
+  width: fit-content;
   font-size: 1.8rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -25,20 +32,15 @@ const Title = styled.h1`
   rgba(240, 165, 0, 0.8) 40%, transparent 40.01%) no-repeat left bottom / 100% 100%;
 `;
 
-const Top = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px;
-`;
-
-const TopButton = styled.button`
-  padding: 10px;
+const BackToProduct = styled(Link)`
+  margin-top: 3rem;
   font-weight: 600;
-  cursor: pointer;
-  border: ${({ type }) => type === "filled" && "none"};
-  background-color: ${({ type }) => type === "filled" ? "black" : "transparent"};
-  color: ${({ type }) => type === "filled" && "white"};
+  font-size: 1.4rem;
+
+  &::before {
+    content: '‹';
+    margin-right: 1rem;
+  }
 `;
 
 const Bottom = styled.div`
@@ -57,19 +59,34 @@ const Info = styled.div`
   }}
 `;
 
-const Product = styled.div`
+const ProductCard = styled.div`
   display: flex;
-  justify-content: space-between;
   width: 95%;
   padding-bottom: 5px;
   margin: 5px 0;
-  border-bottom: 1px solid var(--color-light);
+  border-bottom: 1px solid var(--color-gray);
   ${mobile({ flexDirection: "column" })};
 `;
 
-const ProductDetail = styled.div`
+
+const DeleteProduct = styled(IconButton)`
+  position: absolute;
+  right: 1rem;
+  top: 0.5rem;
+  opacity: 0;
+  transition: opacity 0.2s ease-in;
+
+  ${ProductCard}:hover & {
+    opacity: 1;
+  }
+`;
+
+const Details = styled.div`
   flex: 2;
   display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  position: relative;
 `;
 
 const Image = styled.img`
@@ -77,14 +94,15 @@ const Image = styled.img`
   border: 1px solid var(--color-gray);
 `;
 
-const Details = styled.div`
-  padding: 20px;
+const ProductDetail = styled.div`
+  padding: 10px 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 `;
 
-const ProductName = styled.span`
+const ProductName = styled(Link)`
+  width: fit-content;
   font-weight: 600;
   font-size: 1.4rem;
   border-bottom: 2px solid var(--color-yellow);
@@ -102,35 +120,19 @@ const ProductColor = styled.div`
   background-color: ${props => props['color']};
 `;
 
-const ProductSize = styled.span`
-
-`;
+const ProductSize = styled.span``;
 
 const PriceDetail = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-const ProductAmountContainer = styled.div`
   display: flex;
   align-items: center;
-`;
-
-const ProductAmount = styled.div`
-  font-size: 24px;
-  margin: 5px;
-  ${mobile({ margin: "5px 15px" })}
+  justify-content: space-between;
+  padding: 10px 20px;
 `;
 
 const ProductPrice = styled.div`
   font-size: 30px;
   font-weight: 600;
   color: var(--color-yellow);
-  margin-bottom: 20px;
-  ${mobile({ marginBottom: "20px" })}
 `;
 
 const Summary = styled.div`
@@ -153,7 +155,6 @@ const SummaryItem = styled.div`
   font-weight: ${props => props['type'] === "total" && 500};
   font-size: ${props => props['type'] === "total" && "24px"};
 `;
-
 
 const SummaryItemText = styled.span``;
 const SummaryItemPrice = styled.span``;
@@ -178,10 +179,6 @@ const Cart = () => {
   const navigate = useNavigate();
   const isEmpty = cart['products'] <= 0;
 
-  const onToken = (token) => {
-    setStripeToken(token)
-  };
-
   useEffect(() => {
     const makeRequest = async () => {
       try {
@@ -203,35 +200,29 @@ const Cart = () => {
 
   return (
     <Wrapper>
-      <Title>Panier</Title>
       <Top>
-        <TopButton type="filled">Continuer tes achats</TopButton>
-        <TopButton type="filled">Passer la commande</TopButton>
+        <Title>Panier</Title>
+        <BackToProduct to={`/products/`}>Continue tes achats</BackToProduct>
       </Top>
       <Bottom>
         <Info empty={isEmpty}>
           {!isEmpty
             ? cart['products'].map(product => (
-              <Product>
-                <ProductDetail>
-                  <Link to={`/product/${product['_id']}`}><Image src={product['img']}/></Link>
-                  <Details>
-                    <ProductName>
-                      <Link to={`/product/${product['_id']}`}>{product['title']}</Link>
-                    </ProductName>
+              <ProductCard key={product['_id']+product['size']}>
+                <Link to={`/product/${product['_id']}`}><Image src={product['img']}/></Link>
+                <Details>
+                  <DeleteProduct color={"error"} size={'small'} onClick={e => console.log(e)}><Clear/></DeleteProduct>
+                  <ProductDetail>
+                    <ProductName to={`/product/${product['_id']}`}>{product['title']}</ProductName>
                     {product['color'] && <ProductColor color={product['color']}/>}
                     {product['size'] && <ProductSize><b>Taille : </b>{product['size']}</ProductSize>}
-                  </Details>
-                </ProductDetail>
-                <PriceDetail>
-                  <ProductPrice>{product['price'] * product['quantity']} €</ProductPrice>
-                  <ProductAmountContainer>
-                    <Add/>
-                    <ProductAmount>{product['quantity']}</ProductAmount>
-                    <Remove/>
-                  </ProductAmountContainer>
-                </PriceDetail>
-              </Product>
+                  </ProductDetail>
+                  <PriceDetail>
+                    <AmountProduct size={'small'} amount={product['quantity']}/>
+                    <ProductPrice>{product['price'] * product['quantity']} €</ProductPrice>
+                  </PriceDetail>
+                </Details>
+              </ProductCard>
             ))
             : <Empty>Panier vide</Empty>
           }

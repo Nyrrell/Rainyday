@@ -12,6 +12,11 @@ const cartSlice = createSlice({
       state.quantity += action.payload.quantity;
       state.products.push(action.payload);
       state.total += action.payload.price * action.payload.quantity;
+    },
+    removeProduct: (state, action) => {
+      state.quantity = 0;
+      state.products.pop(); //TODO
+      state.total = 0;
     }
   }
 });

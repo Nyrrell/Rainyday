@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import React from 'react';
 
-import Newsletter from "../components/Newsletter.jsx";
 import Categories from "../components/Categories.jsx";
 import Products from "../components/Products.jsx";
 import Slider from "../components/Slider.jsx";
@@ -30,7 +29,6 @@ const Home = () => {
       <Categories/>
       <Title><span>Produits populaire</span></Title>
       <Products/>
-      {/*<Newsletter/>*/}
     </>
   );
 };
