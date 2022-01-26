@@ -1,13 +1,15 @@
+import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import styled from "styled-components";
 
-import { userRequest } from "../requestApi.js";
-import { mobile } from "../responsive.js";
 import AmountProduct from "../components/AmountProduct";
+import { removeProduct } from "../redux/cartRedux";
+import { userRequest } from "../requestApi.js";
 import { Clear } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
+import { mobile } from "../responsive.js";
+import ProductCart from "../components/ProductCart";
 
 const Wrapper = styled.div`
   width: var(--container-size);
@@ -33,6 +35,7 @@ const Title = styled.h1`
 `;
 
 const BackToProduct = styled(Link)`
+  width: fit-content;
   margin-top: 3rem;
   font-weight: 600;
   font-size: 1.4rem;
@@ -41,6 +44,10 @@ const BackToProduct = styled(Link)`
     content: '‹';
     margin-right: 1rem;
   }
+`;
+
+const ClearCart = styled.button`
+  width: fit-content;
 `;
 
 const Bottom = styled.div`
@@ -57,82 +64,6 @@ const Info = styled.div`
     'justify-content': 'center',
     'align-items': 'center',
   }}
-`;
-
-const ProductCard = styled.div`
-  display: flex;
-  width: 95%;
-  padding-bottom: 5px;
-  margin: 5px 0;
-  border-bottom: 1px solid var(--color-gray);
-  ${mobile({ flexDirection: "column" })};
-`;
-
-
-const DeleteProduct = styled(IconButton)`
-  position: absolute;
-  right: 1rem;
-  top: 0.5rem;
-  opacity: 0;
-  transition: opacity 0.2s ease-in;
-
-  ${ProductCard}:hover & {
-    opacity: 1;
-  }
-`;
-
-const Details = styled.div`
-  flex: 2;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  position: relative;
-`;
-
-const Image = styled.img`
-  width: 150px;
-  border: 1px solid var(--color-gray);
-`;
-
-const ProductDetail = styled.div`
-  padding: 10px 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-`;
-
-const ProductName = styled(Link)`
-  width: fit-content;
-  font-weight: 600;
-  font-size: 1.4rem;
-  border-bottom: 2px solid var(--color-yellow);
-  transition: .3s;
-
-  &:hover {
-    border-bottom: 2px solid var(--color-light);
-  }
-`;
-
-const ProductColor = styled.div`
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: ${props => props['color']};
-`;
-
-const ProductSize = styled.span``;
-
-const PriceDetail = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 20px;
-`;
-
-const ProductPrice = styled.div`
-  font-size: 30px;
-  font-weight: 600;
-  color: var(--color-yellow);
 `;
 
 const Summary = styled.div`
@@ -175,9 +106,10 @@ const Empty = styled.div`
 
 const Cart = () => {
   const cart = useSelector(state => state['cart']);
-  const [stripeToken, setStripeToken] = useState(null);
+  const stripeToken = null;
   const navigate = useNavigate();
-  const isEmpty = cart['products'] <= 0;
+  const isEmpty = !cart['products'];
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const makeRequest = async () => {
@@ -198,31 +130,24 @@ const Cart = () => {
     stripeToken && cart.total >= 1 && makeRequest();
   }, [stripeToken, cart, navigate])
 
+  const handleDelete = (e, product) => {
+    e.preventDefault();
+    dispatch(removeProduct({ ...product }))
+  };
+
   return (
     <Wrapper>
       <Top>
         <Title>Panier</Title>
         <BackToProduct to={`/products/`}>Continue tes achats</BackToProduct>
+        <ClearCart>Vider le panier</ClearCart>
       </Top>
       <Bottom>
         <Info empty={isEmpty}>
           {!isEmpty
-            ? cart['products'].map(product => (
-              <ProductCard key={product['_id']+product['size']}>
-                <Link to={`/product/${product['_id']}`}><Image src={product['img']}/></Link>
-                <Details>
-                  <DeleteProduct color={"error"} size={'small'} onClick={e => console.log(e)}><Clear/></DeleteProduct>
-                  <ProductDetail>
-                    <ProductName to={`/product/${product['_id']}`}>{product['title']}</ProductName>
-                    {product['color'] && <ProductColor color={product['color']}/>}
-                    {product['size'] && <ProductSize><b>Taille : </b>{product['size']}</ProductSize>}
-                  </ProductDetail>
-                  <PriceDetail>
-                    <AmountProduct size={'small'} amount={product['quantity']}/>
-                    <ProductPrice>{product['price'] * product['quantity']} €</ProductPrice>
-                  </PriceDetail>
-                </Details>
-              </ProductCard>
+            ?
+            cart['products'].map((product, key) => (
+              <ProductCart key={key} product={product}/>
             ))
             : <Empty>Panier vide</Empty>
           }

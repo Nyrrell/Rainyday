@@ -170,15 +170,8 @@ const Product = () => {
     getProduct();
   }, [id]);
 
-  const handleQuantity = (type) => {
-    if (type === 'dec') {
-      quantity > 1 && setQuantity(quantity - 1);
-    } else {
-      setQuantity(quantity + 1);
-    }
-  };
-
-  const handleClick = () => {
+  const handleClick = (e) => {
+    e.preventDefault();
     quantity > 0 && dispatch(addProduct({ ...product, quantity, color, size }));
   };
 
@@ -212,7 +205,7 @@ const Product = () => {
           <AddContainer>
             {product['stock']
               ? <>
-                <AmountProduct test={setQuantity} amount={quantity}/>
+                <AmountProduct setQuantity={setQuantity} quantity={quantity}/>
                 <Btn onClick={handleClick} variant={'outlined'}>Ajouter au panier</Btn>
               </>
               : <Btn variant={'outlined'} cursor={'not-allowed'} color={'error'}>Victime de son succes</Btn>

@@ -1,5 +1,4 @@
 import { Add, Remove } from "@mui/icons-material";
-import { useState } from 'react';
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -20,26 +19,24 @@ const Amount = styled.input`
   text-align: center;
 `;
 
-const AmountProduct = ({ amount, size = 'large', test }) => {
-  const [quantity, setQuantity] = useState(amount);
-  console.log(quantity)
-  console.log(amount)
-  const handleQuantity = (type) => {
+const AmountProduct = ({ quantity, size = 'large', setQuantity }) => {
+
+  const handleQuantity = async (type) => {
     if (type === 'dec') {
       quantity > 1 && setQuantity(quantity - 1);
-      test(quantity)
     } else {
-      setQuantity(quantity + 1);
-      test(quantity)
+      await setQuantity(quantity + 1);
     }
-    console.log(quantity)
-    console.log(amount)
   };
+
+  const handleChange = (e) => {
+    !isNaN(e.target.value) && setQuantity(Number(e.target.value))
+  }
 
   return (
     <Container>
       <Remove cursor={"pointer"} fontSize={size} onClick={() => handleQuantity('dec')}/>
-      <Amount type={'numeric'} size={size} value={quantity} onChange={e => !isNaN(e.target.value) && test(quantity)}/>
+      <Amount type={'numeric'} size={size} value={quantity} onChange={e => handleChange(e)}/>
       <Add cursor={"pointer"} fontSize={size} onClick={() => handleQuantity('inc')}/>
     </Container>
   );
