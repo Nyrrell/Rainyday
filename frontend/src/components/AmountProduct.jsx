@@ -30,13 +30,15 @@ const AmountProduct = ({ quantity, size = 'large', setQuantity }) => {
   };
 
   const handleChange = (e) => {
-    !isNaN(e.target.value) && setQuantity(Number(e.target.value))
+    let { value } = e.target;
+    if (isNaN(value) || value <= 0) return setQuantity(1);
+    setQuantity(Number(value))
   }
 
   return (
     <Container>
       <Remove cursor={"pointer"} fontSize={size} onClick={() => handleQuantity('dec')}/>
-      <Amount type={'numeric'} size={size} value={quantity} onChange={e => handleChange(e)}/>
+      <Amount type={'numeric'} size={size} value={quantity} onChange={handleChange}/>
       <Add cursor={"pointer"} fontSize={size} onClick={() => handleQuantity('inc')}/>
     </Container>
   );

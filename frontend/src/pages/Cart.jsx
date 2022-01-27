@@ -1,15 +1,14 @@
-import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Delete } from "@mui/icons-material";
+import { useDispatch, useSelector } from "react-redux";
+import { Button } from "@mui/material";
 import styled from "styled-components";
+import { useEffect } from "react";
 
-import AmountProduct from "../components/AmountProduct";
-import { removeProduct } from "../redux/cartRedux";
-import { userRequest } from "../requestApi.js";
-import { Clear } from "@mui/icons-material";
-import { IconButton } from "@mui/material";
-import { mobile } from "../responsive.js";
 import ProductCart from "../components/ProductCart";
+import { emptyProduct } from "../redux/cartRedux";
+import { userRequest } from "../requestApi.js";
+import { mobile } from "../responsive.js";
 
 const Wrapper = styled.div`
   width: var(--container-size);
@@ -19,7 +18,9 @@ const Wrapper = styled.div`
 
 const Top = styled.div`
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin: 3rem 0 0.5rem 0;
 `;
 
 const Title = styled.h1`
@@ -36,7 +37,6 @@ const Title = styled.h1`
 
 const BackToProduct = styled(Link)`
   width: fit-content;
-  margin-top: 3rem;
   font-weight: 600;
   font-size: 1.4rem;
 
@@ -46,8 +46,7 @@ const BackToProduct = styled(Link)`
   }
 `;
 
-const ClearCart = styled.button`
-  width: fit-content;
+const ClearCart = styled(Button)`
 `;
 
 const Bottom = styled.div`
@@ -68,10 +67,9 @@ const Info = styled.div`
 
 const Summary = styled.div`
   flex: 1;
-  border: 0.5px solid lightgray;
+  border: 0.5px solid var(--color-gray);
   border-radius: 10px;
   padding: 20px;
-  height: 50vh;
 `;
 
 const SummaryTitle = styled.h1`
@@ -90,11 +88,8 @@ const SummaryItem = styled.div`
 const SummaryItemText = styled.span``;
 const SummaryItemPrice = styled.span``;
 
-const SummaryButton = styled.button`
+const SummaryButton = styled(Button)`
   width: 100%;
-  padding: 10px;
-  background-color: black;
-  color: white;
   font-weight: 600;
 `;
 
@@ -108,7 +103,7 @@ const Cart = () => {
   const cart = useSelector(state => state['cart']);
   const stripeToken = null;
   const navigate = useNavigate();
-  const isEmpty = !cart['products'];
+  const isEmpty = !cart['products'].length;
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -130,17 +125,17 @@ const Cart = () => {
     stripeToken && cart.total >= 1 && makeRequest();
   }, [stripeToken, cart, navigate])
 
-  const handleDelete = (e, product) => {
+  const handleClick = (e) => {
     e.preventDefault();
-    dispatch(removeProduct({ ...product }))
+    dispatch(emptyProduct({}));
   };
 
   return (
     <Wrapper>
+      <Title>Panier</Title>
       <Top>
-        <Title>Panier</Title>
         <BackToProduct to={`/products/`}>Continue tes achats</BackToProduct>
-        <ClearCart>Vider le panier</ClearCart>
+        {!isEmpty && <ClearCart variant={'outlined'} color={'error'} startIcon={<Delete/>} onClick={handleClick}>Vider le panier</ClearCart>}
       </Top>
       <Bottom>
         <Info empty={isEmpty}>
@@ -170,7 +165,7 @@ const Cart = () => {
             <SummaryItemText>Total</SummaryItemText>
             <SummaryItemPrice>{cart['total']} €</SummaryItemPrice>
           </SummaryItem>
-          <SummaryButton>PAYER MAINTENANT</SummaryButton>
+          <SummaryButton variant={'outlined'} size={'large'}>Passer la commande</SummaryButton>
         </Summary>
       </Bottom>
     </Wrapper>

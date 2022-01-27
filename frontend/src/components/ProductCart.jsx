@@ -4,9 +4,10 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-import { removeProduct } from "../redux/cartRedux";
+import { removeProduct, updateProduct } from "../redux/cartRedux";
 import AmountProduct from "./AmountProduct";
 import { mobile } from "../responsive";
+import { useState } from "react";
 
 const ProductCard = styled.div`
   display: flex;
@@ -84,27 +85,33 @@ const ProductPrice = styled.div`
 `;
 
 const ProductCart = ({ product }) => {
+  const [item, setItem] = useState(product)
   const dispatch = useDispatch();
 
-  const handleDelete = (e, product) => {
+  const handleQuantity = (amount) => {
+    setItem({ ...item, quantity: amount })
+    dispatch(updateProduct({ ...item }))
+  }
+
+  const handleDelete = (e) => {
     e.preventDefault();
-    dispatch(removeProduct({ ...product }))
+    dispatch(removeProduct({ ...item }))
   };
 
   return (
     <ProductCard>
-      <Link to={`/product/${product['_id']}`}><Image src={product['img']}/></Link>
+      <Link to={`/product/${item['_id']}`}><Image src={item['img']}/></Link>
       <Details>
         <DeleteProduct color={"error"} size={'small'}
-                       onClick={(e) => handleDelete(e, product)}><Clear/></DeleteProduct>
+                       onClick={handleDelete}><Clear/></DeleteProduct>
         <ProductDetail>
-          <ProductName to={`/product/${product['_id']}`}>{product['title']}</ProductName>
-          {product['color'] && <ProductColor color={product['color']}/>}
-          {product['size'] && <ProductSize><b>Taille : </b>{product['size']}</ProductSize>}
+          <ProductName to={`/item/${item['_id']}`}>{item['title']}</ProductName>
+          {item['color'] && <ProductColor color={item['color']}/>}
+          {item['size'] && <ProductSize><b>Taille : </b>{item['size']}</ProductSize>}
         </ProductDetail>
         <PriceDetail>
-          <AmountProduct size={'small'} quantity={product['quantity']}/>
-          <ProductPrice>{product['price'] * product['quantity']} €</ProductPrice>
+          <AmountProduct size={'small'} quantity={item['quantity']} setQuantity={handleQuantity}/>
+          <ProductPrice>{item['price'] * item['quantity']} €</ProductPrice>
         </PriceDetail>
       </Details>
     </ProductCard>

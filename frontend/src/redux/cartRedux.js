@@ -27,14 +27,15 @@ const cartSlice = createSlice({
       );
     },
     updateProduct: (state, action) => {
-      state.quantity += action.payload.product.quantity;
-      state.total += action.payload.product.price * action.payload.product.quantity;
-      state.products.splice(
-        state.products.findIndex((item, key) => key === action['payload']['key']),
-        1
-      );
+      console.log(action)
+      // state.quantity += action.payload.product.quantity;
+      // state.total += action.payload.product.price * action.payload.product.quantity;
+      // state.products.splice(
+      //   state.products.findIndex((item, key) => key === action['payload']['key']),
+      //   1
+      // );
     },
-    emptyCart: (state) => {
+    emptyProduct: (state) => {
       state.quantity = 0;
       state.total = 0;
       state.products = [];
@@ -42,5 +43,5 @@ const cartSlice = createSlice({
   }
 });
 
-export const { addProduct, removeProduct, updateProduct, emptyCart } = cartSlice.actions;
+export const { addProduct, removeProduct, updateProduct, emptyProduct } = cartSlice.actions;
 export default cartSlice.reducer;
