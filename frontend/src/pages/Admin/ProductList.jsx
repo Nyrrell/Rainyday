@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useEffect } from "react";
 
-import { deleteProduct, getProducts } from "../../redux/apiCalls.js";
+import { deleteProduct, getProducts } from "../../reducers/apiCalls.js";
 
 const TitleContainer = styled.div`
   display: flex;

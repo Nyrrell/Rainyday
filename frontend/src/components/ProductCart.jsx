@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-import { removeProduct, updateProduct } from "../redux/cartRedux";
+import { removeProduct, updateProduct } from "../reducers/cartReducer.js";
 import AmountProduct from "./AmountProduct";
 import { mobile } from "../responsive";
 import { useState } from "react";

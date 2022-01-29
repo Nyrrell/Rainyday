@@ -1,4 +1,4 @@
-import { loginFailed, loginStart, loginSuccess, logout } from "./userRedux.js";
+import { loginFailed, loginStart, loginSuccess, logout } from "./userReducer.js";
 import { publicRequest, userRequest } from "../requestApi.js";
 import {
   getProductFailure,
@@ -13,7 +13,7 @@ import {
   addProductFailure,
   addProductStart,
   addProductSuccess,
-} from "./productRedux";
+} from "./productReducer.js";
 
 export const login = async (dispatch, user) => {
   dispatch(loginStart());

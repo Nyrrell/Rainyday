@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const userRedux = createSlice({
+const userReducer = createSlice({
   name: "user",
   initialState: {
     currentUser: null,
@@ -25,5 +25,5 @@ const userRedux = createSlice({
   }
 });
 
-export const { loginStart, loginSuccess, loginFailed, logout } = userRedux.actions;
-export default userRedux.reducer;
+export const { loginStart, loginSuccess, loginFailed, logout } = userReducer.actions;
+export default userReducer.reducer;

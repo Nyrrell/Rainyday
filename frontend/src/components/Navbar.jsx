@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { Badge } from '@mui/material';
 import React from 'react';
 
-import { userLogout } from "../redux/apiCalls.js";
+import { userLogout } from "../reducers/apiCalls.js";
 import { mobile } from "../responsive.js";
 import { categories } from "../data";
 

@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { useEffect } from "react";
 
 import ProductCart from "../components/ProductCart";
-import { emptyProduct } from "../redux/cartRedux";
+import { emptyProduct } from "../reducers/cartReducer.js";
 import { userRequest } from "../requestApi.js";
 import { mobile } from "../responsive.js";
 

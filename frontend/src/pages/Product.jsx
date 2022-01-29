@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { Button } from "@mui/material";
 import styled from "styled-components";
 
-import { addProduct } from "../redux/cartRedux.js";
+import { addProduct } from "../reducers/cartReducer.js";
 import { publicRequest } from "../requestApi.js";
 import Products from "../components/Products";
 import { useEffect, useState } from "react";

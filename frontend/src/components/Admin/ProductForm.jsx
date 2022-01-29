@@ -12,7 +12,7 @@ import {
   TextField
 } from "@mui/material";
 
-import { addProduct, updateProduct } from "../../redux/apiCalls.js";
+import { addProduct, updateProduct } from "../../reducers/apiCalls.js";
 
 const Form = styled.form`
   display: flex;

@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
 import React from 'react';
 
-import { store, persistor } from './redux/store.js';
+import { store, persistor } from './reducers/store.js';
 import App from './App';
 
 const GlobalStyles = createGlobalStyle`

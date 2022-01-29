@@ -47,8 +47,8 @@ const Slider = () => {
     <>
       <Carousel>
         {popularProducts.map(item => (
-          <Article>
-            <Image src={item['img']} key={item['_id']}/>
+          <Article key={item['_id']}>
+            <Image src={item['img']}/>
             <Link to={`/product/${item['_id']}`}>
               <Button>{item['title']}</Button>
             </Link>
