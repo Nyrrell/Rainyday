@@ -3,8 +3,9 @@ import { LinearProgress } from "@mui/material";
 import styled from "styled-components";
 import { useState } from "react";
 
-import { login } from "../reducers/apiCalls.js";
+// import { login } from "../reducers/apiCalls.js";
 import { mobile } from "../responsive.js";
+import userReducer from "../reducers/userReducer.js";
 
 const Container = styled.div`
   width: 100%;
@@ -81,12 +82,12 @@ const Fetching = styled(LinearProgress)`
 const Login = () => {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
-  const dispatch = useDispatch();
-  const { isFetching, error } = useSelector(state => state['user']);
+
+  const { isFetching, error, login } = userReducer();
 
   const handleClick = (e) => {
     e.preventDefault();
-    login(dispatch, { username, password })
+    login({ username, password });
   }
 
   return (

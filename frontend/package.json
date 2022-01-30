@@ -1,7 +1,6 @@
 {
-  "name": "new",
+  "name": "rainy-day",
   "version": "0.1.0",
-  "private": true,
   "dependencies": {
     "@mui/icons-material": "^5.2.5",
     "@mui/material": "^5.2.7",
@@ -21,7 +20,7 @@
     "recharts": "^2.1.8",
     "redux-persist": "^6.0.0",
     "styled-components": "^5.3.3",
-    "web-vitals": "^1.0.1"
+    "zustand": "^3.6.9"
   },
   "resolutions": {
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest"

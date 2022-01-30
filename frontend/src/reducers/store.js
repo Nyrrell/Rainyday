@@ -12,7 +12,7 @@ import {
 } from "redux-persist"
 
 import cartReducer from "./cartReducer.js"
-import userReducer from "./userReducer.js"
+import { userReducer } from "./userReducer.js"
 import productReducer from "./productReducer.js";
 
 const persistConfig = {
@@ -22,7 +22,7 @@ const persistConfig = {
 }
 
 const rootReducer = combineReducers({
-  'user': userReducer,
+  // 'user': userReducer,
   'cart': cartReducer,
   'product': productReducer
 });

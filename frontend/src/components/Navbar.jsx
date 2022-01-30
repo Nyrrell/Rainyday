@@ -8,6 +8,7 @@ import React from 'react';
 import { userLogout } from "../reducers/apiCalls.js";
 import { mobile } from "../responsive.js";
 import { categories } from "../data";
+import userReducer from "../reducers/userReducer.js";
 
 const Wrapper = styled.nav`
   height: 60px;
@@ -16,7 +17,7 @@ const Wrapper = styled.nav`
   align-items: center;
   justify-content: space-evenly;
   background-color: var(--color-blue);
-  box-shadow:  0 12px 24px -12px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 12px 24px -12px rgba(0, 0, 0, 0.5);
   color: var(--color-light);
   position: sticky;
   top: 0;
@@ -47,7 +48,7 @@ const Right = styled.div`
   align-items: center;
   justify-content: flex-end;
   margin-right: 25px;
-  
+
   ${mobile({ flex: 2, justifyContent: "center" })}
 `;
 
@@ -68,6 +69,7 @@ const CartBadge = styled(Badge)`
 
 const StyledLink = styled(Link)`
   border-bottom: ${({ active }) => active && '2px solid var(--color-yellow)'};
+
   &:hover {
     border-bottom: 2px solid var(--color-yellow);
   }
@@ -87,12 +89,14 @@ const NavLink = ({ children, to, ...props }) => {
 
 const Navbar = () => {
   const quantity = useSelector(state => state['cart']['quantity']);
-  const user = useSelector(state => state['user']['currentUser']);
-  const dispatch = useDispatch();
+  // const user = useSelector(state => state['user']['currentUser']);
+  const { currentUser: user, logout } = userReducer();
+  // const dispatch = useDispatch();
 
   const handleClick = (e) => {
     e.preventDefault();
-    userLogout(dispatch)
+    // userLogout(dispatch)
+    logout();
   };
 
   return (

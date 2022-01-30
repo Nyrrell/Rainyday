@@ -25,10 +25,13 @@ import AdminProductList from "./pages/Admin/ProductList.jsx"
 import AdminProduct from "./pages/Admin/Product.jsx"
 import AdminProductNew from "./pages/Admin/ProductNew.jsx"
 import Client from "./pages/Client.jsx";
+import userReducer from "./reducers/userReducer.js";
 
 const App = () => {
-  const user = useSelector(state => state['user']['currentUser']);
-  const admin = user && user['isAdmin'];
+  // const user = useSelector(state => state['user']['currentUser']);
+  const user = userReducer(state => state['currentUser']);
+  console.log(user)
+  const admin = user?.['isAdmin']; // TODO VERIF SECURITE
 
   return (
     <Routes>

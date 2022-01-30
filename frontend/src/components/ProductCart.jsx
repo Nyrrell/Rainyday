@@ -90,7 +90,7 @@ const ProductCart = ({ product }) => {
 
   const handleQuantity = (amount) => {
     setItem({ ...item, quantity: amount })
-    dispatch(updateProduct({ ...item }))
+    dispatch(updateProduct({ ...item, quantity: amount }))
   }
 
   const handleDelete = (e) => {
@@ -105,7 +105,7 @@ const ProductCart = ({ product }) => {
         <DeleteProduct color={"error"} size={'small'}
                        onClick={handleDelete}><Clear/></DeleteProduct>
         <ProductDetail>
-          <ProductName to={`/item/${item['_id']}`}>{item['title']}</ProductName>
+          <ProductName to={`/product/${item['_id']}`}>{item['title']}</ProductName>
           {item['color'] && <ProductColor color={item['color']}/>}
           {item['size'] && <ProductSize><b>Taille : </b>{item['size']}</ProductSize>}
         </ProductDetail>

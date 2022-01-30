@@ -175,6 +175,10 @@ const Product = () => {
     quantity > 0 && dispatch(addProduct({ ...product, quantity, color, size }));
   };
 
+  const handleQuantity = (amount) => {
+    setQuantity(amount);
+  }
+
   return (
     <Container>
       <BackToProduct to={`/products/${product['cat'] || ''}`}>Retour à la liste des articles</BackToProduct>
@@ -205,7 +209,7 @@ const Product = () => {
           <AddContainer>
             {product['stock']
               ? <>
-                <AmountProduct setQuantity={setQuantity} quantity={quantity}/>
+                <AmountProduct setQuantity={handleQuantity} quantity={quantity}/>
                 <Btn onClick={handleClick} variant={'outlined'}>Ajouter au panier</Btn>
               </>
               : <Btn variant={'outlined'} cursor={'not-allowed'} color={'error'}>Victime de son succes</Btn>

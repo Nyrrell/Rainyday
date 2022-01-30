@@ -32,7 +32,7 @@ const AmountProduct = ({ quantity, size = 'large', setQuantity }) => {
   const handleChange = (e) => {
     let { value } = e.target;
     if (isNaN(value) || value <= 0) return setQuantity(1);
-    setQuantity(Number(value))
+    setQuantity(Number(value));
   }
 
   return (

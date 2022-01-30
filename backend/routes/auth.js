@@ -15,8 +15,8 @@ async function authRoute(fastify, options) {
 
     try {
       const user = await newUser.save();
-      const { password, ...others } = user.toJSON();
-      res.status(201).send({ ...others });
+      const { username, accessToken } = user.toJSON();
+      res.status(201).send({ username, accessToken });
     } catch (e) {
       res.status(500).send(e);
     }
@@ -39,9 +39,9 @@ async function authRoute(fastify, options) {
         },
         { expiresIn: "3d" })
 
-      const { password, ...others } = user.toJSON();
+      const { username, isAdmin } = user.toJSON();
 
-      res.status(200).send({ ...others, accessToken })
+      res.status(200).send({ username, accessToken, isAdmin })
     } catch (e) {
       res.status(500).send(e);
     }
