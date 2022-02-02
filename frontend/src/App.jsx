@@ -1,9 +1,6 @@
-import { useSelector } from "react-redux";
-import {
-  Routes,
-  Route,
-  Navigate
-} from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
+
+import userReducer from "./reducers/userReducer.js";
 
 // SHOP PAGES
 import ProductList from "./pages/ProductList.jsx";
@@ -25,13 +22,11 @@ import AdminProductList from "./pages/Admin/ProductList.jsx"
 import AdminProduct from "./pages/Admin/Product.jsx"
 import AdminProductNew from "./pages/Admin/ProductNew.jsx"
 import Client from "./pages/Client.jsx";
-import userReducer from "./reducers/userReducer.js";
 
 const App = () => {
-  // const user = useSelector(state => state['user']['currentUser']);
   const user = userReducer(state => state['currentUser']);
-  console.log(user)
-  const admin = user?.['isAdmin']; // TODO VERIF SECURITE
+
+  const admin = user?.['isAdmin']; // TODO A SECURISER
 
   return (
     <Routes>
