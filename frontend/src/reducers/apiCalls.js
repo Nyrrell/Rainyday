@@ -1,5 +1,3 @@
-// import { loginFailed, loginStart, loginSuccess, logout } from "./userReducer.js";
-import userReducer from "./userReducer.js";
 import { publicRequest, userRequest } from "../requestApi.js";
 import {
   getProductFailure,
@@ -15,35 +13,6 @@ import {
   addProductStart,
   addProductSuccess,
 } from "./productReducer.js";
-
-// export const login = async (dispatch, user) => {
-//   dispatch(loginStart());
-//   try {
-//     const { data } = await publicRequest.post('/auth/login', user);
-//     dispatch(loginSuccess(data));
-//   } catch (e) {
-//     dispatch(loginFailed());
-//   }
-// };
-
-// export const login = async (user) => {
-// // const { loginFailed, loginStart, loginSuccess, logout } = userReducer();
-//
-//   // userReducer(state => state.loginStart);
-//   await loginStart
-//   try {
-//     const { data } = await publicRequest.post('/auth/login', user);
-//     // userReducer(state => state.loginSuccess(data));
-//    await loginSuccess(data);
-//   } catch (e) {
-//     // userReducer(state => state.loginFailed);
-//    await loginFailed;
-//   }
-// };
-
-export const userLogout = async () => {
-  userReducer(state => state.logout);
-}
 
 export const getProducts = async (dispatch) => {
   dispatch(getProductStart());

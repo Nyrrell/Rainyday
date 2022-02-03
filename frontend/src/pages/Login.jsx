@@ -1,11 +1,9 @@
-import { useDispatch, useSelector } from "react-redux";
 import { LinearProgress } from "@mui/material";
 import styled from "styled-components";
 import { useState } from "react";
 
-// import { login } from "../reducers/apiCalls.js";
-import { mobile } from "../responsive.js";
 import userReducer from "../reducers/userReducer.js";
+import { mobile } from "../responsive.js";
 
 const Container = styled.div`
   width: 100%;

@@ -3,12 +3,10 @@ import { ShoppingCartOutlined } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Badge } from '@mui/material';
-import React from 'react';
 
-import { userLogout } from "../reducers/apiCalls.js";
+import userReducer from "../reducers/userReducer.js";
 import { mobile } from "../responsive.js";
 import { categories } from "../data";
-import userReducer from "../reducers/userReducer.js";
 
 const Wrapper = styled.nav`
   height: 60px;
@@ -89,13 +87,10 @@ const NavLink = ({ children, to, ...props }) => {
 
 const Navbar = () => {
   const quantity = useSelector(state => state['cart']['quantity']);
-  // const user = useSelector(state => state['user']['currentUser']);
   const { currentUser: user, logout } = userReducer();
-  // const dispatch = useDispatch();
 
   const handleClick = (e) => {
     e.preventDefault();
-    // userLogout(dispatch)
     logout();
   };
 
