@@ -1,5 +1,5 @@
+import { IconButton, Tooltip } from "@mui/material";
 import { Clear } from "@mui/icons-material";
-import { IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -76,6 +76,8 @@ const PriceDetail = styled.div`
   padding: 10px 20px;
 `;
 
+const InitialPrice = styled(Tooltip)``;
+
 const ProductPrice = styled.div`
   font-size: 30px;
   font-weight: 600;
@@ -101,13 +103,14 @@ const ProductCart = ({ product }) => {
         <DeleteProduct color={"error"} size={'small'} onClick={handleDelete}><Clear/></DeleteProduct>
         <ProductDetail>
           <ProductName to={`/product/${product['_id']}`}>{product['title']}</ProductName>
-          <div>(13 €)</div>
           {product['color'] && <ProductColor color={product['color']}/>}
           {product['size'] && <ProductSize><b>Taille : </b>{product['size']}</ProductSize>}
         </ProductDetail>
         <PriceDetail>
           <AmountProduct size={'small'} quantity={product['quantity']} setQuantity={handleQuantity}/>
-          <ProductPrice>{product['price'] * product['quantity']} €</ProductPrice>
+          <InitialPrice title={`${product['price']} €`} placement="left" arrow>
+            <ProductPrice>{product['price'] * product['quantity']} €</ProductPrice>
+          </InitialPrice>
         </PriceDetail>
       </Details>
     </ProductCard>
