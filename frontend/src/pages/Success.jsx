@@ -1,15 +1,14 @@
+import userStore from "../store/userStore.js";
 import { userRequest } from "../requestApi.js";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-
 
 const Success = () => {
   const location = useLocation();
   console.log(location)
   const data = location.state.stripeData;
   const cart = location.state.cart;
-  const currentUser = useSelector((state) => state.user.currentUser);
+  const { currentUser } = userStore();
   const [orderId, setOrderId] = useState(null);
 
   useEffect(() => {

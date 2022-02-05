@@ -1,12 +1,11 @@
 import { DeleteOutline, EditOutlined } from "@mui/icons-material";
-import { useDispatch, useSelector } from "react-redux";
 import { DataGrid } from '@mui/x-data-grid';
 import { Checkbox, IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useEffect } from "react";
 
-import { deleteProduct, getProducts } from "../../reducers/apiCalls.js";
+import productStore from "../../store/productStore.js";
 
 const TitleContainer = styled.div`
   display: flex;
@@ -42,15 +41,15 @@ const ProductImage = styled.img`
 `;
 
 const ProductList = () => {
-  const dispatch = useDispatch();
-  const products = useSelector((state) => state.product.products);
+  const { products, deleteProduct, getProducts } = productStore();
 
   useEffect(() => {
-    getProducts(dispatch);
-  }, [dispatch]);
+    getProducts();
+  }, [getProducts]);
 
-  const handleDelete = (id) => {
-    deleteProduct(id, dispatch);
+  const handleDelete = (e, id) => {
+    e.preventDefault();
+    deleteProduct(id);
   };
 
   const columns = [
@@ -66,8 +65,13 @@ const ProductList = () => {
         );
       },
     },
-    { field: 'inStock', headerName: 'Stock', width: 200, renderCell: params => <Checkbox checked={params.row.inStock} />},
-    { field: 'price', headerName: 'Prix', width: 160, renderCell: params => <>{`${params.row.price} €`}</>},
+    {
+      field: 'inStock',
+      headerName: 'Stock',
+      width: 200,
+      renderCell: params => <Checkbox checked={params.row.inStock}/>
+    },
+    { field: 'price', headerName: 'Prix', width: 160, renderCell: params => <>{`${params.row.price} €`}</> },
     {
       field: 'action', headerName: 'Action', width: 150,
       renderCell: params => {

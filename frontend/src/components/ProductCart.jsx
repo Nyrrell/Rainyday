@@ -1,13 +1,11 @@
 import { Clear } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
-import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-import { removeProduct, updateProduct } from "../reducers/cartReducer.js";
+import cartStore from "../store/cartStore.js";
 import AmountProduct from "./AmountProduct";
 import { mobile } from "../responsive";
-import { useState } from "react";
 
 const ProductCard = styled.div`
   display: flex;
@@ -85,33 +83,31 @@ const ProductPrice = styled.div`
 `;
 
 const ProductCart = ({ product }) => {
-  const [item, setItem] = useState(product)
-  const dispatch = useDispatch();
+  const { updateProduct, removeProduct } = cartStore();
 
   const handleQuantity = (amount) => {
-    setItem({ ...item, quantity: amount })
-    dispatch(updateProduct({ ...item, quantity: amount }))
+    updateProduct({ ...product, quantity: amount });
   }
 
   const handleDelete = (e) => {
     e.preventDefault();
-    dispatch(removeProduct({ ...item }))
+    removeProduct({ ...product });
   };
 
   return (
     <ProductCard>
-      <Link to={`/product/${item['_id']}`}><Image src={item['img']}/></Link>
+      <Link to={`/product/${product['_id']}`}><Image src={product['img']}/></Link>
       <Details>
-        <DeleteProduct color={"error"} size={'small'}
-                       onClick={handleDelete}><Clear/></DeleteProduct>
+        <DeleteProduct color={"error"} size={'small'} onClick={handleDelete}><Clear/></DeleteProduct>
         <ProductDetail>
-          <ProductName to={`/product/${item['_id']}`}>{item['title']}</ProductName>
-          {item['color'] && <ProductColor color={item['color']}/>}
-          {item['size'] && <ProductSize><b>Taille : </b>{item['size']}</ProductSize>}
+          <ProductName to={`/product/${product['_id']}`}>{product['title']}</ProductName>
+          <div>(13 €)</div>
+          {product['color'] && <ProductColor color={product['color']}/>}
+          {product['size'] && <ProductSize><b>Taille : </b>{product['size']}</ProductSize>}
         </ProductDetail>
         <PriceDetail>
-          <AmountProduct size={'small'} quantity={item['quantity']} setQuantity={handleQuantity}/>
-          <ProductPrice>{item['price'] * item['quantity']} €</ProductPrice>
+          <AmountProduct size={'small'} quantity={product['quantity']} setQuantity={handleQuantity}/>
+          <ProductPrice>{product['price'] * product['quantity']} €</ProductPrice>
         </PriceDetail>
       </Details>
     </ProductCard>

@@ -3,19 +3,16 @@ import create from "zustand";
 
 import { publicRequest } from "../requestApi.js";
 
-const userReducer = create(persist(
+const userStore = create(persist(
   set => ({
     currentUser: null,
     isFetching: false,
     error: false,
     login: async (payload) => {
       set({ isFetching: true });
-      try {
-        const { data } = await publicRequest.post('/auth/login', payload);
-        set({ currentUser: data, isFetching: false });
-      } catch {
-        set({ isFetching: false, error: true });
-      }
+      const { data } = await publicRequest.post('/auth/login', payload)
+        .catch(() => set({ isFetching: false, error: true }));
+      set({ currentUser: data, isFetching: false });
     },
     logout: () => {
       set({ currentUser: null });
@@ -27,4 +24,4 @@ const userReducer = create(persist(
   }
 ));
 
-export default userReducer;
+export default userStore;

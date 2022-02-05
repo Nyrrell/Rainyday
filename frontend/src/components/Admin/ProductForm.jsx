@@ -1,5 +1,4 @@
 import { Publish } from "@mui/icons-material";
-import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { useState } from "react";
 import {
@@ -12,7 +11,7 @@ import {
   TextField
 } from "@mui/material";
 
-import { addProduct, updateProduct } from "../../reducers/apiCalls.js";
+import productStore from "../../store/productStore.js";
 
 const Form = styled.form`
   display: flex;
@@ -70,9 +69,10 @@ const Submit = styled(Button)`
 `;
 
 const ProductForm = ({ data, type }) => {
+  const { updateProduct, addProduct } = productStore();
+
   const [inputs, setInputs] = useState(data ?? { title: '', desc: '', price: '', inStock: true, });
   const [file, setFile] = useState(null);
-  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     setInputs((prev) => {
@@ -83,8 +83,8 @@ const ProductForm = ({ data, type }) => {
   const handleClick = (e) => {
     e.preventDefault();
     const product = { ...inputs, img: ' ' }; // TODO IMAGE
-    if (e.target.id === 'update') updateProduct(inputs['_id'], product, dispatch);
-    else addProduct(product, dispatch);
+    if (e.target.id === 'update') updateProduct(inputs['_id'], product);
+    else addProduct(product);
   }
 
   return (

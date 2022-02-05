@@ -1,12 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Delete } from "@mui/icons-material";
-import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@mui/material";
 import styled from "styled-components";
 import { useEffect } from "react";
 
+import cartStore from "../store/cartStore.js";
 import ProductCart from "../components/ProductCart";
-import { emptyProduct } from "../reducers/cartReducer.js";
 import { userRequest } from "../requestApi.js";
 import { mobile } from "../responsive.js";
 
@@ -90,7 +89,6 @@ const SummaryItemPrice = styled.span``;
 
 const SummaryButton = styled(Button)`
   width: 100%;
-  font-weight: 600;
 `;
 
 const Empty = styled.div`
@@ -100,34 +98,34 @@ const Empty = styled.div`
 `;
 
 const Cart = () => {
-  const cart = useSelector(state => state['cart']);
+  const { products, total, emptyProduct } = cartStore();
   const stripeToken = null;
   const navigate = useNavigate();
-  const isEmpty = !cart['products'].length;
-  const dispatch = useDispatch();
+  const isEmpty = !products.length;
+
 
   useEffect(() => {
     const makeRequest = async () => {
       try {
         const res = await userRequest.post('checkout/payment', {
           tokenId: stripeToken.id,
-          amount: cart.total * 100,
+          amount: total * 100,
         });
         navigate('/success', {
           replace: true, state: { // TODO
             data: res.data,
-            products: cart
+            products: products
           }
         });
       } catch (e) {
       }
     }
-    stripeToken && cart.total >= 1 && makeRequest();
-  }, [stripeToken, cart, navigate])
+    stripeToken && total >= 1 && makeRequest();
+  }, [stripeToken, products, total, navigate])
 
   const handleClick = (e) => {
     e.preventDefault();
-    dispatch(emptyProduct({}));
+    emptyProduct();
   };
 
   return (
@@ -141,7 +139,7 @@ const Cart = () => {
         <Info empty={isEmpty}>
           {!isEmpty
             ?
-            cart['products'].map((product, key) => (
+            products.map((product, key) => (
               <ProductCart key={key} product={product}/>
             ))
             : <Empty>Panier vide</Empty>
@@ -151,7 +149,7 @@ const Cart = () => {
           <SummaryTitle>Résumé commande</SummaryTitle>
           <SummaryItem>
             <SummaryItemText>Sous-total</SummaryItemText>
-            <SummaryItemPrice>{cart['total']} €</SummaryItemPrice>
+            <SummaryItemPrice>{total} €</SummaryItemPrice>
           </SummaryItem>
           <SummaryItem>
             <SummaryItemText>Frais de port</SummaryItemText>
@@ -163,7 +161,7 @@ const Cart = () => {
           </SummaryItem>
           <SummaryItem type={"total"}>
             <SummaryItemText>Total</SummaryItemText>
-            <SummaryItemPrice>{cart['total']} €</SummaryItemPrice>
+            <SummaryItemPrice>{total} €</SummaryItemPrice>
           </SummaryItem>
           <SummaryButton variant={'outlined'} size={'large'}>Passer la commande</SummaryButton>
         </Summary>

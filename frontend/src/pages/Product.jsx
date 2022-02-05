@@ -1,9 +1,8 @@
 import { Link, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { Button } from "@mui/material";
 import styled from "styled-components";
 
-import { addProduct } from "../reducers/cartReducer.js";
+import cartStore from "../store/cartStore.js";
 import { publicRequest } from "../requestApi.js";
 import Products from "../components/Products";
 import { useEffect, useState } from "react";
@@ -149,6 +148,7 @@ const Subtitle = styled.h2`
 `;
 
 const Product = () => {
+  const { addProduct } = cartStore();
   const location = useLocation();
   const id = location.pathname.split('/')[2];
 
@@ -156,7 +156,6 @@ const Product = () => {
   const [product, setProduct] = useState({});
   const [color, setColor] = useState("");
   const [size, setSize] = useState("");
-  const dispatch = useDispatch();
 
   useEffect(() => {
     const getProduct = async () => {
@@ -172,7 +171,7 @@ const Product = () => {
 
   const handleClick = (e) => {
     e.preventDefault();
-    quantity > 0 && dispatch(addProduct({ ...product, quantity, color, size }));
+    quantity > 0 && addProduct({ ...product, quantity, color, size });
   };
 
   const handleQuantity = (amount) => {

@@ -2,7 +2,7 @@ import { LinearProgress } from "@mui/material";
 import styled from "styled-components";
 import { useState } from "react";
 
-import userReducer from "../reducers/userReducer.js";
+import userStore from "../store/userStore.js";
 import { mobile } from "../responsive.js";
 
 const Container = styled.div`
@@ -81,7 +81,7 @@ const Login = () => {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
 
-  const { isFetching, error, login } = userReducer();
+  const { isFetching, error, login } = userStore();
 
   const handleClick = (e) => {
     e.preventDefault();

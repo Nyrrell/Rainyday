@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 import ProductForm from "../../components/Admin/ProductForm.jsx";
+import productStore from "../../store/productStore.js";
 import Chart from "../../components/Admin/Chart.jsx";
 import { userRequest } from "../../requestApi.js";
 
-const PageTitle = styled.h1``;
+const PageTitle = styled.h1;
 
 const ProductTop = styled.div`
   display: flex
@@ -71,8 +71,8 @@ const Product = () => {
   const productId = location.pathname.split("/")[3];
   const [pStats, setPStats] = useState([]);
 
-  const product = useSelector((state) =>
-    state.product.products.find((product) => product._id === productId)
+  const product = productStore((state) =>
+    state.products.find((product) => product._id === productId)
   );
 
   const MONTHS = useMemo(

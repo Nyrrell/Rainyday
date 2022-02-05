@@ -1,11 +1,8 @@
-import { PersistGate } from "redux-persist/integration/react";
 import { createGlobalStyle } from "styled-components";
 import { BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
 import React from 'react';
 
-import { store, persistor } from './reducers/store.js';
 import App from './App';
 
 const GlobalStyles = createGlobalStyle`
@@ -34,14 +31,9 @@ const GlobalStyles = createGlobalStyle`
 document.title = process.env.REACT_APP_NAME;
 
 ReactDOM.render(
-  <Provider store={store}>
     <BrowserRouter>
-      <PersistGate loading={null} persistor={persistor}>
         <GlobalStyles/>
         <App/>
-      </PersistGate>
-    </BrowserRouter>
-  </Provider>,
+    </BrowserRouter>,
   document.getElementById('root')
-)
-;
+);

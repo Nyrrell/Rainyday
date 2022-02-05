@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 
-import userReducer from "./reducers/userReducer.js";
+import userStore from "./store/userStore.js";
 
 // SHOP PAGES
 import ProductList from "./pages/ProductList.jsx";
@@ -24,7 +24,7 @@ import AdminProductNew from "./pages/Admin/ProductNew.jsx"
 import Client from "./pages/Client.jsx";
 
 const App = () => {
-  const user = userReducer(state => state['currentUser']);
+  const user = userStore(state => state['currentUser']);
 
   const admin = user?.['isAdmin']; // TODO A SECURISER
 

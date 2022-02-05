@@ -1,10 +1,10 @@
 import { Link, useMatch, useResolvedPath } from "react-router-dom";
 import { ShoppingCartOutlined } from '@mui/icons-material';
-import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Badge } from '@mui/material';
 
-import userReducer from "../reducers/userReducer.js";
+import userStore from "../store/userStore.js";
+import cartStore from "../store/cartStore.js";
 import { mobile } from "../responsive.js";
 import { categories } from "../data";
 
@@ -73,7 +73,6 @@ const StyledLink = styled(Link)`
   }
 `;
 
-
 const NavLink = ({ children, to, ...props }) => {
   let resolved = useResolvedPath(to);
   let match = useMatch({ path: resolved.pathname, end: true });
@@ -86,8 +85,8 @@ const NavLink = ({ children, to, ...props }) => {
 }
 
 const Navbar = () => {
-  const quantity = useSelector(state => state['cart']['quantity']);
-  const { currentUser: user, logout } = userReducer();
+  const { currentUser: user, logout } = userStore();
+  const quantity = cartStore(state => state.quantity);
 
   const handleClick = (e) => {
     e.preventDefault();
