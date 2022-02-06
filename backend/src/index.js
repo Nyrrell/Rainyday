@@ -3,12 +3,12 @@ import fastify from "fastify";
 import jwt from 'fastify-jwt';
 import "dotenv/config";
 
-import productRoute from '../routes/product.js';
-import stripeRoute from '../routes/stripe.js';
-import orderRoute from '../routes/order.js';
-import usersRoute from '../routes/user.js';
-import authRoute from '../routes/auth.js';
-import cartRoute from '../routes/cart.js';
+import productRoutes from "../routes/productRoutes.js";
+import stripeRoutes from "../routes/stripeRoutes.js";
+import orderRoutes from "../routes/orderRoutes.js";
+import userRoutes from "../routes/userRoutes.js";
+import authRoutes from "../routes/authRoutes.js";
+import cartRoutes from "../routes/cartRoutes.js";
 
 const app = fastify({
   logger: false
@@ -29,12 +29,12 @@ app.decorate("authenticate", async function (req, res) {
   }
 });
 
-app.register(productRoute, { prefix: '/api/products' });
-app.register(stripeRoute, { prefix: '/api/checkout' });
-app.register(orderRoute, { prefix: '/api/orders' });
-app.register(usersRoute, { prefix: '/api/users' });
-app.register(cartRoute, { prefix: '/api/carts' });
-app.register(authRoute, { prefix: '/api/auth' });
+app.register(productRoutes, { prefix: '/api/products' });
+app.register(stripeRoutes, { prefix: '/api/checkout' });
+app.register(orderRoutes, { prefix: '/api/orders' });
+app.register(userRoutes, { prefix: '/api/users' });
+app.register(cartRoutes, { prefix: '/api/carts' });
+app.register(authRoutes, { prefix: '/api/auth' });
 
 app.listen(process.env.PORT || 5000, (err, address) => {
   if (err) {
