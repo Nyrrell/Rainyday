@@ -2,7 +2,7 @@ import create from "zustand";
 
 import { publicRequest, userRequest } from "../requestApi.js";
 
-export const productStore = create(
+const productStore = create(
   set => ({
     products: [],
     isFetching: false,
@@ -25,6 +25,7 @@ export const productStore = create(
         set(state => {
           state.products.splice(state.products.findIndex(item => item['_id'] === payload), 1);
           state.isFetching = false;
+          state.error = false;
         });
       } catch {
         set({ isFetching: false, error: true });
@@ -38,6 +39,7 @@ export const productStore = create(
         set(state => {
           state.products[state.products.findIndex(item => item['_id'] === id)] = data;
           state.isFetching = false;
+          state.error = false;
         });
       } catch {
         set({ isFetching: false, error: true });
@@ -51,6 +53,7 @@ export const productStore = create(
         set(state => {
           state.products.push(data);
           state.isFetching = false;
+          state.error = false;
         });
       } catch {
         set({ isFetching: false, error: true });

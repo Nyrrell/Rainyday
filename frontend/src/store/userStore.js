@@ -10,9 +10,12 @@ const userStore = create(persist(
     error: false,
     login: async (payload) => {
       set({ isFetching: true });
-      const { data } = await publicRequest.post('/auth/login', payload)
-        .catch(() => set({ isFetching: false, error: true }));
-      set({ currentUser: data, isFetching: false });
+      try {
+        const { data } = await publicRequest.post('/auth/login', payload);
+        set({ currentUser: data, isFetching: false, error: false });
+      } catch (e) {
+        set({ isFetching: false, error: true });
+      }
     },
     logout: () => {
       set({ currentUser: null });
@@ -20,7 +23,7 @@ const userStore = create(persist(
   }),
   {
     name: 'user',
-    partialize: state => Object.fromEntries(Object.entries(state).filter(([key]) => ["currentUser"].includes(key))),
+    partialize: state => Object.fromEntries(Object.entries(state).filter(([key]) => ["currentUser"].includes(key)))
   }
 ));
 
