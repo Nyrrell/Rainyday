@@ -1,3 +1,4 @@
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import userStore from "./store/userStore.js";
@@ -23,35 +24,44 @@ import AdminProduct from "./pages/Admin/Product.jsx"
 import AdminProductNew from "./pages/Admin/ProductNew.jsx"
 import Client from "./pages/Client.jsx";
 
+const paypalOptions = {
+  "client-id": process.env.REACT_APP_PAYPAL_ID,
+  currency: "EUR",
+  intent: "capture",
+  locale: 'fr_FR',
+};
+
 const App = () => {
   const user = userStore(state => state['currentUser']);
 
   const admin = user?.['isAdmin']; // TODO A SECURISER
 
   return (
-    <Routes>
-      <Route path="/" element={<Client/>}>
-        <Route index element={<Home/>}/>
-        <Route path="/products" element={<ProductList/>}>
-          <Route path=":category" element={<ProductList/>}/>
+    <PayPalScriptProvider options={paypalOptions}>
+      <Routes>
+        <Route path="/" element={<Client/>}>
+          <Route index element={<Home/>}/>
+          <Route path="/products" element={<ProductList/>}>
+            <Route path=":category" element={<ProductList/>}/>
+          </Route>
+          <Route path="/product/:id" element={<Product/>}/>
+          <Route path="/cart" element={<Cart/>}/>
+          <Route path="/success" element={<Success/>}/>
+          <Route path="/login" element={user ? <Navigate replace to='/'/> : <Login/>}/>
+          <Route path="/register" element={user ? <Navigate replace to='/'/> : <Register/>}/>
         </Route>
-        <Route path="/product/:id" element={<Product/>}/>
-        <Route path="/cart" element={<Cart/>}/>
-        <Route path="/success" element={<Success/>}/>
-        <Route path="/login" element={user ? <Navigate replace to='/'/> : <Login/>}/>
-        <Route path="/register" element={user ? <Navigate replace to='/'/> : <Register/>}/>
-      </Route>
-      <Route path="/admin" element={admin ? <Admin/> : <NoMatch/>}>
-        <Route index element={<HomeAdmin/>}/>
-        <Route path="users" element={<UserList/>}/>
-        <Route path="user/:id" element={<User/>}/>
-        <Route path="user/new" element={<UserNew/>}/>
-        <Route path="products" element={<AdminProductList/>}/>
-        <Route path="product/:id" element={<AdminProduct/>}/>
-        <Route path="product/new" element={<AdminProductNew/>}/>
-      </Route>
-      <Route path="*" element={<NoMatch/>}/>
-    </Routes>
+        <Route path="/admin" element={admin ? <Admin/> : <NoMatch/>}>
+          <Route index element={<HomeAdmin/>}/>
+          <Route path="users" element={<UserList/>}/>
+          <Route path="user/:id" element={<User/>}/>
+          <Route path="user/new" element={<UserNew/>}/>
+          <Route path="products" element={<AdminProductList/>}/>
+          <Route path="product/:id" element={<AdminProduct/>}/>
+          <Route path="product/new" element={<AdminProductNew/>}/>
+        </Route>
+        <Route path="*" element={<NoMatch/>}/>
+      </Routes>
+    </PayPalScriptProvider>
   );
 };
 

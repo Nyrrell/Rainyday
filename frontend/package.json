@@ -6,6 +6,7 @@
     "@mui/material": "^5.2.7",
     "@mui/styled-engine-sc": "latest",
     "@mui/x-data-grid": "^5.2.2",
+    "@paypal/react-paypal-js": "^7.6.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",

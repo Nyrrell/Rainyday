@@ -16,7 +16,7 @@ const GlobalStyles = createGlobalStyle`
     --color-yellow: rgb(240, 165, 0);
     --container-size: 65vw;
   }
-  
+
   a {
     text-decoration: none;
     color: inherit;
@@ -31,9 +31,9 @@ const GlobalStyles = createGlobalStyle`
 document.title = process.env.REACT_APP_NAME;
 
 ReactDOM.render(
-    <BrowserRouter>
-        <GlobalStyles/>
-        <App/>
-    </BrowserRouter>,
+  <BrowserRouter>
+    <GlobalStyles/>
+    <App/>
+  </BrowserRouter>,
   document.getElementById('root')
 );

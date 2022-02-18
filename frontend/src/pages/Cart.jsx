@@ -4,9 +4,10 @@ import { Button } from "@mui/material";
 import styled from "styled-components";
 import { useEffect } from "react";
 
-import cartStore from "../store/cartStore.js";
+import PaypalCheckout from "../components/PaypalCheckout.jsx";
 import ProductCart from "../components/ProductCart";
 import { userRequest } from "../requestApi.js";
+import cartStore from "../store/cartStore.js";
 import { mobile } from "../responsive.js";
 
 const Wrapper = styled.div`
@@ -71,7 +72,7 @@ const Summary = styled.div`
   padding: 20px;
 `;
 
-const SummaryTitle = styled.h1`
+const SummaryTitle = styled.h2`
   font-weight: 200;
   text-transform: uppercase;
 `;
@@ -86,10 +87,6 @@ const SummaryItem = styled.div`
 
 const SummaryItemText = styled.span``;
 const SummaryItemPrice = styled.span``;
-
-const SummaryButton = styled(Button)`
-  width: 100%;
-`;
 
 const Empty = styled.div`
   font-size: 4rem;
@@ -163,7 +160,7 @@ const Cart = () => {
             <SummaryItemText>Total</SummaryItemText>
             <SummaryItemPrice>{total} €</SummaryItemPrice>
           </SummaryItem>
-          <SummaryButton variant={'outlined'} size={'large'}>Passer la commande</SummaryButton>
+          <PaypalCheckout products={products} total={total}/>
         </Summary>
       </Bottom>
     </Wrapper>
