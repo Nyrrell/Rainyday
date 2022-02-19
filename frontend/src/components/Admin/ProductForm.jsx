@@ -14,10 +14,8 @@ import {
 import productStore from "../../store/productStore.js";
 
 const Form = styled.form`
-  display: flex;
-  flex-direction: column;
+  flex: 2;
   padding: 20px 40px;
-  margin: 10px 20px;
   -webkit-box-shadow: 0 0 15px -10px rgba(0, 0, 0, 0.75);
   box-shadow: 0 0 15px -10px rgba(0, 0, 0, 0.75);
 `;

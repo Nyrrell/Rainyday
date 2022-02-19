@@ -1,30 +1,70 @@
 import { persist } from "zustand/middleware";
 import create from "zustand";
 
-import { publicRequest } from "../requestApi.js";
+import { userRequest } from "../requestApi.js";
 
 const userStore = create(persist(
-  set => ({
-    currentUser: null,
-    isFetching: false,
-    error: false,
-    login: async (payload) => {
-      set({ isFetching: true });
-      try {
-        const { data } = await publicRequest.post('/auth/login', payload);
-        set({ currentUser: data, isFetching: false, error: false });
-      } catch (e) {
-        set({ isFetching: false, error: true });
+    set => ({
+      users: [],
+      isFetching: false,
+      error: false,
+      //GET ALL
+      getUsers: async () => {
+        set({ isFetching: true, error: false });
+        try {
+          const { data } = await userRequest.get("/users");
+          set({ users: data, isFetching: false });
+        } catch {
+          set({ isFetching: false, error: true });
+        }
+      },
+      //DELETE
+      deleteUser: async (payload) => {
+        set({ isFetching: true, error: false });
+        try {
+          // TODO REMOVE BDD
+          set(state => {
+            state.users.splice(state.users.findIndex(item => item['_id'] === payload), 1);
+            state.isFetching = false;
+            state.error = false;
+          });
+        } catch {
+          set({ isFetching: false, error: true });
+        }
+      },
+      // UPDATE
+      updateUser: async (id, payload) => {
+        set({ isFetching: true, error: false });
+        try {
+          const { data } = await userRequest.put(`/users/${id}`, payload);
+          set(state => {
+            state.users[state.users.findIndex(item => item['_id'] === id)] = data;
+            state.isFetching = false;
+            state.error = false;
+          });
+        } catch {
+          set({ isFetching: false, error: true });
+        }
+      },
+      // ADD
+      addUser: async (payload) => {
+        set({ isFetching: true, error: false });
+        try {
+          const { data } = await userRequest.post(`/users`, payload);
+          set(state => {
+            state.users.push(data);
+            state.isFetching = false;
+            state.error = false;
+          });
+        } catch {
+          set({ isFetching: false, error: true });
+        }
       }
-    },
-    logout: () => {
-      set({ currentUser: null });
-    },
-  }),
-  {
-    name: 'user',
-    partialize: state => Object.fromEntries(Object.entries(state).filter(([key]) => ["currentUser"].includes(key)))
-  }
-));
+    }), {
+      name: "Users",
+      getStorage: () => sessionStorage,
+    }
+  ),
+);
 
 export default userStore;

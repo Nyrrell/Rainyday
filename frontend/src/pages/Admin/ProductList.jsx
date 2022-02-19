@@ -1,31 +1,11 @@
 import { DeleteOutline, EditOutlined } from "@mui/icons-material";
-import { DataGrid } from '@mui/x-data-grid';
 import { Checkbox, IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useEffect } from "react";
 
+import DataTable from "../../components/Admin/DataTable.jsx";
 import productStore from "../../store/productStore.js";
-
-const TitleContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-`;
-
-const PageTitle = styled.h1``;
-
-const AddProduct = styled.button`
-  width: 80px;
-  border: none;
-  padding: 5px;
-  background-color: teal;
-  cursor: pointer;
-  border-radius: 5px;
-  color: white;
-  font-size: 16px;
-`;
 
 const ProductItem = styled.div`
   display: flex;
@@ -53,7 +33,6 @@ const ProductList = () => {
   };
 
   const columns = [
-    { field: '_id', headerName: 'ID', width: 220 },
     {
       field: 'product', headerName: 'Produit', width: 200,
       renderCell: (params) => {
@@ -65,15 +44,19 @@ const ProductList = () => {
         );
       },
     },
+    { field: 'categories', headerName: 'Catégorie', width: 220 },
     {
-      field: 'inStock',
-      headerName: 'Stock',
-      width: 200,
+      field: 'inStock', headerName: 'Disponible', width: 100,
       renderCell: params => <Checkbox checked={params.row.inStock}/>
+    },
+    {
+      field: 'quantity',
+      headerName: 'Stock',
+      width: 100,
     },
     { field: 'price', headerName: 'Prix', width: 160, renderCell: params => <>{`${params.row.price} €`}</> },
     {
-      field: 'action', headerName: 'Action', width: 150,
+      field: 'action', headerName: 'Action', width: 100,
       renderCell: params => {
         return (
           <>
@@ -92,21 +75,12 @@ const ProductList = () => {
   ];
 
   return (
-    <>
-      <TitleContainer>
-        <PageTitle>Liste des produits</PageTitle>
-        <Link to={'/admin/product/new'}>
-          <AddProduct>Créer</AddProduct>
-        </Link>
-      </TitleContainer>
-      <DataGrid
-        rows={products}
-        disableSelectionOnClick
-        columns={columns}
-        getRowId={row => row._id}
-        checkboxSelection
-      />
-    </>
+  <DataTable
+    rows={products}
+    columns={columns}
+    title={"produits"}
+    to={'/admin/product/new'}
+  />
   );
 };
 

@@ -26,6 +26,7 @@ const Container = styled.section`
   width: var(--container-size);
   margin: 1.2rem auto;
   height: 45vh;
+  min-height: 400px;
   overflow: hidden;
   position: relative;
   border: 2px solid var(--color-gray);

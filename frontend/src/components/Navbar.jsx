@@ -3,7 +3,8 @@ import { ShoppingCartOutlined } from '@mui/icons-material';
 import styled from 'styled-components';
 import { Badge } from '@mui/material';
 
-import userStore from "../store/userStore.js";
+import logo from "../images/logo.png";
+import authStore from "../store/authStore.js";
 import cartStore from "../store/cartStore.js";
 import { mobile } from "../responsive.js";
 import { categories } from "../data";
@@ -35,8 +36,9 @@ const Center = styled.div`
   text-align: center;
 `;
 
-const Logo = styled.h1`
-  font-weight: bold;
+const Logo = styled.img`
+  height: 70px;
+
   ${mobile({ fontSize: "16px" })}
 `;
 
@@ -46,7 +48,6 @@ const Right = styled.div`
   align-items: center;
   justify-content: flex-end;
   margin-right: 25px;
-
   ${mobile({ flex: 2, justifyContent: "center" })}
 `;
 
@@ -84,8 +85,28 @@ const NavLink = ({ children, to, ...props }) => {
   );
 }
 
+const Account = ({ user, onClick }) => (
+  !Boolean(user) ? (
+    <>
+      <MenuItem>
+        <Link to={'/register'}>inscription</Link>
+      </MenuItem>
+      <MenuItem>
+        <Link to={'/login'}>connexion</Link>
+      </MenuItem>
+    </>
+  ) : (
+    <>
+      <MenuItem onClick={onClick}>déconnexion</MenuItem>
+      <MenuItem>
+        <Link to={'/account'}>mon compte</Link>
+      </MenuItem>
+    </>
+  )
+);
+
 const Navbar = () => {
-  const { currentUser: user, logout } = userStore();
+  const { currentUser, logout } = authStore();
   const quantity = cartStore(state => state.quantity);
 
   const handleClick = (e) => {
@@ -100,28 +121,10 @@ const Navbar = () => {
         {categories.map(item => <NavLink to={`/products/${item['cat']}`} key={item['cat']}>{item['cat']}</NavLink>)}
       </Left>
       <Center>
-        <Logo>
-          <Link to={'/'}>{process.env.REACT_APP_NAME}</Link>
-        </Logo>
+        <Link to={'/'}><Logo src={logo} alt="Logo"/></Link>
       </Center>
       <Right>
-        {!user ? (
-          <>
-            <MenuItem>
-              <Link to={'/register'}>inscription</Link>
-            </MenuItem>
-            <MenuItem>
-              <Link to={'/login'}>connexion</Link>
-            </MenuItem>
-          </>
-        ) : (
-          <>
-            <MenuItem onClick={handleClick}>déconnexion</MenuItem>
-            <MenuItem>
-              <Link to={'/account'}>mon compte</Link>
-            </MenuItem>
-          </>
-        )}
+        <Account user={currentUser} onClick={handleClick}/>
         <MenuItem>
           <Link to={'/cart'}>
             <CartBadge badgeContent={quantity} color={"error"}>

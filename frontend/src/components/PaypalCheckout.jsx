@@ -1,7 +1,7 @@
 import { PayPalButtons } from "@paypal/react-paypal-js";
 
 const PaypalCheckout = ({ products, total }) => {
-
+// TODO PRIX NE CE MET PAS A JOUR
   const orderItems = products.map(p => ({
     name: p['title'],
     unit_amount: {
@@ -34,10 +34,10 @@ const PaypalCheckout = ({ products, total }) => {
   const handleApprove = (data, actions) => {
     console.log(data)
 
-      return actions.order.capture().then((details) => {
-        console.log(details)
+    return actions.order.capture().then((details) => {
+      console.log(details)
 
-      });
+    });
 
   }
 

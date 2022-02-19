@@ -1,7 +1,7 @@
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { Routes, Route, Navigate } from "react-router-dom";
 
-import userStore from "./store/userStore.js";
+import authStore from "./store/authStore.js";
 
 // SHOP PAGES
 import ProductList from "./pages/ProductList.jsx";
@@ -32,7 +32,7 @@ const paypalOptions = {
 };
 
 const App = () => {
-  const user = userStore(state => state['currentUser']);
+  const user = authStore(state => state['currentUser']);
 
   const admin = user?.['isAdmin']; // TODO A SECURISER
 

@@ -4,7 +4,8 @@ import {
   PermIdentity,
   Storefront,
   AttachMoney,
-  Category
+  Category,
+  LocalOffer
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 
@@ -75,9 +76,10 @@ function Sidebar() {
         <MenuItem>
           <Title>Gestion</Title>
           <List>
-            <Element to={'/admin/users'}><PermIdentity/> Utilisateurs</Element>
-            <Element to={'/admin/categories'}><Category/> Catégories</Element>
-            <Element to={'/admin/products'}><Storefront/> Produits</Element>
+            <Element to={'/admin/users'}><PermIdentity/>Utilisateurs</Element>
+            <Element to={'/admin/categories'}><Category/>Catégories</Element>
+            <Element to={'/admin/products'}><Storefront/>Produits</Element>
+            <Element to={'/admin/discounts'}><LocalOffer/>Code Promo</Element>
           </List>
         </MenuItem>
       </Wrapper>

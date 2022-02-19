@@ -15,6 +15,7 @@ const GlobalStyles = createGlobalStyle`
     --color-blue: rgb(26, 47, 75);
     --color-yellow: rgb(240, 165, 0);
     --container-size: 65vw;
+    height: 100%;
   }
 
   a {

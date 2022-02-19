@@ -1,4 +1,4 @@
-import userStore from "../store/userStore.js";
+import authStore from "../store/authStore.js";
 import { userRequest } from "../requestApi.js";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -8,7 +8,7 @@ const Success = () => {
   console.log(location)
   const data = location.state.stripeData;
   const cart = location.state.cart;
-  const { currentUser } = userStore();
+  const { currentUser } = authStore();
   const [orderId, setOrderId] = useState(null);
 
   useEffect(() => {

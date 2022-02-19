@@ -1,37 +1,29 @@
-import { useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 import ProductForm from "../../components/Admin/ProductForm.jsx";
 import productStore from "../../store/productStore.js";
-import Chart from "../../components/Admin/Chart.jsx";
-import { userRequest } from "../../requestApi.js";
 
-const PageTitle = styled.h1;
+const PageTitle = styled.h1``;
 
-const ProductTop = styled.div`
-  display: flex
+const ProductContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
 `;
 
-const TopLeft = styled.div`
-  flex: 2;
-`;
-
-const TopRight = styled.div`
+const ProductInfo = styled.div`
   flex: 1;
-  padding: 20px;
-  margin: 20px;
+  margin-left: 20px;
+  padding: 20px 40px;
   -webkit-box-shadow: 0 0 15px -10px rgba(0, 0, 0, 0.75);
   box-shadow: 0 0 15px -10px rgba(0, 0, 0, 0.75);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 `;
 
 const ProductInfoTop = styled.div`
   display: flex;
   align-items: center;
-  
+
   & > img {
     width: 40px;
     height: 40px;
@@ -69,60 +61,16 @@ const ProductInfoValue = styled.span`
 const Product = () => {
   const location = useLocation();
   const productId = location.pathname.split("/")[3];
-  const [pStats, setPStats] = useState([]);
+  const { products, deleteProduct } = productStore();
 
-  const product = productStore((state) =>
-    state.products.find((product) => product._id === productId)
-  );
-
-  const MONTHS = useMemo(
-    () => [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Agu",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ],
-    []
-  );
-
-  useEffect(() => {
-    const getStats = async () => {
-      try {
-        const res = await userRequest.get("orders/income?pid=" + productId);
-        const list = res.data.sort((a,b)=>{
-          return a._id - b._id
-        })
-        list.map((item) =>
-          setPStats((prev) => [
-            ...prev,
-            { name: MONTHS[item._id - 1], Sales: item.total },
-          ])
-        );
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getStats();
-  }, [productId, MONTHS]);
-
+  const product = products.find((product) => product._id === productId);
 
   return (
     <>
       <PageTitle>Edition Article</PageTitle>
-
-      <ProductTop>
-        <TopLeft>
-          <Chart data={pStats} dataKey="Sales" title="Sales Performance"/>
-        </TopLeft>
-        <TopRight>
+      <ProductContainer>
+        <ProductForm data={product} type={'update'}/>
+        <ProductInfo>
           <ProductInfoTop>
             <img src={product['img']} alt=""/>
             <ProductName>{product['title']}</ProductName>
@@ -145,11 +93,8 @@ const Product = () => {
               <ProductInfoValue>{product['inStock']}</ProductInfoValue>
             </ProductInfoItem>
           </ProductInfoBottom>
-        </TopRight>
-      </ProductTop>
-
-      <ProductForm data={product} type={'update'}>
-      </ProductForm>
+        </ProductInfo>
+      </ProductContainer>
     </>
   );
 };

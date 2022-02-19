@@ -1,7 +1,5 @@
-import { NotificationsNone, Settings } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { Badge } from "@mui/material";
 
 import { mobile } from "../../responsive.js";
 
@@ -53,19 +51,11 @@ function Navbar() {
     <Container>
       <Wrapper>
         <Left>
-          <Link to={'/'} style={{ textDecoration: "none", color: "inherit"}}>
+          <Link to={'/'} style={{ textDecoration: "none", color: "inherit" }}>
             <Logo>{process.env.REACT_APP_NAME}</Logo>
           </Link>
         </Left>
         <Right>
-          <MenuItem>
-            <Badge badgeContent={1} color={"error"}>
-              <NotificationsNone/>
-            </Badge>
-          </MenuItem>
-          <MenuItem>
-            <Settings/>
-          </MenuItem>
           <MenuItem>
             Username
           </MenuItem>

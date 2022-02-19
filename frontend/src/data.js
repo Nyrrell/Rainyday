@@ -26,7 +26,7 @@ export const categories = [
   {
     id: 1,
     cat: "sticker",
-    img:"https://cdn.discordapp.com/attachments/374156179204603914/917509846046216232/StickerApp-3661407.png",
+    img:"https://media.discordapp.net/attachments/374156179204603914/944595121343696926/Categorie_test.jpg",
   },
   {
     id: 2,
@@ -150,15 +150,24 @@ export const monthSales = [
 ];
 
 export const userList = [
-  { id: 1, user: 'Snow', email: 'Jon', status: 35, transaction: 35 },
-  { id: 2, user: 'Lannister', email: 'Cersei', status: 42, transaction: 35, action: null },
-  { id: 3, user: 'Lannister', email: 'Jaime', status: 45, transaction: 35, action: null },
-  { id: 4, user: 'Stark', email: 'Arya', status: 16, transaction: 35, action: null },
-  { id: 5, user: 'Targaryen', email: 'Daenerys', status: null, transaction: 35, action: null },
-  { id: 6, user: 'Melisandre', email: null, status: 150, transaction: 35, action: null },
-  { id: 7, user: 'Clifford', email: 'Ferrara', status: 44, transaction: 35, action: null },
-  { id: 8, user: 'Frances', email: 'Rossini', status: 36, transaction: 35, action: null },
-  { id: 9, user: 'Roxie', email: 'Harvey', status: 65, transaction: 35, action: null },
+  { _id: 1, user: 'Snow', email: 'Jon', status: 35, transaction: 35 },
+  { _id: 2, user: 'Lannister', email: 'Cersei', status: 42, transaction: 35, action: null },
+  { _id: 3, user: 'Lannister', email: 'Jaime', status: 45, transaction: 35, action: null },
+  { _id: 4, user: 'Stark', email: 'Arya', status: 16, transaction: 35, action: null },
+  { _id: 5, user: 'Targaryen', email: 'Daenerys', status: null, transaction: 35, action: null },
+  { _id: 6, user: 'Melisandre', email: null, status: 150, transaction: 35, action: null },
+  { _id: 7, user: 'Clifford', email: 'Ferrara', status: 44, transaction: 35, action: null },
+  { _id: 8, user: 'Frances', email: 'Rossini', status: 36, transaction: 35, action: null },
+  { _id: 9, user: 'Roxie', email: 'Harvey', status: 65, transaction: 35, action: null },
+  { _id: 10, user: 'Snow', email: 'Jon', status: 35, transaction: 35 },
+  { _id: 11, user: 'Lannister', email: 'Cersei', status: 42, transaction: 35, action: null },
+  { _id: 12, user: 'Lannister', email: 'Jaime', status: 45, transaction: 35, action: null },
+  { _id: 13, user: 'Stark', email: 'Arya', status: 16, transaction: 35, action: null },
+  { _id: 14, user: 'Targaryen', email: 'Daenerys', status: null, transaction: 35, action: null },
+  { _id: 15, user: 'Melisandre', email: null, status: 150, transaction: 35, action: null },
+  { _id: 16, user: 'Clifford', email: 'Ferrara', status: 44, transaction: 35, action: null },
+  { _id: 17, user: 'Frances', email: 'Rossini', status: 36, transaction: 35, action: null },
+  { _id: 18, user: 'Roxie', email: 'Harvey', status: 65, transaction: 35, action: null },
 ];
 
 export const productRows = [

@@ -1,86 +1,98 @@
-import { Delete } from "@mui/icons-material";
-import { DataGrid } from '@mui/x-data-grid';
+import { DeleteOutline, EditOutlined } from "@mui/icons-material";
+import { useEffect, useState } from "react";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  IconButton,
+  TextField
+} from "@mui/material";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
-import { useState } from "react";
 
-import { userList } from '../../data.js'
-
-const TitleContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-`;
-
-const PageTitle = styled.h1``;
-
-const AddUser = styled.button`
-  width: 80px;
-  border: none;
-  padding: 5px;
-  background-color: teal;
-  cursor: pointer;
-  border-radius: 5px;
-  color: white;
-  font-size: 16px;
-`;
-
-const Button = styled.button`
-  border: none;
-  border-radius: 10px;
-  padding: 5px 10px;
-  background-color: #3bb077;
-  color: white;
-  cursor: pointer;
-  margin-right: 20px;
-`;
+import DataTable from "../../components/Admin/DataTable.jsx";
+import userStore from "../../store/userStore.js";
 
 const UserList = () => {
-  const [data, setData] = useState(userList);
+  const [open, setOpen] = useState(false);
+  const { users, getUsers, deleteUser } = userStore();
 
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+  useEffect(() => {
+    getUsers()
+  }, [getUsers])
+
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleDelete = (e, id) => {
+    e.preventDefault();
+    deleteUser(id);
   };
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 90 },
-    { field: 'user', headerName: 'Utilisateur', width: 200 },
+    { field: 'username', headerName: 'Utilisateur', width: 200 },
     { field: 'email', headerName: 'Email', width: 200 },
-    { field: 'status', headerName: 'Status', width: 120 },
+    { field: 'lastname', headerName: 'Nom', width: 200 },
+    { field: 'firstname', headerName: 'Prénom', width: 200 },
+    { field: 'status', headerName: 'Avoir', width: 120 },
     { field: 'transaction', headerName: 'Transaction', width: 160 },
     {
-      field: 'action', headerName: 'Action', width: 150,
+      field: 'action', headerName: 'Action', width: 100,
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/admin/user/" + params.row.id}>
-              <Button>Editer</Button>
+            <Link to={"/admin/user/" + params.row._id}>
+              <IconButton aria-label="éditer" color={'info'}>
+                <EditOutlined/>
+              </IconButton>
             </Link>
-            <Delete
-              style={{ color: '#e33838', cursor: 'pointer' }}
-              onClick={() => handleDelete(params.row.id)}
-            />
+            <IconButton aria-label="delete" color={"warning"} onClick={() => handleDelete(params.row._id)}>
+              <DeleteOutline/>
+            </IconButton>
           </>
         )
       }
     },
   ];
-
+  // TODO MODAL
   return (
     <>
-      <TitleContainer>
-        <PageTitle>Liste des utilisateurs</PageTitle>
-        <Link to={'/admin/user/new'}>
-          <AddUser>Créer</AddUser>
-        </Link>
-      </TitleContainer>
-      <DataGrid
-        rows={data}
-        disableSelectionOnClick
+      <DataTable
+        rows={users}
         columns={columns}
-        checkboxSelection
+        title={"utilisateurs"}
+        onClick={handleClickOpen}
       />
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Subscribe</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            To subscribe to this website, please enter your email address here. We
+            will send updates occasionally.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Email Address"
+            type="email"
+            fullWidth
+            variant="standard"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleClose}>Subscribe</Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };

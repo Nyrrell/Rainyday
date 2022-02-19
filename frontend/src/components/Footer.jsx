@@ -1,10 +1,19 @@
+import { EmailOutlined, Instagram, Phone } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { EmailOutlined, Instagram, Phone, Room } from "@mui/icons-material";
+
 import { mobile } from "../responsive.js";
+import logo from "../images/logo.png";
 
 const Container = styled.footer`
   border-top: 3px solid var(--color-gray);
   background-color: var(--color-dark-alt);
+`;
+
+const Wrapper = styled.div`
+  width: var(--container-size);
+  margin: 0 auto;
+  padding: 1rem 0;
   display: flex;
   ${mobile({ flexDirection: "column" })}
 `;
@@ -16,14 +25,15 @@ const Left = styled.div`
   padding: 20px;
 `;
 
-const Logo = styled.h1``;
-
-const Desc = styled.p`
-  margin: 20px 0;
+const Logo = styled.img`
+  height: 60px;
 `;
+
+const Desc = styled.p``;
 
 const SocialContainer = styled.div`
   display: flex;
+  align-items: center;
 `;
 
 const SocialIcon = styled.div`
@@ -35,8 +45,8 @@ const SocialIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 20px;
   cursor: pointer;
+  margin-right: 1rem;
 `;
 
 const Center = styled.div`
@@ -74,50 +84,45 @@ const ContactItem = styled.div`
   align-items: center;
 `;
 
-const Payment = styled.img`
-  width: 40%;
-`;
-
 const Footer = () => {
   return (
     <Container>
-      <Left>
-        <Logo>{process.env.REACT_APP_NAME}</Logo>
-        <Desc>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur cupiditate deserunt doloremque
-          doloribus eum eveniet facilis illum, minus molestiae neque nobis non omnis porro possimus quas, ratione sequi
-          sunt vero?</Desc>
-        <SocialContainer>
-
-          <SocialIcon color={'E4405F'}>
-            <Instagram/>
-          </SocialIcon>
-
-        </SocialContainer>
-      </Left>
-      <Center>
-        <Title>Liens Utiles</Title>
-        <List>
-          <ListItem>Accueil</ListItem>
-          <ListItem>Panier</ListItem>
-          <ListItem>Mon Compte</ListItem>
-          <ListItem>Suivi Commande</ListItem>
-          <ListItem>WishList</ListItem>
-          <ListItem>Terms</ListItem>
-        </List>
-      </Center>
-      <Right>
-        <Title>Contact</Title>
-        <ContactItem>
-          <Room style={{marginRight:"10px"}}/> Adresse :
-        </ContactItem>
-        <ContactItem>
-          <Phone style={{marginRight:"10px"}}/> Telephone :
-        </ContactItem>
-        <ContactItem>
-          <EmailOutlined style={{marginRight:"10px"}}/> Email : contact@rainyday.fr
-        </ContactItem>
-        <Payment src={'https://i.ibb.co/Qfvn4z6/payement.png'}/>
-      </Right>
+      <Wrapper>
+        <Left>
+          <SocialContainer>
+            <a href={'https://www.instagram.com/rainydayfr/'}>
+              <SocialIcon color={'E4405F'}>
+                <Instagram/>
+              </SocialIcon>
+            </a>
+            <Link to={'/'}><Logo src={logo} alt="logo"/></Link>
+          </SocialContainer>
+          <Desc>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur cupiditate deserunt doloremque
+            doloribus eum eveniet facilis illum, minus molestiae neque nobis non omnis porro possimus quas, ratione
+            sequi
+            sunt vero?
+          </Desc>
+        </Left>
+        <Center>
+          <Title>Liens Utiles</Title>
+          <List>
+            <ListItem><Link to={'/'}>Accueil</Link></ListItem>
+            <ListItem><Link to={'/cart'}>Panier</Link></ListItem>
+            <ListItem><Link to={'/account'}>Mon Compte</Link></ListItem>
+            <ListItem><Link to={'/term'}>Terms</Link></ListItem>
+          </List>
+        </Center>
+        <Right>
+          <Title>Contact</Title>
+          <ContactItem>
+            <Phone style={{ marginRight: "10px" }}/> <strong>Telephone</strong> : 06 XX XX XX XX
+          </ContactItem>
+          <ContactItem>
+            <EmailOutlined style={{ marginRight: "10px" }}/> <strong>Email</strong> : contact@rainyday.fr
+          </ContactItem>
+        </Right>
+      </Wrapper>
     </Container>
   );
 };

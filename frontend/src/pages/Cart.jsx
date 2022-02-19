@@ -12,6 +12,7 @@ import { mobile } from "../responsive.js";
 
 const Wrapper = styled.div`
   width: var(--container-size);
+  min-height: 60vh;
   margin: 3rem auto;
   ${mobile({ padding: "10px" })}
 `;

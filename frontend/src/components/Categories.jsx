@@ -7,6 +7,7 @@ import { mobile } from "../responsive.js";
 const Container = styled.section`
   width: var(--container-size);
   height: 50vh;
+  min-height: 400px;
   margin: 1.2rem auto;
   display: flex;
   justify-content: space-between;
