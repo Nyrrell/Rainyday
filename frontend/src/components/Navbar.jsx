@@ -85,7 +85,7 @@ const NavLink = ({ children, to, ...props }) => {
   );
 }
 
-const Account = ({ user, onClick }) => (
+const IsLogged = ({ user, onClick }) => (
   !Boolean(user) ? (
     <>
       <MenuItem>
@@ -96,7 +96,7 @@ const Account = ({ user, onClick }) => (
       </MenuItem>
     </>
   ) : (
-    <>
+    <>e
       <MenuItem onClick={onClick}>déconnexion</MenuItem>
       <MenuItem>
         <Link to={'/account'}>mon compte</Link>
@@ -124,7 +124,7 @@ const Navbar = () => {
         <Link to={'/'}><Logo src={logo} alt="Logo"/></Link>
       </Center>
       <Right>
-        <Account user={currentUser} onClick={handleClick}/>
+        <IsLogged user={currentUser} onClick={handleClick}/>
         <MenuItem>
           <Link to={'/cart'}>
             <CartBadge badgeContent={quantity} color={"error"}>

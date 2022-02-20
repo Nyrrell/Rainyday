@@ -1,28 +1,18 @@
-import { DeleteOutline, EditOutlined } from "@mui/icons-material";
 import { useEffect, useState } from "react";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  IconButton,
-  TextField
-} from "@mui/material";
-import { Link } from "react-router-dom";
+import { Dialog } from "@mui/material";
 
 import DataTable from "../../components/Admin/DataTable.jsx";
 import userStore from "../../store/userStore.js";
+import DataTableAction from "../../components/Admin/DataTableAction.jsx";
+import UserForm from "../../components/Admin/Form/UserForm.jsx";
 
 const UserList = () => {
   const [open, setOpen] = useState(false);
-  const { users, getUsers, deleteUser } = userStore();
+  const { users, deleteUser } = userStore();
 
   useEffect(() => {
-    getUsers()
-  }, [getUsers])
 
+  }, [users])
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -32,37 +22,24 @@ const UserList = () => {
     setOpen(false);
   };
 
-  const handleDelete = (e, id) => {
-    e.preventDefault();
+  const handleDelete = (id) => {
     deleteUser(id);
   };
 
   const columns = [
-    { field: 'username', headerName: 'Utilisateur', width: 200 },
-    { field: 'email', headerName: 'Email', width: 200 },
-    { field: 'lastname', headerName: 'Nom', width: 200 },
-    { field: 'firstname', headerName: 'Prénom', width: 200 },
-    { field: 'status', headerName: 'Avoir', width: 120 },
-    { field: 'transaction', headerName: 'Transaction', width: 160 },
+    { field: 'username', headerName: 'Utilisateur', flex: 1 },
+    { field: 'email', headerName: 'Email', flex: 1 },
+    { field: 'lastname', headerName: 'Nom', flex: 1 },
+    { field: 'firstname', headerName: 'Prénom', flex: 1 },
+    { field: 'credit', headerName: 'Avoir' },
+    { field: 'sale', headerName: 'Vente' },
+    { field: 'total', headerName: 'Total' },
     {
-      field: 'action', headerName: 'Action', width: 100,
-      renderCell: (params) => {
-        return (
-          <>
-            <Link to={"/admin/user/" + params.row._id}>
-              <IconButton aria-label="éditer" color={'info'}>
-                <EditOutlined/>
-              </IconButton>
-            </Link>
-            <IconButton aria-label="delete" color={"warning"} onClick={() => handleDelete(params.row._id)}>
-              <DeleteOutline/>
-            </IconButton>
-          </>
-        )
-      }
+      field: 'action', headerName: 'Action',
+      renderCell: (params) => <DataTableAction id={params['row']['_id']} to={"/admin/user/"}
+                                               handleDelete={handleDelete}/>
     },
   ];
-  // TODO MODAL
   return (
     <>
       <DataTable
@@ -71,27 +48,8 @@ const UserList = () => {
         title={"utilisateurs"}
         onClick={handleClickOpen}
       />
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Subscribe</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            To subscribe to this website, please enter your email address here. We
-            will send updates occasionally.
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Email Address"
-            type="email"
-            fullWidth
-            variant="standard"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Subscribe</Button>
-        </DialogActions>
+      <Dialog open={open} onClose={handleClose} fullWidth maxWidth={"sm"}>
+        <UserForm type={'enregister'} close={handleClose}/>
       </Dialog>
     </>
   );

@@ -1,7 +1,7 @@
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 
-import ProductForm from "../../components/Admin/ProductForm.jsx";
+import ProductForm from "../../components/Admin/Form/ProductForm.jsx";
 import productStore from "../../store/productStore.js";
 
 const PageTitle = styled.h1``;

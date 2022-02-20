@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import ProductForm from "../../components/Admin/ProductForm.jsx";
+import ProductForm from "../../components/Admin/Form/ProductForm.jsx";
 
 const PageTitle = styled.h1``;
 

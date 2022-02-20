@@ -1,7 +1,9 @@
+import { PowerSettingsNew } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import { mobile } from "../../responsive.js";
+import authStore from "../../store/authStore.js";
 
 const Container = styled.div`
   height: 60px;
@@ -41,12 +43,13 @@ const Right = styled.div`
 
 const MenuItem = styled.div`
   margin: 0 10px;
-  font-size: 14px;
   cursor: pointer;
   color: #555;
 `;
 
 function Navbar() {
+  const { currentUser, logout } = authStore();
+
   return (
     <Container>
       <Wrapper>
@@ -56,8 +59,9 @@ function Navbar() {
           </Link>
         </Left>
         <Right>
+          <MenuItem>{currentUser['username']}</MenuItem>
           <MenuItem>
-            Username
+            <PowerSettingsNew/>
           </MenuItem>
         </Right>
       </Wrapper>

@@ -1,11 +1,12 @@
 import { DeleteOutline, EditOutlined } from "@mui/icons-material";
-import { Checkbox, IconButton } from "@mui/material";
+import { Box, Checkbox, Dialog, DialogTitle, IconButton, Input } from "@mui/material";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import DataTable from "../../components/Admin/DataTable.jsx";
 import productStore from "../../store/productStore.js";
+import ProductForm from "../../components/Admin/Form/ProductForm.jsx";
 
 const ProductItem = styled.div`
   display: flex;
@@ -21,14 +22,22 @@ const ProductImage = styled.img`
 `;
 
 const ProductList = () => {
-  const { products, deleteProduct, getProducts } = productStore();
+  const [open, setOpen] = useState(false);
+  const { products, deleteProduct } = productStore();
 
   useEffect(() => {
-    getProducts();
-  }, [getProducts]);
+
+  }, [products]);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const handleDelete = (e, id) => {
-    e.preventDefault();
     deleteProduct(id);
   };
 
@@ -75,12 +84,17 @@ const ProductList = () => {
   ];
 
   return (
-  <DataTable
-    rows={products}
-    columns={columns}
-    title={"produits"}
-    to={'/admin/product/new'}
-  />
+    <>
+      <DataTable
+        rows={products}
+        columns={columns}
+        title={"produits"}
+        onClick={handleClickOpen}
+      />
+      <Dialog open={open} onClose={handleClose} fullWidth maxWidth={"md"}>
+        <ProductForm type={'enregister'} close={handleClose}/>
+      </Dialog>
+    </>
   );
 };
 
