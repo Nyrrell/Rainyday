@@ -1,56 +1,49 @@
 import Product from "../models/Product.js";
 
 export const createProduct = async (req, res) => {
-  if (!req.user.isAdmin) return res.code(403).send('Unauthorized');
-
   const newProduct = new Product(req.body);
 
   try {
     const product = await newProduct.save();
-    res.status(200).send(product)
+    res.send(product)
   } catch (e) {
-    res.status(500).send(e);
+    res.send(e);
   }
 };
 
 export const updateProduct = async (req, res) => {
-  if (!req.user.isAdmin) return res.code(403).send('Unauthorized');
-
   try {
     const product = await Product.findByIdAndUpdate(
       req.params.id, {
         $set: req.body
       }, { new: true });
 
-    res.status(200).send(product);
+    res.send(product);
   } catch (e) {
-    if (e.path === '_id') return res.status(500).send('Invalid product ID');
-    res.status(500).send(e);
+    if (e.path === '_id') e['message'] = 'Invalid user ID';
+    res.send(e);
   }
 };
 
 export const deleteProduct = async (req, res) => {
-  if (!req.user.isAdmin) return res.code(403).send('Unauthorized');
-
   try {
     const product = await Product.findByIdAndDelete(req.params.id);
-    res.status(200).send(product) //TODO 'Product delete'
+    res.send(product) //TODO 'Product delete'
   } catch (e) {
-    res.status(500).send(e);
+    res.send(e);
   }
 };
 
 export const getProduct = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
-    res.status(200).send(product);
+    res.send(product);
   } catch (e) {
-    res.status(500).send(e);
+    res.send(e);
   }
 };
 
 export const getAllProducts = async (req, res) => {
-
   const qNew = req.query.new;
   const qCategory = req.query.category;
 
@@ -69,8 +62,8 @@ export const getAllProducts = async (req, res) => {
       products = await Product.find();
     }
 
-    res.status(200).send(products);
+    res.send(products);
   } catch (e) {
-    res.status(500).send(e);
+    res.send(e);
   }
 };

@@ -2,7 +2,7 @@ import CryptoJS from "crypto-js";
 import User from "../models/User.js";
 
 export const updateUser = async (req, res) => {
-  if (req.user.id !== req.params.id && !req.user.isAdmin) return res.code(403).send('Unauthorized');
+  if (req.user.id !== req.params.id && !req.user.isAdmin) return res.code(403).send(new Error('Unauthorized access'));
 
   if (req.body.password) {
     req.body.password = CryptoJS.AES.encrypt(req.body.password, process.env.PASS_SEC);
@@ -13,51 +13,55 @@ export const updateUser = async (req, res) => {
       $set: req.body
     }, { new: true });
     const { password, ...other } = updateUser.toJSON();
-    res.status(200).send(other);
+    res.send(other);
   } catch (e) {
-    if (e.path === '_id') return res.status(500).send('Invalid user ID');
-    res.status(500).send(e);
+    if (e.path === '_id') e['message'] = 'Invalid user ID';
+    res.send(e);
   }
 };
 
 export const deleteUser = async (req, res) => {
-  if (!req.user.isAdmin) return res.code(403).send('Unauthorized');
+  if (req.user.id !== req.params.id && !req.user.isAdmin) return res.code(403).send(new Error('Unauthorized access'));
   try {
     const user = await User.findByIdAndDelete(req.params.id);
-    res.status(200).send(user) // TODO ? "User delete"
+    res.send(user) // TODO ? "User delete"
   } catch (e) {
-    res.status(500).send(e);
+    res.send(e);
   }
 };
 
 export const getUser = async (req, res) => {
-  if (!req.user.isAdmin) return res.code(403).send('Unauthorized');
+  if (req.user.id !== req.params.id && !req.user.isAdmin) return res.code(403).send(new Error('Unauthorized access'));
+
   try {
     const user = await User.findById(req.params.id);
     const { password, ...other } = user.toJSON();
-    res.status(200).send(other);
+    res.send(other);
   } catch (e) {
-    res.status(500).send(e);
+    if (e.path === '_id') e['message'] = 'Invalid user ID';
+    res.send(e);
   }
 };
 
 export const getAllUsers = async (req, res) => {
-  if (!req.user.isAdmin) return res.code(403).send('Unauthorized');
   const query = req.query.new;
 
   try {
-    const users = query
+    const listUsers = query
       ? await User.find().sort({ _id: -1 }).limit(5)
       : await User.find();
-    res.status(200).send(users);  // TODO PASSWORD ?
+
+    const users = listUsers.map(user => {
+      const { password, ...other } = user.toJSON()
+      return other
+    })
+    res.send(users);
   } catch (e) {
-    res.status(500).send(e);
+    res.send(e);
   }
 };
 
 export const getUsersStats = async (req, res) => {
-  if (!req.user.isAdmin) return res.code(403).send('Unauthorized');
-
   const date = new Date();
   const lastYear = new Date(date.setFullYear(date.getFullYear() - 1));
 
@@ -77,8 +81,8 @@ export const getUsersStats = async (req, res) => {
       }
     ]);
 
-    res.status(200).send(data);
+    res.send(data);
   } catch (e) {
-    res.status(500).send(e);
+    res.send(e);
   }
 };

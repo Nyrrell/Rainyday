@@ -4,7 +4,6 @@ import jwt from 'fastify-jwt';
 import "dotenv/config";
 
 import productRoutes from "../routes/productRoutes.js";
-import stripeRoutes from "../routes/stripeRoutes.js";
 import orderRoutes from "../routes/orderRoutes.js";
 import userRoutes from "../routes/userRoutes.js";
 import authRoutes from "../routes/authRoutes.js";
@@ -20,17 +19,15 @@ mongoose.connect(process.env.MONGO_DB)
 
 app.register(jwt, { secret: process.env.JWT_SEC });
 
-app.decorate("authenticate", async function (req, res) {
-  try {
-    await req.jwtVerify();
-  } catch (err) {
-    if (err.code === 'FAST_JWT_MALFORMED') res.status('403').send('Invalid Token');
-    res.send(err);
-  }
+app.decorate("authenticate", async (req, res) => {
+  await req.jwtVerify().catch((err) => res.send(err))
+});
+
+app.decorate("isAdmin", async (req, res) => {
+  if (!req.user.isAdmin) return res.code(403).send(new Error('Unauthorized access'))
 });
 
 app.register(productRoutes, { prefix: '/api/products' });
-app.register(stripeRoutes, { prefix: '/api/checkout' });
 app.register(orderRoutes, { prefix: '/api/orders' });
 app.register(userRoutes, { prefix: '/api/users' });
 app.register(cartRoutes, { prefix: '/api/carts' });

@@ -5,14 +5,14 @@ export const createCart = async (req, res) => {
 
   try {
     const cart = await newCart.save();
-    res.status(200).send(cart)
+    res.send(cart)
   } catch (e) {
-    res.status(500).send(e);
+    res.send(e);
   }
 };
 
 export const updateCart = async (req, res) => {
-  if (req.user.id !== req.params.id && !req.user.isAdmin) return res.code(403).send('Unauthorized');
+  if (req.user.id !== req.params.id && !req.user.isAdmin) return res.code(403).send(new Error('Unauthorized access'));
 
   try {
     const cart = await Cart.findByIdAndUpdate(
@@ -20,41 +20,39 @@ export const updateCart = async (req, res) => {
         $set: req.body
       }, { new: true });
 
-    res.status(200).send(cart);
+    res.send(cart);
   } catch (e) {
-    res.status(500).send(e);
+    res.send(e);
   }
 };
 
 export const deleteCart = async (req, res) => {
-  if (req.user.id !== req.params.id && !req.user.isAdmin) return res.code(403).send('Unauthorized');
+  if (req.user.id !== req.params.id && !req.user.isAdmin) return res.code(403).send(new Error('Unauthorized access'));
 
   try {
     const cart = await Cart.findByIdAndDelete(req.params.id);
-    res.status(200).send(cart) //TODO 'Cart delete'
+    res.send(cart) //TODO 'Cart delete'
   } catch (e) {
-    res.status(500).send(e);
+    res.send(e);
   }
 };
 
 export const userCart = async (req, res) => {
-  if (req.user.id !== req.params.id && !req.user.isAdmin) return res.code(403).send('Unauthorized');
+  if (req.user.id !== req.params.id && !req.user.isAdmin) return res.code(403).send(new Error('Unauthorized access'));
 
   try {
     const cart = await Cart.findOne({ userId: req.params.id }); //TODO VERIF FONCTIONNEMENT
-    res.status(200).send(cart);
+    res.send(cart);
   } catch (e) {
-    res.status(500).send(e);
+    res.send(e);
   }
 };
 
 export const allUserCart = async (req, res) => {
-  if (!req.user.isAdmin) return res.code(403).send('Unauthorized');
-
   try {
     const carts = await Cart.find();
-    res.status(200).send(carts);
+    res.send(carts);
   } catch (e) {
-    res.status(500).send(e);
+    res.send(e);
   }
 };

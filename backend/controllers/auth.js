@@ -15,7 +15,7 @@ export const register = async (req, res) => {
     const { username, accessToken } = user.toJSON();
     res.status(201).send({ username, accessToken });
   } catch (e) {
-    res.status(500).send(e);
+    res.send(e);
   }
 };
 
@@ -33,12 +33,12 @@ export const login = async (req, res) => {
         id: user['_id'],
         isAdmin: user['isAdmin']
       },
-      { expiresIn: "3d" })
+      { expiresIn: "1d" })
 
-    const { username, isAdmin } = user.toJSON();
+    const { username } = user.toJSON();
 
-    res.status(200).send({ username, accessToken, isAdmin })
+    res.send({ username, accessToken })
   } catch (e) {
-    res.status(500).send(e);
+    res.send(e);
   }
 };

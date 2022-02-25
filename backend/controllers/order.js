@@ -6,63 +6,55 @@ export const createOrder = async (req, res) => {
 
   try {
     const order = await newOrder.save();
-    res.status(200).send(order)
+    res.send(order)
   } catch (e) {
-    res.status(500).send(e);
+    res.send(e);
   }
 };
 
 export const updateOrder = async (req, res) => {
-  if (!req.user.isAdmin) return res.code(403).send('Unauthorized');
-
   try {
     const order = await Order.findByIdAndUpdate(
       req.params.id, {
         $set: req.body
       }, { new: true });
 
-    res.status(200).send(order);
+    res.send(order);
   } catch (e) {
-    res.status(500).send(e);
+    res.send(e);
   }
 };
 
 export const deleteOrder = async (req, res) => {
-  if (!req.user.isAdmin) return res.code(403).send('Unauthorized');
-
   try {
     const order = await Order.findByIdAndDelete(req.params.id);
-    res.status(200).send(order) //TODO 'Order delete'
+    res.send(order) //TODO 'Order delete'
   } catch (e) {
-    res.status(500).send(e);
+    res.send(e);
   }
 };
 
 export const userOrder = async (req, res) => {
-  if (req.user.id !== req.params.id && !req.user.isAdmin) return res.code(403).send('Unauthorized');
+  if (req.user.id !== req.params.id && !req.user.isAdmin) return res.code(403).send(new Error('Unauthorized access'));
 
   try {
     const order = await Order.find({ userId: req.params.id });
-    res.status(200).send(order);
+    res.send(order);
   } catch (e) {
-    res.status(500).send(e);
+    res.send(e);
   }
 };
 
 export const allOrder = async (req, res) => {
-  if (!req.user.isAdmin) return res.code(403).send('Unauthorized');
-
   try {
     const orders = await Order.find();
-    res.status(200).send(orders);
+    res.send(orders);
   } catch (e) {
-    res.status(500).send(e);
+    res.send(e);
   }
 };
 
 export const monthlyIncome = async (req, res) => {
-  if (!req.user.isAdmin) return res.code(403).send('Unauthorized');
-
   const productId = req.query.pid;
   const date = new Date();
   const lastMonth = new Date(date.setMonth(date.getMonth() - 1));
@@ -91,15 +83,13 @@ export const monthlyIncome = async (req, res) => {
         },
       },
     ]);
-    res.status(200).send(income);
+    res.send(income);
   } catch (e) {
-    res.status(500).send(e);
+    res.send(e);
   }
 };
 
 export const getStat = async (req, res) => {
-  if (!req.user.isAdmin) return res.code(403).send('Unauthorized');
-
   const date = new Date();
   const lastYear = new Date(date.setFullYear(date.getFullYear() - 1));
 
@@ -119,8 +109,8 @@ export const getStat = async (req, res) => {
       }
     ]);
 
-    res.status(200).send(data);
+    res.send(data);
   } catch (e) {
-    res.status(500).send(e);
+    res.send(e);
   }
 };

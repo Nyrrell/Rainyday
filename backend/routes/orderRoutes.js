@@ -9,11 +9,12 @@ import {
 } from "../controllers/order.js";
 
 export default async function orderRoutes(fastify) {
-  fastify.post('/', { preValidation: [fastify.authenticate] }, createOrder);
-  fastify.put('/:id', { preValidation: [fastify.authenticate] }, updateOrder);
-  fastify.delete('/:id', { preValidation: [fastify.authenticate] }, deleteOrder);
-  fastify.get('/find/:id', { preValidation: [fastify.authenticate] }, userOrder);
-  fastify.get('/', { preValidation: [fastify.authenticate] }, allOrder);
-  fastify.get('/income', { preValidation: [fastify.authenticate] }, monthlyIncome);
-  fastify.get('/stats', { preValidation: [fastify.authenticate] }, getStat);
+  const { authenticate, isAdmin } = fastify;
+  fastify.post('/', { preValidation: [authenticate] }, createOrder);
+  fastify.get('/', { preValidation: [authenticate, isAdmin] }, allOrder);
+  fastify.put('/:id', { preValidation: [authenticate, isAdmin] }, updateOrder);
+  fastify.delete('/:id', { preValidation: [authenticate, isAdmin] }, deleteOrder);
+  fastify.get('/find/:id', { preValidation: [authenticate] }, userOrder);
+  fastify.get('/stats', { preValidation: [authenticate, isAdmin] }, getStat);
+  fastify.get('/income', { preValidation: [authenticate, isAdmin] }, monthlyIncome);
 };

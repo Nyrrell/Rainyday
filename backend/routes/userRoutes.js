@@ -1,9 +1,10 @@
 import { deleteUser, getAllUsers, getUser, getUsersStats, updateUser } from "../controllers/user.js";
 
 export default async function userRoutes(fastify) {
-  fastify.put('/:id', { preValidation: [fastify.authenticate] }, updateUser);
-  fastify.delete('/:id', { preValidation: [fastify.authenticate] }, deleteUser);
-  fastify.get('/find/:id', { preValidation: [fastify.authenticate] }, getUser);
-  fastify.get('/', { preValidation: [fastify.authenticate] }, getAllUsers);
-  fastify.get('/stats', { preValidation: [fastify.authenticate] }, getUsersStats);
+  const { authenticate, isAdmin } = fastify;
+  fastify.put('/:id', { preValidation: [authenticate] }, updateUser);
+  fastify.delete('/:id', { preValidation: [authenticate] }, deleteUser);
+  fastify.get('/find/:id', { preValidation: [authenticate] }, getUser);
+  fastify.get('/', { preValidation: [authenticate, isAdmin] }, getAllUsers);
+  fastify.get('/stats', { preValidation: [authenticate, isAdmin] }, getUsersStats);
 };
