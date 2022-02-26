@@ -1,88 +1,117 @@
-import { LinearProgress } from "@mui/material";
-import { mobile } from "../responsive.js";
-import styled from "styled-components";
+import { IconButton, InputAdornment, TextField } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
-const Container = styled.div`
-  width: 100%;
-  height: 100vh;
-  color: var(--color-dark);
-  background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5)), url("https://images.unsplash.com/photo-1625768376503-68d2495d78c5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8");
-  background-size: cover;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
+import { useState } from "react";
+
+import AuthForm from '../components/AuthForm.jsx'
+import authStore from "../store/authStore.js";
 
 
-const Wrapper = styled.div`
-  position: absolute;
-  width: 40%;
-  padding: 20px;
-  background-color: white;
-  ${mobile({ width: "75%" })}
-`;
-
-const Title = styled.h1`
-  font-size: 32px;
-  font-weight: 300;
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-wrap: wrap;
-`;
-
-const Input = styled.input`
-  flex: 1;
-  min-width: 40%;
-  margin: 20px 10px 0 0;
-  padding: 10px;
-
-`;
-
-const Agreement = styled.span`
-  font-size: 12px;
-  margin: 20px 0;
-`;
-
-const Button = styled.button`
-  width: 40%;
-  border: none;
-  padding: 15px 20px;
-  background-color: teal;
-  color: white;
-  cursor: pointer;
-`;
-
-const Fetching = styled(LinearProgress)`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-`;
+const IconPassword = ({ onClick, show }) => {
+  return (<InputAdornment position="end">
+    <IconButton
+      aria-label="toggle password visibility"
+      onClick={onClick}
+      edge="end"
+    >
+      {show ? <VisibilityOff/> : <Visibility/>}
+    </IconButton>
+  </InputAdornment>);
+}
 
 const Register = () => {
+  const { isFetching, error, statusCode, register } = authStore();
+  const [values, setValues] = useState({
+    username: {
+      value: '',
+      error: false,
+      feedback: 'Minimum 3 caractères.'
+    },
+    email: {
+      value: '',
+      error: false,
+      feedback: 'Adresse mail invalide.'
+    },
+    password: {
+      value: '',
+      error: false,
+      feedback: 'Minimum 8 caractères, 1 majuscule, 1 minuscule et 1 chiffre.'
+    },
+    passwordConfirm: {
+      value: '',
+      error: false,
+      feedback: 'Les mots de passe ne sont pas identique.'
+    },
+    showPassword: false,
+  });
+  const {
+    username,
+    email,
+    password,
+    passwordConfirm,
+    showPassword,
+  } = values;
+
+  const handleChange = ({ target }) => {
+    const { name, value } = target;
+    setValues({ ...values, [name]: { ...values[name], value: value } });
+  };
+
+  const handleShowPassword = () => {
+    setValues({
+      ...values,
+      showPassword: !showPassword,
+    });
+  };
+
+  const formValidation = () => {
+    const usernameRegEx = RegExp(/^[a-z0-9-_]{3,}$/);
+    const emailRegEx = RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+    const passwordRegEx = RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/);
+
+    const userIsValid = usernameRegEx.test(username['value']);
+    const emailIsValid = emailRegEx.test(email['value']);
+    const passwordIsValid = passwordRegEx.test(password['value']);
+    const passwordAreSame = password['value'] === passwordConfirm['value'];
+
+    setValues({
+      ...values,
+      username: { ...values['username'], error: !userIsValid },
+      email: { ...values['email'], error: !emailIsValid },
+      password: { ...values['password'], error: !passwordIsValid },
+      passwordConfirm: { ...values['password'], error: !passwordAreSame },
+    });
+
+    return userIsValid && emailIsValid && passwordIsValid && passwordAreSame;
+  }
+
+  const handleClick = async (e) => {
+    e.preventDefault();
+
+    if (!formValidation()) return console.log('pas valid')
+    return console.log('valid')
+
+// TODO FINIR VALIDATION
+    // register({ username: username['value'], password: password['value'], email: email['value'] });
+  }
+
   return (
-    <Container>
-      <Wrapper>
-        <Fetching />
-        <Title>Créer un compte</Title>
-        <Form>
-          <Input placeholder={"Nom"}/>
-          <Input placeholder={"Prénom"}/>
-          <Input placeholder={"Username"}/>
-          <Input placeholder={"Email"}/>
-          <Input placeholder={"Mot de passe"}/>
-          <Input placeholder={"Confirmer mot de passe"}/>
-          <Agreement>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis doloribus, suscipit. Accusamus asperiores
-            assumenda autem blanditiis consequatur consequuntur, eos harum minus neque nulla possimus quaerat quidem
-            ratione reiciendis repellendus veniam.
-          </Agreement>
-          <Button>Enregistrer</Button>
-        </Form>
-      </Wrapper>
-    </Container>
+    <AuthForm to={'/login'} onClick={handleClick} type={'register'}>
+      <TextField label={"Utilisateur"} name={'username'} value={username['value']} onChange={handleChange}
+                 error={username['error']} helperText={username['feedback']}/>
+      <TextField label={"Email"} name={'email'} value={email['value']} onChange={handleChange} type={'email'}
+                 error={email['error']} helperText={email['error'] && email['feedback']}/>
+      <TextField label={"Mot de passe"} name={'password'} value={password['value']} onChange={handleChange}
+                 type={showPassword ? 'text' : 'password'} error={password['error']}
+                 helperText={password['feedback']}
+                 InputProps={{ endAdornment: <IconPassword onClick={handleShowPassword} show={showPassword}/> }}/>
+      <TextField label={"Confirmer le mot de passe"} name={'passwordConfirm'} value={passwordConfirm['value']}
+                 type={showPassword ? 'text' : 'password'} onChange={handleChange} error={passwordConfirm['error']}
+                 helperText={passwordConfirm['error'] && passwordConfirm['feedback']}
+                 InputProps={{
+                   endAdornment: <IconPassword onClick={handleShowPassword} show={showPassword}/>
+                 }}/>
+    </AuthForm>
   );
 };
 

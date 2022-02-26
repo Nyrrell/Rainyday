@@ -161,7 +161,7 @@ const Cart = () => {
             <SummaryItemText>Total</SummaryItemText>
             <SummaryItemPrice>{total} €</SummaryItemPrice>
           </SummaryItem>
-          <PaypalCheckout products={products} total={total}/>
+          <PaypalCheckout products={products} total={total}/> {/*// TODO TOTAL A CONTROLER*/}
         </Summary>
       </Bottom>
     </Wrapper>

@@ -50,6 +50,11 @@ const MenuItem = styled.div`
 function Navbar() {
   const { currentUser, logout } = authStore();
 
+  const handleClick = (e) => {
+    e.preventDefault();
+    logout();
+  };
+
   return (
     <Container>
       <Wrapper>
@@ -61,7 +66,7 @@ function Navbar() {
         <Right>
           <MenuItem>{currentUser['username']}</MenuItem>
           <MenuItem>
-            <PowerSettingsNew/>
+            <PowerSettingsNew onClick={handleClick}/>
           </MenuItem>
         </Right>
       </Wrapper>

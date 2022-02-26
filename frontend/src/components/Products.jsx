@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 
-import { publicRequest } from "../requestApi.js";
 import Product from "./Product.jsx";
 import { popularProducts } from "../data";
 

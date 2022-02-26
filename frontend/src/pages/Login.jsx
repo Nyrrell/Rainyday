@@ -1,113 +1,64 @@
-import { LinearProgress } from "@mui/material";
-import styled from "styled-components";
+import { IconButton, InputAdornment, TextField } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useState } from "react";
 
+import AuthForm from "../components/AuthForm.jsx";
 import authStore from "../store/authStore.js";
-import { mobile } from "../responsive.js";
-
-const Container = styled.div`
-  width: 100%;
-  height: 100vh;
-  background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5)), url("https://images.unsplash.com/photo-1625768376503-68d2495d78c5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8");
-  background-size: cover;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-dark);
-`;
-
-
-const Wrapper = styled.div`
-  position: absolute;
-  width: 20%;
-  padding: 20px;
-  background-color: white;
-  ${mobile({ width: "75%" })}
-`;
-
-const Title = styled.h1`
-  font-size: 32px;
-  font-weight: 300;
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-`;
-
-const Input = styled.input`
-  flex: 1;
-  min-width: 40%;
-  margin: 10px 0;
-  padding: 10px;
-
-`;
-
-const Button = styled.button`
-  width: 40%;
-  border: none;
-  padding: 15px 20px;
-  background-color: teal;
-  color: white;
-  cursor: pointer;
-  margin-bottom: 10px;
-
-  &:disabled {
-    background-color: gray;
-    cursor: not-allowed;
-  }
-`;
-
-const Link = styled.a`
-  margin: 5px 0;
-  font-size: 14px;
-  text-decoration: underline;
-  cursor: pointer;
-  text-transform: uppercase;
-`;
-
-const Error = styled.span`
-  color: red;
-`;
-
-const Fetching = styled(LinearProgress)`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-`;
 
 const Login = () => {
-  const [username, setUsername] = useState();
-  const [password, setPassword] = useState();
+  const { login } = authStore();
+  const [values, setValues] = useState({
+    username: '',
+    password: '',
+    showPassword: false,
+    usernameEmpty: undefined,
+    passwordEmpty: undefined
+  });
+  const { username, password, showPassword, usernameEmpty, passwordEmpty } = values;
 
-  const { isFetching, error, login } = authStore();
+  const handleChange = ({ target }) => {
+    const { name, value } = target;
+    setValues({ ...values, [name]: value, [`${name}Empty`]: false });
+  };
+
+  const handleClickShowPassword = () => {
+    setValues({
+      ...values,
+      showPassword: !showPassword,
+    });
+  };
 
   const handleClick = (e) => {
     e.preventDefault();
+    if (!username || !password) {
+      return setValues({
+        ...values,
+        usernameEmpty: !Boolean(username),
+        passwordEmpty: !Boolean(password)
+      })
+    }
     login({ username, password });
   }
 
   return (
-    <Container>
-      <Wrapper>
-        {isFetching && <Fetching />}
-        <Title>Connexion</Title>
-        <Form>
-          <Input placeholder={"Utilisateur"}
-                 onChange={(e) => setUsername(e.target.value)}
-          />
-          <Input placeholder={"Mot de passe"}
-                 type={'password'}
-                 onChange={(e) => setPassword(e.target.value)}
-          />
-          { error && <Error>Utilisateur ou Mot de passe incorrect</Error>}
-          <Button onClick={handleClick} disabled={isFetching}>Connexion</Button>
-          <Link>Mot de passe oublié ?</Link>
-          <Link>Créer un compte</Link>
-        </Form>
-      </Wrapper>
-    </Container>
+    <AuthForm to={'/register'} onClick={handleClick} type={'login'}>
+      <TextField label={"Utilisateur"} name={'username'} value={username} onChange={handleChange}
+                 error={usernameEmpty}/>
+      <TextField label={"Mot de passe"} name={'password'} value={password} type={showPassword ? 'text' : 'password'}
+                 onChange={handleChange} error={passwordEmpty} InputProps={{
+        endAdornment: (
+          <InputAdornment position="end">
+            <IconButton
+              aria-label="toggle password visibility"
+              onClick={handleClickShowPassword}
+              edge="end"
+            >
+              {showPassword ? <VisibilityOff/> : <Visibility/>}
+            </IconButton>
+          </InputAdornment>)
+      }}/>
+      {/*<Link>Mot de passe oublié ?</Link>*/}
+    </AuthForm>
   );
 };
 

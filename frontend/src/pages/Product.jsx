@@ -2,13 +2,12 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@mui/material";
 import styled from "styled-components";
 
+import AmountProduct from "../components/AmountProduct";
 import cartStore from "../store/cartStore.js";
-import { publicRequest } from "../requestApi.js";
 import Products from "../components/Products";
 import { useEffect, useState } from "react";
 import { mobile } from "../responsive.js";
 import { popularProducts } from "../data";
-import AmountProduct from "../components/AmountProduct";
 
 const Container = styled.div`
   width: var(--container-size);

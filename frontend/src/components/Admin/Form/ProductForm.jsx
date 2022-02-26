@@ -78,7 +78,7 @@ const ProductForm = ({ data, type, close }) => {
 
   const [inputs, setInputs] = useState(data ?? initialState);
   const [file, setFile] = useState(null);
-
+  console.log(file)
   const handleChange = (e) => {
     setInputs((prev) => {
       return { ...prev, [e.target.name]: e.target.name === 'inStock' ? e.target.checked : e.target.value };

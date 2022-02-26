@@ -61,7 +61,7 @@ const ProductInfoValue = styled.span`
 const Product = () => {
   const location = useLocation();
   const productId = location.pathname.split("/")[3];
-  const { products, deleteProduct } = productStore();
+  const { products } = productStore();
 
   const product = products.find((product) => product._id === productId);
 

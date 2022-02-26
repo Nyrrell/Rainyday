@@ -8,6 +8,7 @@ const authStore = create(persist(
     currentUser: null,
     isFetching: false,
     error: false,
+    statusCode: null,
     login: async (payload) => {
       set({ isFetching: true });
       try {
@@ -18,7 +19,13 @@ const authStore = create(persist(
       }
     },
     register: async (payload) => {
-      // TODO
+      set({ isFetching: true });
+      try {
+        const { data } = await publicRequest.post('/auth/register', payload);
+        set({ currentUser: data, isFetching: false, error: false, statusCode: null });
+      } catch (e) {
+        set({ isFetching: false, error: true, statusCode: e['response']?.['status'] });
+      }
     },
     logout: () => {
       set({ currentUser: null });

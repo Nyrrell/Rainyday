@@ -96,7 +96,7 @@ const IsLogged = ({ user, onClick }) => (
       </MenuItem>
     </>
   ) : (
-    <>e
+    <>
       <MenuItem onClick={onClick}>déconnexion</MenuItem>
       <MenuItem>
         <Link to={'/account'}>mon compte</Link>
