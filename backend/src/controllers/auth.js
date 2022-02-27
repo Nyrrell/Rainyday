@@ -22,8 +22,8 @@ export const register = async (req, res) => {
 
     res.status(201).send({ username, accessToken });
   } catch (e) {
-    if (e?.['keyPattern']?.['username']) res.status(409).send(new Error('Username already register'));
-    if (e?.['keyPattern']?.['email']) res.status(409).send(new Error('Email already register'));
+    if (e?.['keyPattern']?.['username']) res.status(409).send(new Error('Utilisateur déjà enregistrer !'));
+    if (e?.['keyPattern']?.['email']) res.status(409).send(new Error('Email déjà enregistrer !'));
     res.send(e);
   }
 };
@@ -31,22 +31,21 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const user = await User.findOne({ username: req.body.username });
-    !user && res.code(401).send(new Error('Wrong Credentials'));
+    !user && res.code(401).send(new Error('Utilisateur ou mot de passe incorrect !'));
 
     const hashedPass = CryptoJS.AES.decrypt(user['password'], process.env.PASS_SEC)
     const originPassword = hashedPass.toString(CryptoJS.enc.Utf8)
 
-    originPassword !== req.body.password && res.code(401).send(new Error('Wrong Credentials'));
+    originPassword !== req.body.password && res.code(401).send(new Error('Utilisateur ou mot de passe incorrect !'));
 
-    const accessToken = await res.jwtSign({
+    const token = await res.jwtSign({
         id: user['_id'],
+        username: user['username'],
         isAdmin: user['isAdmin']
       },
-      { expiresIn: "1d" })
+      { expiresIn: "1d" });
 
-    const { username } = user.toJSON();
-
-    res.send({ username, accessToken })
+    res.send(token)
   } catch (e) {
     res.send(e);
   }
