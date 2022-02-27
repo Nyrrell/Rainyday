@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useLayoutEffect } from "react";
 
 const Hover = styled.div`
   opacity: 0;
@@ -23,7 +24,7 @@ const Container = styled.article`
   flex-direction: column;
   background: var(--color-dark);
   background: linear-gradient(180deg, var(--color-dark-alt) 50%, var(--color-dark) 100%);
-  box-shadow:  0 5px 16px -12px rgba(255, 255, 255, 0.5);
+  box-shadow: 0 5px 16px -12px rgba(255, 255, 255, 0.5);
   border: 1px solid var(--color-gray);
 
   &:hover ${Hover} {
@@ -83,17 +84,21 @@ const Btn = styled(Button)`
   transition: all 0.2s ease;
   border-radius: unset;
   cursor: ${props => props['cursor']};
-  
+
   &:hover {
     ${props => !props['cursor'] && 'transform: scale(1.1)'}
   }
 `;
 
 const Product = ({ item }) => {
+  useLayoutEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
+  });
+
   return (
     <Container>
       <ImageContainer to={`/product/${item['_id']}`}>
-        {!item['stock'] && <SoldOut>SOLD <br />OUT</SoldOut>}
+        {!item['stock'] && <SoldOut>SOLD <br/>OUT</SoldOut>}
         <Image src={item['img']}/>
         <Hover/>
       </ImageContainer>

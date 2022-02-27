@@ -1,5 +1,5 @@
 import { PowerSettingsNew } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import { mobile } from "../../responsive.js";
@@ -48,11 +48,13 @@ const MenuItem = styled.div`
 `;
 
 function Navbar() {
-  const { currentUser, logout } = authStore();
+  const { token, logout } = authStore();
+  let navigate = useNavigate();
 
   const handleClick = (e) => {
     e.preventDefault();
     logout();
+    navigate("/");
   };
 
   return (
@@ -64,7 +66,7 @@ function Navbar() {
           </Link>
         </Left>
         <Right>
-          <MenuItem>{currentUser['username']}</MenuItem>
+          <MenuItem>{token['username']}</MenuItem>
           <MenuItem>
             <PowerSettingsNew onClick={handleClick}/>
           </MenuItem>

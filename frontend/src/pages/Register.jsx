@@ -20,7 +20,7 @@ const IconPassword = ({ onClick, show }) => {
 }
 
 const Register = () => {
-  const { isFetching, error, statusCode, register } = authStore();
+  const { register } = authStore();
   const [values, setValues] = useState({
     username: {
       value: '',
@@ -66,7 +66,7 @@ const Register = () => {
 
   const formValidation = () => {
     const usernameRegEx = RegExp(/^[a-z0-9-_]{3,}$/);
-    const emailRegEx = RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+    const emailRegEx = RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
     const passwordRegEx = RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/);
 
     const userIsValid = usernameRegEx.test(username['value']);
@@ -79,7 +79,7 @@ const Register = () => {
       username: { ...values['username'], error: !userIsValid },
       email: { ...values['email'], error: !emailIsValid },
       password: { ...values['password'], error: !passwordIsValid },
-      passwordConfirm: { ...values['password'], error: !passwordAreSame },
+      passwordConfirm: { ...values['passwordConfirm'], error: !passwordAreSame },
     });
 
     return userIsValid && emailIsValid && passwordIsValid && passwordAreSame;
@@ -87,12 +87,8 @@ const Register = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
-
-    if (!formValidation()) return console.log('pas valid')
-    return console.log('valid')
-
-// TODO FINIR VALIDATION
-    // register({ username: username['value'], password: password['value'], email: email['value'] });
+    if (!formValidation()) return;
+    register({ username: username['value'], password: password['value'], email: email['value'] });
   }
 
   return (

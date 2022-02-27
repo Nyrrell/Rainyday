@@ -57,7 +57,6 @@ const Login = () => {
             </IconButton>
           </InputAdornment>)
       }}/>
-      {/*<Link>Mot de passe oublié ?</Link>*/}
     </AuthForm>
   );
 };

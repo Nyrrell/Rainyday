@@ -3,11 +3,11 @@ import fastify from "fastify";
 import jwt from 'fastify-jwt';
 import "dotenv/config";
 
-import productRoutes from "../routes/productRoutes.js";
-import orderRoutes from "../routes/orderRoutes.js";
-import userRoutes from "../routes/userRoutes.js";
-import authRoutes from "../routes/authRoutes.js";
-import cartRoutes from "../routes/cartRoutes.js";
+import productRoutes from "./routes/productRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
+import cartRoutes from "./routes/cartRoutes.js";
 
 const app = fastify({
   logger: false

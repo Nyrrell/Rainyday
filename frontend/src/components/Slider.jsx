@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-import { popularProducts } from "../data.js";
+import { popularProducts } from "../data.js"; //TODO VRAI DATA
 import Carousel from "./Carousel.jsx";
-
 
 const Article = styled.article`
   display: inline-flex;

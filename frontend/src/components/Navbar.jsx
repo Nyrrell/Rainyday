@@ -106,7 +106,7 @@ const IsLogged = ({ user, onClick }) => (
 );
 
 const Navbar = () => {
-  const { currentUser, logout } = authStore();
+  const { token, logout } = authStore();
   const quantity = cartStore(state => state.quantity);
 
   const handleClick = (e) => {
@@ -124,7 +124,7 @@ const Navbar = () => {
         <Link to={'/'}><Logo src={logo} alt="Logo"/></Link>
       </Center>
       <Right>
-        <IsLogged user={currentUser} onClick={handleClick}/>
+        <IsLogged user={token} onClick={handleClick}/>
         <MenuItem>
           <Link to={'/cart'}>
             <CartBadge badgeContent={quantity} color={"error"}>

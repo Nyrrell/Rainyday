@@ -32,9 +32,7 @@ const paypalOptions = {
 };
 
 const App = () => {
-  const user = authStore(state => state['currentUser']);
-
-  const admin = user?.['isAdmin']; // TODO A SECURISER
+  const { token, isAdmin } = authStore(); //TODO FULL PT
 
   return (
     <PayPalScriptProvider options={paypalOptions}>
@@ -47,10 +45,10 @@ const App = () => {
           <Route path="/product/:id" element={<Product/>}/>
           <Route path="/cart" element={<Cart/>}/>
           <Route path="/success" element={<Success/>}/>
-          <Route path="/login" element={user ? <Navigate replace to='/'/> : <Login/>}/>
-          <Route path="/register" element={user ? <Navigate replace to='/'/> : <Register/>}/>
+          <Route path="/login" element={token ? <Navigate replace to='/'/> : <Login/>}/>
+          <Route path="/register" element={token ? <Navigate replace to='/'/> : <Register/>}/>
         </Route>
-        <Route path="/admin" element={admin ? <Admin/> : <NoMatch/>}>
+        <Route path="/admin" element={isAdmin() ? <Admin/> : <NoMatch/>}>
           <Route index element={<HomeAdmin/>}/>
           <Route path="users" element={<UserList/>}/>
           <Route path="user/:id" element={<User/>}/>

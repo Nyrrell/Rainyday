@@ -62,7 +62,18 @@ const Fetching = styled(LinearProgress)`
 `;
 
 const AuthForm = ({ children, onClick, to, type }) => {
-  const { isFetching, error } = authStore();
+  const { isFetching, error, status, message, clearError } = authStore();
+
+  const AlertMessage = () => {
+    switch (status) {
+      case 401:
+        return message;
+      case 409:
+        return message;
+      default:
+        return ("Une erreur est survenue.");
+    }
+  }
 
   return (
     <Container>
@@ -70,16 +81,15 @@ const AuthForm = ({ children, onClick, to, type }) => {
         <Title>{type === 'login' ? 'Connexion' : 'Inscription'}</Title>
         {error &&
           (<Alert severity="error">
-            {type === 'login'
-              ? 'Utilisateur ou mot de passe incorrect !'
-              : 'statusCode === Utilisateur ou mot de passe incorrect !'}
+            <AlertMessage/>
           </Alert>)
         }
-        <Form>
+        <Form onKeyPress={e => e.key === 'Enter' && onClick(e)}>
           {children}
           <Button variant={'contained'} onClick={onClick}
                   disabled={isFetching}>{type === 'login' ? 'Connexion' : 'Enregistrer'}</Button>
-          <LinkTo to={to}>{type === 'login' ? 'Créer un compte' : 'Déjà un compte ?'}</LinkTo>
+          <LinkTo to={to} onClick={clearError}>{type === 'login' ? 'Créer un compte' : 'Déjà un compte ?'}</LinkTo>
+          {/*<Link>Mot de passe oublié ?</Link>*/}
         </Form>
         {isFetching && <Fetching/>}
       </Wrapper>

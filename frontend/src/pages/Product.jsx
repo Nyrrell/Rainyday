@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Button } from "@mui/material";
 import styled from "styled-components";
 
@@ -148,8 +148,7 @@ const Subtitle = styled.h2`
 
 const Product = () => {
   const { addProduct } = cartStore();
-  const location = useLocation();
-  const id = location.pathname.split('/')[2];
+  const { id } = useParams();
 
   const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState({});

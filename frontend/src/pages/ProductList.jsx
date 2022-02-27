@@ -1,8 +1,9 @@
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { useState } from "react";
+
 import Products from "../components/Products.jsx";
 import { mobile } from "../responsive.js";
-import { useLocation } from "react-router-dom";
-import { useState } from "react";
 
 const Container = styled.div`
   width: var(--container-size);
@@ -46,22 +47,20 @@ const Select = styled.select`
 const Option = styled.option``;
 
 const ProductList = () => {
-  const location = useLocation();
-  const cat = location.pathname.split('/')[2];
+  const { category } = useParams();
   const [filters, setFilters] = useState({});
   const [sort, setSort] = useState("newest");
 
-  const handleFilters = (e) => {
-    const value = e.target.value;
+  const handleFilters = ({ target }) => {
     setFilters({
       ...filters,
-      [e.target.name]: value.toLowerCase()
+      [target.name]: target.value.toLowerCase()
     })
   };
 
   return (
     <Container>
-      <Title>{cat}</Title>
+      <Title>{category}</Title>
       <FilterContainer>
         <Filter>
           <FilterText>Filtrer :</FilterText>
@@ -74,14 +73,14 @@ const ProductList = () => {
         </Filter>
         <Filter>
           <FilterText>Trier :</FilterText>
-          <Select onChange={e => setSort(e.target.value)}>
+          <Select onChange={({ target }) => setSort(target.value)}>
             <Option value={"newest"}>Nouveau</Option>
             <Option value={"asc"}>Prix croissant</Option>
             <Option value={"desc"}>Prix décroissant</Option>
           </Select>
         </Filter>
       </FilterContainer>
-      <Products cat={cat} filters={filters} sort={sort}/>
+      <Products cat={category} filters={filters} sort={sort}/>
     </Container>
   );
 };

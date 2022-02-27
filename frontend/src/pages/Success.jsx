@@ -8,14 +8,14 @@ const Success = () => {
   console.log(location)
   const data = location.state.stripeData;
   const cart = location.state.cart;
-  const { currentUser } = authStore();
+  const { token } = authStore();
   const [orderId, setOrderId] = useState(null);
 
   useEffect(() => {
     const createOrder = async () => {
       try {
         const res = await userRequest.post("/orders", {
-          userId: currentUser._id,
+          userId: token._id,
           products: cart.products.map((item) => ({
             productId: item._id,
             quantity: item._quantity,
@@ -27,7 +27,7 @@ const Success = () => {
       } catch {}
     };
     data && createOrder();
-  }, [cart, data, currentUser]);
+  }, [cart, data, token]);
 
   return (
     <div
