@@ -2,12 +2,21 @@ import CryptoJS from 'crypto-js';
 import 'dotenv/config';
 
 import User from "../models/User.js";
+import { validateEmail, validatePassword, validateUsername } from "../helpers/validation.js";
 
 export const register = async (req, res) => {
+  const { username, email, password } = req.body;
+
+  const isValidUsername = validateUsername(username);
+  const isValidPassword = validatePassword(password);
+  const isValidEmail = validateEmail(email);
+
+  !(isValidUsername && isValidEmail && isValidPassword) && res.status(422).send(new Error('Informations erronées !'));
+
   const newUser = new User({
-    username: req.body.username,
-    email: req.body.email,
-    password: CryptoJS.AES.encrypt(req.body.password, process.env.PASS_SEC)
+    username: username,
+    email: email,
+    password: CryptoJS.AES.encrypt(password, process.env.PASS_SEC)
   });
 
   try {
