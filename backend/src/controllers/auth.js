@@ -4,6 +4,14 @@ import 'dotenv/config';
 import User from "../models/User.js";
 import { validateEmail, validatePassword, validateUsername } from "../helpers/validation.js";
 
+const genToken = async (user, fastify) => fastify.jwtSign({
+    id: user['_id'],
+    username: user['username'],
+    ...(user['isAdmin'] && { isAdmin: user['isAdmin'] })
+  },
+  { expiresIn: "1d" }
+);
+
 export const register = async (req, res) => {
   const { username, email, password } = req.body;
 
@@ -21,15 +29,10 @@ export const register = async (req, res) => {
 
   try {
     const user = await newUser.save();
-    const { username } = user.toJSON();
 
-    const accessToken = await res.jwtSign({
-        id: user['_id'],
-        isAdmin: user['isAdmin']
-      },
-      { expiresIn: "1d" });
+    const token = await genToken(user, res)
 
-    res.status(201).send({ username, accessToken });
+    res.status(201).send(token);
   } catch (e) {
     if (e?.['keyPattern']?.['username']) res.status(409).send(new Error('Utilisateur déjà enregistrer !'));
     if (e?.['keyPattern']?.['email']) res.status(409).send(new Error('Email déjà enregistrer !'));
@@ -47,14 +50,21 @@ export const login = async (req, res) => {
 
     originPassword !== req.body.password && res.code(401).send(new Error('Utilisateur ou mot de passe incorrect !'));
 
-    const token = await res.jwtSign({
-        id: user['_id'],
-        username: user['username'],
-        isAdmin: user['isAdmin']
-      },
-      { expiresIn: "1d" });
+    const token = await genToken(user, res)
 
     res.send(token)
+  } catch (e) {
+    res.send(e);
+  }
+};
+
+export const authorize = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    !user && res.code(401).send(new Error('Unauthorized access'));
+    user['isAdmin']
+      ? res.send({ allowAccess: true })
+      : res.code(403).send(new Error('Unauthorized access'));
   } catch (e) {
     res.send(e);
   }

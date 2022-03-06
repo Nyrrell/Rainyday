@@ -1,5 +1,6 @@
 import { IconButton, InputAdornment, TextField } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import validator from 'validator';
 
 import { useState } from "react";
 
@@ -20,6 +21,8 @@ const IconPassword = ({ onClick, show }) => {
 }
 
 const Register = () => {
+  const { isEmail, isStrongPassword, matches } = validator;
+
   const { register } = authStore();
   const [values, setValues] = useState({
     username: {
@@ -35,7 +38,7 @@ const Register = () => {
     password: {
       value: '',
       error: false,
-      feedback: 'Minimum 8 caractères, 1 majuscule, 1 minuscule et 1 chiffre.'
+      feedback: 'Minimum 8 caractères, 1 majuscule, 1 minuscule et 1 chiffre, 1 symbole.'
     },
     passwordConfirm: {
       value: '',
@@ -65,13 +68,9 @@ const Register = () => {
   };
 
   const formValidation = () => {
-    const usernameRegEx = RegExp(/^[a-z0-9-_]{3,}$/);
-    const emailRegEx = RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-    const passwordRegEx = RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/);
-
-    const userIsValid = usernameRegEx.test(username['value']);
-    const emailIsValid = emailRegEx.test(email['value']);
-    const passwordIsValid = passwordRegEx.test(password['value']);
+    const userIsValid = matches(username['value'], /^[a-zA-Z0-9-_]{3,}$/);
+    const emailIsValid = isEmail(email['value']);
+    const passwordIsValid = isStrongPassword(password['value']);
     const passwordAreSame = password['value'] === passwordConfirm['value'];
 
     setValues({
@@ -92,7 +91,7 @@ const Register = () => {
   }
 
   return (
-    <AuthForm to={'/login'} onClick={handleClick} type={'register'}>
+    <AuthForm onClick={handleClick} type={'register'}>
       <TextField label={"Utilisateur"} name={'username'} value={username['value']} onChange={handleChange}
                  error={username['error']} helperText={username['feedback']}/>
       <TextField label={"Email"} name={'email'} value={email['value']} onChange={handleChange} type={'email'}

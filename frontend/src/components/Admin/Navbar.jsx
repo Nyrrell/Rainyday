@@ -2,7 +2,7 @@ import { PowerSettingsNew } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import { mobile } from "../../responsive.js";
+import { mobile } from "../../services/responsive.js";
 import authStore from "../../store/authStore.js";
 
 const Container = styled.div`
@@ -48,7 +48,7 @@ const MenuItem = styled.div`
 `;
 
 function Navbar() {
-  const { token, logout } = authStore();
+  const { username, logout } = authStore();
   let navigate = useNavigate();
 
   const handleClick = (e) => {
@@ -66,7 +66,7 @@ function Navbar() {
           </Link>
         </Left>
         <Right>
-          <MenuItem>{token['username']}</MenuItem>
+          <MenuItem>{username.toUpperCase()}</MenuItem>
           <MenuItem>
             <PowerSettingsNew onClick={handleClick}/>
           </MenuItem>

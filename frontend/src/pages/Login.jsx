@@ -41,7 +41,7 @@ const Login = () => {
   }
 
   return (
-    <AuthForm to={'/register'} onClick={handleClick} type={'login'}>
+    <AuthForm onClick={handleClick} type={'login'}>
       <TextField label={"Utilisateur"} name={'username'} value={username} onChange={handleChange}
                  error={usernameEmpty}/>
       <TextField label={"Mot de passe"} name={'password'} value={password} type={showPassword ? 'text' : 'password'}

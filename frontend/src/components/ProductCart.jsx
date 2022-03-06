@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 import cartStore from "../store/cartStore.js";
 import AmountProduct from "./AmountProduct";
-import { mobile } from "../responsive";
+import { mobile } from "../services/responsive.js";
 
 const ProductCard = styled.div`
   display: flex;

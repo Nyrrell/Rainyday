@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import { categories } from "../data.js";
 import CategoryItem from "./CategoryItem.jsx";
-import { mobile } from "../responsive.js";
+import { mobile } from "../services/responsive.js";
 
 const Container = styled.section`
   width: var(--container-size);

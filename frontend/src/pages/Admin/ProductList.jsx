@@ -23,11 +23,11 @@ const ProductImage = styled.img`
 
 const ProductList = () => {
   const [open, setOpen] = useState(false);
-  const { products, deleteProduct } = productStore();
+  const { getProducts, products, deleteProduct } = productStore();
 
   useEffect(() => {
-
-  }, [products]);
+    getProducts()
+  }, [getProducts]);
 
   const handleClickOpen = () => {
     setOpen(true);

@@ -2,7 +2,7 @@ import { Alert, Button, LinearProgress } from "@mui/material";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-import { mobile } from "../responsive.js";
+import { mobile } from "../services/responsive.js";
 import authStore from "../store/authStore.js";
 
 const Container = styled.div`
@@ -61,7 +61,7 @@ const Fetching = styled(LinearProgress)`
   right: 0;
 `;
 
-const AuthForm = ({ children, onClick, to, type }) => {
+const AuthForm = ({ children, onClick, type }) => {
   const { isFetching, error, status, message, clearError } = authStore();
 
   const AlertMessage = () => {
@@ -88,7 +88,10 @@ const AuthForm = ({ children, onClick, to, type }) => {
           {children}
           <Button variant={'contained'} onClick={onClick}
                   disabled={isFetching}>{type === 'login' ? 'Connexion' : 'Enregistrer'}</Button>
-          <LinkTo to={to} onClick={clearError}>{type === 'login' ? 'Créer un compte' : 'Déjà un compte ?'}</LinkTo>
+          <LinkTo to={type === 'login' ? '/register' : '/login'}
+                  onClick={clearError}>
+            {type === 'login' ? 'Créer un compte' : 'Déjà un compte ?'}
+          </LinkTo>
           {/*<Link>Mot de passe oublié ?</Link>*/}
         </Form>
         {isFetching && <Fetching/>}

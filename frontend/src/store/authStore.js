@@ -1,34 +1,37 @@
 import jwtDecode from "jwt-decode";
 import create from "zustand";
 
-import { publicRequest } from "../requestApi.js";
+import { publicRequest, userRequest } from "../services/requestApi.js";
 
 const authStore = create(
   (set, get) => ({
     token: '',
-    isFetching: false,
+    username: '',
     error: false,
     status: null,
     message: null,
+    isFetching: false,
     init: () => {
-      const storedToken = localStorage.getItem("token");
-      if (!storedToken) return;
-      const token = jwtDecode(storedToken)
-      if (!token.exp * 1000 > Date.now()) return get().logout();
-
-      set({ token: storedToken });
+      const token = localStorage.getItem("token");
+      if (!token) return;
+      const { username, exp } = jwtDecode(token);
+      if (exp * 1000 < Date.now()) return get().logout();
+      set({ token, username });
     },
-    isAdmin : () => {
-      const token = get().token;
-      if (!token) return false;
-      return jwtDecode(token)['isAdmin']
+    authorize: async () => {
+      try {
+        const { data } = await userRequest.post('/auth/authorize');
+        return data['allowAccess'];
+      } catch (e) {
+        return false;
+      }
     },
     login: async (payload) => {
       set({ isFetching: true });
       try {
         const { data } = await publicRequest.post('/auth/login', payload);
         localStorage.setItem("token", data);
-        set({ token: data });
+        set({ token: data, username: jwtDecode(data)['username'] });
         get().clearError();
       } catch (e) {
         set({
@@ -44,7 +47,7 @@ const authStore = create(
       try {
         const { data } = await publicRequest.post('/auth/register', payload);
         localStorage.setItem("token", data);
-        set({ token: data });
+        set({ token: data, username: jwtDecode(data)['username'] });
         get().clearError();
       } catch (e) {
         set({
@@ -57,7 +60,7 @@ const authStore = create(
     },
     logout: () => {
       localStorage.removeItem("token");
-      set({ token: '' });
+      set({ token: '', username: '' });
     },
     clearError: () => set({ isFetching: false, error: false, status: null, message: null }),
   }),

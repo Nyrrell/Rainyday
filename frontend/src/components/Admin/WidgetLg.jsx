@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { userRequest } from "../../requestApi.js";
+import { userRequest } from "../../services/requestApi.js";
 
 const Container = styled.div`
   flex: 2;

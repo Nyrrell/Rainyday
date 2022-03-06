@@ -6,7 +6,7 @@ import { Badge } from '@mui/material';
 import logo from "../images/logo.png";
 import authStore from "../store/authStore.js";
 import cartStore from "../store/cartStore.js";
-import { mobile } from "../responsive.js";
+import { mobile } from "../services/responsive.js";
 import { categories } from "../data";
 
 const Wrapper = styled.nav`
@@ -97,6 +97,7 @@ const IsLogged = ({ user, onClick }) => (
     </>
   ) : (
     <>
+      <MenuItem>{user}</MenuItem>
       <MenuItem onClick={onClick}>déconnexion</MenuItem>
       <MenuItem>
         <Link to={'/account'}>mon compte</Link>
@@ -106,7 +107,7 @@ const IsLogged = ({ user, onClick }) => (
 );
 
 const Navbar = () => {
-  const { token, logout } = authStore();
+  const { logout, username } = authStore();
   const quantity = cartStore(state => state.quantity);
 
   const handleClick = (e) => {
@@ -124,7 +125,7 @@ const Navbar = () => {
         <Link to={'/'}><Logo src={logo} alt="Logo"/></Link>
       </Center>
       <Right>
-        <IsLogged user={token} onClick={handleClick}/>
+        <IsLogged user={username} onClick={handleClick}/>
         <MenuItem>
           <Link to={'/cart'}>
             <CartBadge badgeContent={quantity} color={"error"}>

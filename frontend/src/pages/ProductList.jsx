@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useState } from "react";
 
 import Products from "../components/Products.jsx";
-import { mobile } from "../responsive.js";
+import { mobile } from "../services/responsive.js";
 
 const Container = styled.div`
   width: var(--container-size);

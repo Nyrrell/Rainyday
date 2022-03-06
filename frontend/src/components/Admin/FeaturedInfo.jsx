@@ -2,7 +2,7 @@ import { ArrowDownward, ArrowUpward } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
-import { userRequest } from "../../requestApi.js";
+import { userRequest } from "../../services/requestApi.js";
 
 const Container = styled.div`
   margin-top: 20px;

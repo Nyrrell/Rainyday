@@ -5,10 +5,10 @@ import styled from "styled-components";
 import { useEffect } from "react";
 
 import PaypalCheckout from "../components/PaypalCheckout.jsx";
+import { userRequest } from "../services/requestApi.js";
 import ProductCart from "../components/ProductCart";
-import { userRequest } from "../requestApi.js";
+import { mobile } from "../services/responsive.js";
 import cartStore from "../store/cartStore.js";
-import { mobile } from "../responsive.js";
 
 const Wrapper = styled.div`
   width: var(--container-size);

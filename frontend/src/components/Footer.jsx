@@ -2,7 +2,7 @@ import { EmailOutlined, Instagram, Phone } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-import { mobile } from "../responsive.js";
+import { mobile } from "../services/responsive.js";
 import logo from "../images/logo.png";
 
 const Container = styled.footer`

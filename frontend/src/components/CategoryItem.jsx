@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { mobile } from "../responsive.js";
+import { mobile } from "../services/responsive.js";
 
 const Hover = styled.div`
   opacity: 0;

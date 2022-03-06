@@ -8,11 +8,11 @@ import UserForm from "../../components/Admin/Form/UserForm.jsx";
 
 const UserList = () => {
   const [open, setOpen] = useState(false);
-  const { users, deleteUser } = userStore();
+  const { users, getUsers, deleteUser } = userStore();
 
   useEffect(() => {
-
-  }, [users])
+    getUsers()
+  }, [getUsers])
 
   const handleClickOpen = () => {
     setOpen(true);

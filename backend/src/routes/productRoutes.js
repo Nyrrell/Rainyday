@@ -3,6 +3,7 @@ import { createProduct, deleteProduct, getAllProducts, getProduct, updateProduct
 export default async function productRoutes(fastify) {
   const { authenticate, isAdmin } = fastify;
   fastify.post('/', { preValidation: [authenticate, isAdmin] }, createProduct);
+  fastify.post('/all', { preValidation: [authenticate, isAdmin] }, getAllProducts); // TODO ALL PRODUCT ADMIN PAGE
   fastify.put('/:id', { preValidation: [authenticate, isAdmin] }, updateProduct);
   fastify.delete('/:id', { preValidation: [authenticate, isAdmin] }, deleteProduct);
   fastify.get('/find/:id', getProduct);

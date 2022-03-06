@@ -2,7 +2,7 @@ import { ArrowLeftOutlined, ArrowRightOutlined } from "@mui/icons-material";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-import { mobile } from "../responsive.js";
+import { mobile } from "../services/responsive.js";
 
 const Arrow = styled.div`
   width: 50px;

@@ -1,12 +1,12 @@
 import { Link, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import styled from "styled-components";
 
 import AmountProduct from "../components/AmountProduct";
-import cartStore from "../store/cartStore.js";
+import { mobile } from "../services/responsive.js";
 import Products from "../components/Products";
-import { useEffect, useState } from "react";
-import { mobile } from "../responsive.js";
+import cartStore from "../store/cartStore.js";
 import { popularProducts } from "../data";
 
 const Container = styled.div`

@@ -1,7 +1,7 @@
 import { persist } from "zustand/middleware";
 import create from "zustand";
 
-import { userRequest } from "../requestApi.js";
+import { userRequest } from "../services/requestApi.js";
 
 const userStore = create(persist(
     set => ({

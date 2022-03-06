@@ -1,5 +1,5 @@
 import authStore from "../store/authStore.js";
-import { userRequest } from "../requestApi.js";
+import { userRequest } from "../services/requestApi.js";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 

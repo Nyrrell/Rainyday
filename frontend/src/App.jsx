@@ -1,7 +1,7 @@
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
-import authStore from "./store/authStore.js";
+import { AlreadyAuth, RequireAuth, RequireAuthorization } from "./services/ProtectedRoute.js";
 
 // SHOP PAGES
 import ProductList from "./pages/ProductList.jsx";
@@ -32,8 +32,6 @@ const paypalOptions = {
 };
 
 const App = () => {
-  const { token, isAdmin } = authStore(); //TODO FULL PT
-
   return (
     <PayPalScriptProvider options={paypalOptions}>
       <Routes>
@@ -45,10 +43,11 @@ const App = () => {
           <Route path="/product/:id" element={<Product/>}/>
           <Route path="/cart" element={<Cart/>}/>
           <Route path="/success" element={<Success/>}/>
-          <Route path="/login" element={token ? <Navigate replace to='/'/> : <Login/>}/>
-          <Route path="/register" element={token ? <Navigate replace to='/'/> : <Register/>}/>
+          <Route path="/login" element={<AlreadyAuth><Login/></AlreadyAuth>}/>
+          <Route path="/register" element={<AlreadyAuth><Register/></AlreadyAuth>}/>
+          <Route path="/profile" element={<RequireAuth><Register/></RequireAuth>}/> {/*TODO*/}
         </Route>
-        <Route path="/admin" element={isAdmin() ? <Admin/> : <NoMatch/>}>
+        <Route path="/admin" element={<RequireAuthorization><Admin/></RequireAuthorization>}>
           <Route index element={<HomeAdmin/>}/>
           <Route path="users" element={<UserList/>}/>
           <Route path="user/:id" element={<User/>}/>
