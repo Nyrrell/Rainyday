@@ -1,19 +1,20 @@
 import mongoose from "mongoose";
 
-const { model, Schema, Types } = mongoose;
+const { model, Schema } = mongoose;
 
 const ProductSchema = new Schema(
   {
     title: { type: String, required: true, unique: true },
     desc: { type: String, required: true },
     img: { type: String, required: true },
-    categories: { type: Array },
+    category: { type: Schema.Types.ObjectId, ref: 'Category', required: true },
     size: { type: Array },
     color: { type: Array },
     style: { type: Array },
     price: { type: Number, required: true },
     inStock: { type: Boolean, default: true },
-    quantity: { type: String }
+    quantity: { type: String, require: true },
+    discount: { type: Number, default: null }
   },
   { timestamps: true }
 );

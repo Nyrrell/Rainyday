@@ -35,8 +35,9 @@ app.register(authRoutes, { prefix: '/api/auth' });
 
 app.listen(process.env.PORT || 5000, (err, address) => {
   if (err) {
-    app.log.error(err)
-    process.exit(1)
+    console.error(err);
+    app.log.error(err);
+    process.exit(1);
   }
-  console.log(`Server is now listening on ${address}`)
+  console.log(`Server is now listening on ${address}`);
 })
