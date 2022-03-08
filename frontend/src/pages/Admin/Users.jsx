@@ -6,7 +6,7 @@ import userStore from "../../store/userStore.js";
 import DataTableAction from "../../components/Admin/DataTableAction.jsx";
 import UserForm from "../../components/Admin/Form/UserForm.jsx";
 
-const UserList = () => {
+const Users = () => {
   const [open, setOpen] = useState(false);
   const { users, getUsers, deleteUser } = userStore();
 
@@ -35,7 +35,7 @@ const UserList = () => {
     { field: 'sale', headerName: 'Vente' },
     { field: 'total', headerName: 'Total' },
     {
-      field: 'action', headerName: 'Action',
+      field: 'action', headerName: 'Action', type: 'actions',
       renderCell: (params) => <DataTableAction id={params['row']['_id']} to={"/admin/user/"}
                                                handleDelete={handleDelete}/>
     },
@@ -55,4 +55,4 @@ const UserList = () => {
   );
 };
 
-export default UserList;
+export default Users;

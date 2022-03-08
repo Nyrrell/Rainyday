@@ -41,7 +41,7 @@ for await (const product of products) {
     img: product['img'],
     price: product['price'],
     quantity: product['stock'],
-    category: await Category.findOne({ title: product['category'] })
+    category: await Category.findOne({ title: product['category'] }).then(c => c['title'])
   }).save().catch(e => console.log(e))
 }
 

@@ -65,20 +65,20 @@ const BtnContainer = styled.div`
 `;
 
 const ProductForm = ({ data, type, close }) => {
-  const { updateProduct, addProduct } = productStore();
+  const { updateProduct, addProduct, } = productStore(); // TODO FETCHING & ERROR
 
   const initialState = {
     title: '',
     desc: '',
     price: '',
-    categories: "",
+    category: "",
     inStock: true,
     quantity: ""
   };
 
   const [inputs, setInputs] = useState(data ?? initialState);
   const [file, setFile] = useState(null);
-  console.log(file)
+
   const handleChange = (e) => {
     setInputs((prev) => {
       return { ...prev, [e.target.name]: e.target.name === 'inStock' ? e.target.checked : e.target.value };
@@ -88,7 +88,7 @@ const ProductForm = ({ data, type, close }) => {
   const handleClick = (e) => {
     e.preventDefault();
     const product = { ...inputs, img: ' ' }; // TODO IMAGE
-    if (e.target.id === 'update') updateProduct(inputs['_id'], product);
+    if (e.target.id === 'update') updateProduct(product);
     else addProduct(product);
   }
 
@@ -98,12 +98,12 @@ const ProductForm = ({ data, type, close }) => {
       <FormLeft>
         <Stack direction="row" spacing={2}>
           <TextField fullWidth label="Nom" name={'title'} size="small" value={inputs['title']} onChange={handleChange}/>
-          {/*// TODO*/}
+        {/*// TODO CATEGORIE DE LA DB */}
           <FormControl fullWidth size="small">
             <InputLabel>Catégorie</InputLabel>
             <Select
-              name={'categories'}
-              value={inputs['categories']}
+              name={'category'}
+              defaultValue={inputs['category']}
               label="Catégorie"
               onChange={handleChange}
             >
@@ -122,7 +122,7 @@ const ProductForm = ({ data, type, close }) => {
                      type={'number'}/>
         </Stack>
         <FormControlLabel control={<Switch name={'inStock'} checked={inputs['inStock']} onChange={handleChange}/>}
-                          label="Disponible" labelPlacement="start"/>
+                          label="Visible" labelPlacement="start"/>
       </FormLeft>
 
       <FormRight>

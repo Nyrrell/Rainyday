@@ -14,15 +14,12 @@ import Home from "./pages/Home.jsx";
 import Cart from "./pages/Cart.jsx";
 
 // ADMIN PAGES
-import UserList from "./pages/Admin/UserList.jsx";
+import AdminCategories from "./pages/Admin/Categories.jsx"
+import AdminProducts from "./pages/Admin/Products.jsx"
+import Users from "./pages/Admin/Users.jsx";
 import HomeAdmin from "./pages/Admin/Home.jsx";
-import User from "./pages/Admin/User.jsx";
-import Admin from "./pages/Admin.jsx";
-import UserNew from "./pages/Admin/UserNew.jsx";
-import AdminProductList from "./pages/Admin/ProductList.jsx"
-import AdminProduct from "./pages/Admin/Product.jsx"
-import AdminProductNew from "./pages/Admin/ProductNew.jsx"
 import Client from "./pages/Client.jsx";
+import Admin from "./pages/Admin.jsx";
 
 const paypalOptions = {
   "client-id": process.env.REACT_APP_PAYPAL_ID,
@@ -49,12 +46,10 @@ const App = () => {
         </Route>
         <Route path="/admin" element={<RequireAuthorization><Admin/></RequireAuthorization>}>
           <Route index element={<HomeAdmin/>}/>
-          <Route path="users" element={<UserList/>}/>
-          <Route path="user/:id" element={<User/>}/>
-          <Route path="user/new" element={<UserNew/>}/>
-          <Route path="products" element={<AdminProductList/>}/>
-          <Route path="product/:id" element={<AdminProduct/>}/>
-          <Route path="product/new" element={<AdminProductNew/>}/>
+          <Route path="users" element={<Users/>}/>
+          <Route path="products" element={<AdminProducts/>}/>
+          <Route path="categories" element={<AdminCategories/>}/>
+          <Route path="discounts" element={<AdminProducts/>}/>
         </Route>
         <Route path="*" element={<NoMatch/>}/>
       </Routes>

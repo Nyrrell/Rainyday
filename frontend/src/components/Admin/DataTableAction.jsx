@@ -1,15 +1,12 @@
-import { Link } from "react-router-dom";
-import { IconButton } from "@mui/material";
 import { DeleteOutline, EditOutlined } from "@mui/icons-material";
+import { IconButton } from "@mui/material";
 
-const DataTableAction = ({to, id, handleDelete}) => {
+const DataTableAction = ({ id, handleDelete, onClick }) => {
   return (
     <>
-      <Link to={`${to}${id}`}>
-        <IconButton aria-label="éditer" color={'info'}>
-          <EditOutlined/>
-        </IconButton>
-      </Link>
+      <IconButton aria-label="éditer" color={'info'} onClick={() => onClick(id)}>
+        <EditOutlined/>
+      </IconButton>
       <IconButton aria-label="delete" color={"warning"} onClick={() => handleDelete(id)}>
         <DeleteOutline/>
       </IconButton>

@@ -1,12 +1,12 @@
-import { DeleteOutline, EditOutlined } from "@mui/icons-material";
-import { Checkbox, Dialog, IconButton } from "@mui/material";
+import { DeleteOutline, EditOutlined, DoNotDisturb, CheckCircleOutline, } from "@mui/icons-material";
+import { Dialog, IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 
+import ProductForm from "../../components/Admin/Form/ProductForm.jsx";
 import DataTable from "../../components/Admin/DataTable.jsx";
 import productStore from "../../store/productStore.js";
-import ProductForm from "../../components/Admin/Form/ProductForm.jsx";
 
 const ProductItem = styled.div`
   display: flex;
@@ -21,7 +21,7 @@ const ProductImage = styled.img`
   margin-right: 10px;
 `;
 
-const ProductList = () => {
+const Categories = () => {
   const [open, setOpen] = useState(false);
   const { getProducts, products, deleteProduct } = productStore();
 
@@ -53,10 +53,10 @@ const ProductList = () => {
         );
       },
     },
-    { field: 'categories', headerName: 'Catégorie', width: 220 },
+    { field: 'category', headerName: 'Catégorie', width: 220 },
     {
       field: 'inStock', headerName: 'Disponible', width: 100,
-      renderCell: params => <Checkbox checked={params.row.inStock}/>
+      renderCell: params => params.row.inStock ? <CheckCircleOutline color={"success"}/> : <DoNotDisturb color={"warning"}/>
     },
     {
       field: 'quantity',
@@ -98,4 +98,4 @@ const ProductList = () => {
   );
 };
 
-export default ProductList;
+export default Categories;
