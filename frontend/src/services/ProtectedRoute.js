@@ -1,4 +1,5 @@
 import { useLocation, Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 import authStore from "../store/authStore.js";
 import NoMatch from "../pages/NoMatch.jsx";
@@ -17,6 +18,13 @@ export const AlreadyAuth = ({ children }) => {
 };
 
 export const RequireAuthorization = ({ children }) => {
+  const [isAdmin, setIsAdmin] = useState(null);
   const { authorize } = authStore();
-  return authorize ? children : <NoMatch/>
+
+  useEffect(() => {
+    authorize().then(res => setIsAdmin(res))
+  }, [authorize]);
+
+  if (isAdmin === null) return null;
+  return isAdmin ? children : <NoMatch/>;
 };
