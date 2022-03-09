@@ -17,7 +17,7 @@ const DataTable = ({ rows, columns, title, onClick }) => {
     <>
       <TitleContainer>
         <PageTitle>Liste des {title}</PageTitle>
-        <AddButton variant={'outlined'} onClick={onClick}>Nouveau</AddButton>
+        {title !== 'utilisateurs' && <AddButton variant={'outlined'} onClick={onClick}>Nouveau</AddButton>}
       </TitleContainer>
       <DataGrid
         rows={rows}

@@ -2,7 +2,7 @@ import { DeleteOutline, EditOutlined, DoNotDisturb, CheckCircleOutline, } from "
 import { Dialog, IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import ProductForm from "../../components/Admin/Form/ProductForm.jsx";
 import DataTable from "../../components/Admin/DataTable.jsx";
@@ -23,11 +23,7 @@ const ProductImage = styled.img`
 
 const Categories = () => {
   const [open, setOpen] = useState(false);
-  const { getProducts, products, deleteProduct } = productStore();
-
-  useEffect(() => {
-    getProducts()
-  }, [getProducts]);
+  const { products, deleteProduct } = productStore();
 
   const handleClickOpen = () => {
     setOpen(true);

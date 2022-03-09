@@ -1,6 +1,6 @@
 import { Publish } from "@mui/icons-material";
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   Switch,
@@ -49,8 +49,8 @@ const InputImage = styled.input`
 `;
 
 const Img = styled.img`
-  width: 200px;
-  height: 200px;
+  width: 300px;
+  height: 300px;
   border: 1px slategray solid;
   border-radius: 10px;
   object-fit: cover;
@@ -71,39 +71,51 @@ const ProductForm = ({ data, type, close }) => {
     title: '',
     desc: '',
     price: '',
-    category: "",
+    category: '',
+    img: '',
     inStock: true,
-    quantity: ""
+    quantity: '',
+    discount: ''
   };
 
-  const [inputs, setInputs] = useState(data ?? initialState);
-  const [file, setFile] = useState(null);
+  const [product, setProduct] = useState(data ?? initialState);
+  const [images, setImages] = useState(data ?? initialState);
+
+  useEffect(() => {
+  }, [images])
 
   const handleChange = (e) => {
-    setInputs((prev) => {
+    setProduct((prev) => {
       return { ...prev, [e.target.name]: e.target.name === 'inStock' ? e.target.checked : e.target.value };
     });
   };
 
   const handleClick = (e) => {
-    e.preventDefault();
-    const product = { ...inputs, img: ' ' }; // TODO IMAGE
+    e.preventDefault(); // TODO IMAGE UPLOAD
+    // if (images) setProduct(prev => ({ ...prev, img: images }))
     if (e.target.id === 'update') updateProduct(product);
     else addProduct(product);
-  }
+  };
+
+  const uploadImage = (e) => {
+    setProduct(prev => ({ ...prev, img: URL.createObjectURL(e.target.files[0]) }));
+    setImages(e.target.files[0]);
+  };
 
   return (
     <Form>
       <Title>{data ? "Edition" : "Nouvel Article"}</Title>
       <FormLeft>
+        <TextField fullWidth label="Nom" name={'title'} size="small" value={product['title']} onChange={handleChange}/>
+        <TextField fullWidth label="Description" name={'desc'} size="small" multiline rows={3} value={product['desc']}
+                   onChange={handleChange}/>
         <Stack direction="row" spacing={2}>
-          <TextField fullWidth label="Nom" name={'title'} size="small" value={inputs['title']} onChange={handleChange}/>
-        {/*// TODO CATEGORIE DE LA DB */}
+          {/*// TODO CATEGORIE DE LA DB */}
           <FormControl fullWidth size="small">
             <InputLabel>Catégorie</InputLabel>
             <Select
               name={'category'}
-              defaultValue={inputs['category']}
+              defaultValue={product['category']}
               label="Catégorie"
               onChange={handleChange}
             >
@@ -112,31 +124,31 @@ const ProductForm = ({ data, type, close }) => {
               <MenuItem value={'drapeau'}>Drapeau</MenuItem>
             </Select>
           </FormControl>
+          <TextField label="Quantité" name={'quantity'} size="small" value={product['quantity']} onChange={handleChange}
+                     type={'number'} fullWidth/>
         </Stack>
-        <TextField fullWidth label="Description" name={'desc'} size="small" multiline rows={3} value={inputs['desc']}
-                   onChange={handleChange}/>
-        <Stack direction="row" spacing={1}>
-          <TextField label="Prix" name={'price'} value={inputs['price']} onChange={handleChange} size="small"
-                     InputProps={{ endAdornment: <InputAdornment position="end">€</InputAdornment> }}/>
-          <TextField label="Quantité" name={'quantity'} size="small" value={inputs['quantity']} onChange={handleChange}
-                     type={'number'}/>
+        <Stack direction="row" spacing={2}>
+          <TextField label="Prix" name={'price'} value={product['price']} onChange={handleChange} size="small"
+                     InputProps={{ endAdornment: <InputAdornment position="end">€</InputAdornment> }} fullWidth/>
+          <TextField label="Réduction" name={'discount'} value={product['discount']} onChange={handleChange}
+                     size="small"
+                     InputProps={{ endAdornment: <InputAdornment position="end">%</InputAdornment> }} fullWidth/>
         </Stack>
-        <FormControlLabel control={<Switch name={'inStock'} checked={inputs['inStock']} onChange={handleChange}/>}
+        <FormControlLabel control={<Switch name={'inStock'} checked={product['inStock']} onChange={handleChange}/>}
                           label="Visible" labelPlacement="start"/>
       </FormLeft>
 
       <FormRight>
-        <Img src={inputs['img']}/>
+        <Img src={product['img']}/>
         <Label htmlFor="file">
-          <InputImage accept="image/*" id="file" multiple type="file"/>
-          <IconButton aria-label="upload picture" name={'img'} component={'span'}
-                      onChange={(e) => setFile(e.target.files[0])}>
+          <InputImage accept="image/*" id="file" type="file" onChange={uploadImage}/>
+          <IconButton aria-label="upload picture" name={'img'} component={'span'}>
             <Publish/>
           </IconButton>
         </Label>
       </FormRight>
       <BtnContainer>
-        <Button variant={'contained'} color="info" onClick={handleClick} id={type}>{type}</Button>
+        <Button variant={'contained'} color="info" onClick={handleClick} id={type}>Enregistrer</Button>
         <Button variant={'outlined'} color="error" onClick={close}>Annuler</Button>
       </BtnContainer>
     </Form>

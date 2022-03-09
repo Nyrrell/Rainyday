@@ -62,6 +62,4 @@ const productStore = create(
   }),
 );
 
-productStore.getState().getProducts();
-
 export default productStore;

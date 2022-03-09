@@ -9,17 +9,21 @@ import DataTable from "../../components/Admin/DataTable.jsx";
 import productStore from "../../store/productStore.js";
 
 const ProductImage = styled.img`
-  width: 32px;
-  height: 32px;
+  width: auto;
+  height: 85%;
   border-radius: 50%;
   object-fit: cover;
-  margin-right: 10px;
 `;
 
 const Products = () => {
-  const [open, setOpen] = useState(false);
   const [product, setProduct] = useState(null);
-  const { products, deleteProduct } = productStore();
+  const [open, setOpen] = useState(false);
+  const { products, getProducts, deleteProduct } = productStore();
+
+  useEffect(() => {
+    if (products.length) return;
+    getProducts();
+  }, [getProducts, products])
 
   const handleClickOpen = () => {
     setProduct(null);
@@ -35,7 +39,8 @@ const Products = () => {
     setOpen(true);
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = (e, id) => {
+    e.stopPropagation();
     deleteProduct(id);
   };
 
@@ -44,22 +49,22 @@ const Products = () => {
       field: 'img',
       headerName: 'Image',
       type: 'actions',
-      renderCell: (params) => <ProductImage src={params.row.img} alt="image"/>
+      renderCell: ({ value }) => <ProductImage src={value} alt="image"/>
     },
-    { field: 'title', headerName: 'Article', flex: 1 },
+    { field: 'title', headerName: 'Article', flex: 2 },
     { field: 'category', headerName: 'Catégorie', flex: 1 },
+    { field: 'quantity', headerName: 'Stock', type: 'number' },
     {
       field: 'inStock', headerName: 'Visible', type: 'boolean',
-      renderCell: params => params.row.inStock
+      renderCell: ({ value }) => value
         ? <CheckCircleOutline color={"success"}/>
         : <HighlightOff color={"warning"}/>
     },
-    { field: 'quantity', headerName: 'Stock', type: 'number' },
-    { field: 'price', headerName: 'Prix', type: 'number', renderCell: params => <>{`${params.row.price} €`}</> },
+    { field: 'price', headerName: 'Prix', type: 'number', renderCell: ({ value }) => <>{`${value} €`}</> },
+    { field: 'discount', headerName: 'Promo', type: 'number', renderCell: ({ value }) => <>{`${Number(value)} %`}</> },
     {
       field: 'action', headerName: 'Action', type: 'actions',
-      renderCell: (params) => <DataTableAction id={params['row']['_id']} handleDelete={handleDelete}
-                                               onClick={handleEdit}/>
+      renderCell: ({ id }) => <DataTableAction id={id} handleDelete={handleDelete} onClick={handleEdit}/>
     },
   ];
 
