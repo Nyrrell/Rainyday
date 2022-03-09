@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Dialog } from "@mui/material";
 
-import DataTableAction from "../../../components/Admin/DataTableAction.jsx";
+import DataTableAction from "../../../components/Admin/DataTable/DataTableAction.jsx";
 import UserForm from "./Components/UserForm.jsx";
-import DataTable from "../../../components/Admin/DataTable.jsx";
+import DataTable from "../../../components/Admin/DataTable/DataTable.jsx";
 import userStore from "../../../store/userStore.js";
 
 const Users = () => {

@@ -12,7 +12,7 @@ import {
   FormControlLabel, MenuItem, Select, Stack,
 } from "@mui/material";
 
-import productStore from "../../../store/productStore.js";
+import productStore from "../../../../store/productStore.js";
 
 const Form = styled.form`
   flex: 2;

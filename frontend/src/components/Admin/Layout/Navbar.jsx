@@ -2,8 +2,8 @@ import { PowerSettingsNew } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import { mobile } from "../../services/responsive.js";
-import authStore from "../../store/authStore.js";
+import { mobile } from "../../../services/responsive.js";
+import authStore from "../../../store/authStore.js";
 
 const Container = styled.div`
   height: 60px;

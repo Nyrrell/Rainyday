@@ -14,8 +14,8 @@ import Home from "./pages/Home.jsx";
 import Cart from "./pages/Cart.jsx";
 
 // ADMIN PAGES
-import AdminCategories from "./pages/Admin/Categories.jsx"
-import AdminProducts from "./pages/Admin/Products.jsx"
+import AdminCategories from "./pages/Admin/Categories/Categories.jsx"
+import AdminProducts from "./pages/Admin/Products/Products.jsx"
 import Users from "./pages/Admin/Users/Users.jsx";
 import HomeAdmin from "./pages/Admin/Home.jsx";
 import Client from "./pages/Client.jsx";

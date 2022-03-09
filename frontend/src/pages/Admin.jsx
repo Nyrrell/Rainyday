@@ -1,8 +1,8 @@
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 
-import Sidebar from "../components/Admin/Sidebar.jsx";
-import Navbar from "../components/Admin/Navbar.jsx";
+import Sidebar from "../components/Admin/Layout/Sidebar.jsx";
+import Navbar from "../components/Admin/Layout/Navbar.jsx";
 
 const Container = styled.div`
   display: flex;

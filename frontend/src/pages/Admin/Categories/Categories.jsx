@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useState } from "react";
 
-import ProductForm from "../../components/Admin/Form/ProductForm.jsx";
-import DataTable from "../../components/Admin/DataTable.jsx";
-import productStore from "../../store/productStore.js";
+import ProductForm from "../Products/Components/ProductForm.jsx";
+import DataTable from "../../../components/Admin/DataTable/DataTable.jsx";
+import productStore from "../../../store/productStore.js";
 
 const ProductItem = styled.div`
   display: flex;

@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import { Dialog } from "@mui/material";
 import styled from "styled-components";
 
-import DataTableAction from "../../components/Admin/DataTableAction.jsx";
-import ProductForm from "../../components/Admin/Form/ProductForm.jsx";
-import DataTable from "../../components/Admin/DataTable.jsx";
-import productStore from "../../store/productStore.js";
+import DataTableAction from "../../../components/Admin/DataTable/DataTableAction.jsx";
+import ProductForm from "./Components/ProductForm.jsx";
+import DataTable from "../../../components/Admin/DataTable/DataTable.jsx";
+import productStore from "../../../store/productStore.js";
 
 const ProductImage = styled.img`
   width: auto;
