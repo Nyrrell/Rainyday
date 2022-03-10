@@ -9,8 +9,8 @@ import DataTable from "../../../components/Admin/DataTable/DataTable.jsx";
 import productStore from "../../../store/productStore.js";
 
 const ProductImage = styled.img`
-  width: auto;
-  height: 85%;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   object-fit: cover;
 `;

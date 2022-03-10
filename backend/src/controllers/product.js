@@ -1,3 +1,5 @@
+import { writeFileSync } from "fs";
+
 import Product from "../models/Product.js";
 
 export const createProduct = async (req, res) => {
@@ -12,6 +14,14 @@ export const createProduct = async (req, res) => {
 };
 
 export const updateProduct = async (req, res) => {
+
+  // const test = JSON.parse(req.body.data.value)
+  // const uploadValue = await req.body.images.toBuffer()
+  // await pump(uploadValue, createWriteStream(uploadValue))
+  // console.log(uploadValue)
+  console.log(req)
+  // await writeFileSync("new-path.png", new Buffer(req.body.img.split(',')[1], "base64"));
+
   try {
     const product = await Product.findByIdAndUpdate(
       req.params.id, {
@@ -20,7 +30,7 @@ export const updateProduct = async (req, res) => {
 
     res.send(product);
   } catch (e) {
-    if (e.path === '_id') e['message'] = 'Invalid user ID';
+    if (e.path === '_id') e['message'] = 'Invalid product ID';
     res.send(e);
   }
 };

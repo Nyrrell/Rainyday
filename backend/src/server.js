@@ -1,31 +1,36 @@
-import mongoose from "mongoose";
-import fastify from "fastify";
+import multer from 'fastify-multer'
+import mongoose from 'mongoose';
+import fastify from 'fastify';
 import jwt from 'fastify-jwt';
-import "dotenv/config";
+import 'dotenv/config';
 
-import productRoutes from "./routes/productRoutes.js";
-import orderRoutes from "./routes/orderRoutes.js";
-import userRoutes from "./routes/userRoutes.js";
-import authRoutes from "./routes/authRoutes.js";
-import cartRoutes from "./routes/cartRoutes.js";
+import productRoutes from './routes/productRoutes.js';
+import orderRoutes from './routes/orderRoutes.js';
+import userRoutes from './routes/userRoutes.js';
+import authRoutes from './routes/authRoutes.js';
+import cartRoutes from './routes/cartRoutes.js';
 
+const upload = multer({ dest: 'uploads/' })
 const app = fastify({
   logger: false
 });
 
 mongoose.connect(process.env.MONGO_DB)
-  .then(() => console.log("Mongo connect success"))
+  .then(() => console.log('Mongo connect success'))
   .catch(reason => console.error(reason));
 
 app.register(jwt, { secret: process.env.JWT_SEC });
+app.register(multer.contentParser);
 
-app.decorate("authenticate", async (req, res) => {
+app.decorate('authenticate', async (req, res) => {
   await req.jwtVerify().catch((err) => res.send(err))
 });
 
-app.decorate("isAdmin", async (req, res) => {
+app.decorate('isAdmin', async (req, res) => {
   if (!req.user.isAdmin) return res.code(403).send(new Error('Unauthorized access'))
 });
+
+app.decorate('upload', upload);
 
 app.register(productRoutes, { prefix: '/api/products' });
 app.register(orderRoutes, { prefix: '/api/orders' });

@@ -92,13 +92,18 @@ const ProductForm = ({ data, type, close }) => {
 
   const handleClick = (e) => {
     e.preventDefault(); // TODO IMAGE UPLOAD
-    // if (images) setProduct(prev => ({ ...prev, img: images }))
-    if (e.target.id === 'update') updateProduct(product);
+    const test = new FormData();
+    test.append("images", images)
+    test.append("data", product)
+    if (e.target.id === 'update') updateProduct(product['_id'], test /*{ ...product, img: images }*/);
     else addProduct(product);
   };
 
   const uploadImage = (e) => {
     setProduct(prev => ({ ...prev, img: URL.createObjectURL(e.target.files[0]) }));
+    // const reader = new FileReader();
+    // reader.onloadend = () => setImages(reader.result);
+    // reader.readAsDataURL(e.target.files[0]);
     setImages(e.target.files[0]);
   };
 

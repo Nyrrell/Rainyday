@@ -32,12 +32,12 @@ const productStore = create(
       }
     },
     // UPDATE
-    updateProduct: async (payload) => {
+    updateProduct: async (id, payload) => {
       set({ isFetching: true, error: false });
       try {
-        const { data } = await userRequest.put(`/products/${payload['_id']}`, payload);
+        const { data } = await userRequest.put(`/products/${id}`, payload);
         set(state => {
-          state.products = state.products.map(p => p['_id'] === payload['_id'] ? data : p);
+          state.products = state.products.map(p => p['_id'] === id ? data : p);
           state.isFetching = false;
           state.error = false;
         });
