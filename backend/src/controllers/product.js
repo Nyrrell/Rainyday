@@ -14,18 +14,12 @@ export const createProduct = async (req, res) => {
 };
 
 export const updateProduct = async (req, res) => {
-
-  // const test = JSON.parse(req.body.data.value)
-  // const uploadValue = await req.body.images.toBuffer()
-  // await pump(uploadValue, createWriteStream(uploadValue))
-  // console.log(uploadValue)
-  console.log(req)
-  // await writeFileSync("new-path.png", new Buffer(req.body.img.split(',')[1], "base64"));
-
+  const data = req.body;
+  if (req.files) data['img'] = req.files[0].path;
   try {
     const product = await Product.findByIdAndUpdate(
       req.params.id, {
-        $set: req.body
+        $set: data
       }, { new: true });
 
     res.send(product);

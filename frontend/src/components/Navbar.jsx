@@ -10,7 +10,7 @@ import { mobile } from "../services/responsive.js";
 import { categories } from "../data";
 
 const Wrapper = styled.nav`
-  height: 60px;
+  height: 90px;
   padding: 0 20px;
   display: flex;
   align-items: center;

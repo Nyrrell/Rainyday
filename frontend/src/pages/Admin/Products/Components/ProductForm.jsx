@@ -9,7 +9,7 @@ import {
   IconButton,
   FormControl,
   InputAdornment,
-  FormControlLabel, MenuItem, Select, Stack,
+  FormControlLabel, MenuItem, Select, Stack, Input, OutlinedInput,
 } from "@mui/material";
 
 import productStore from "../../../../store/productStore.js";
@@ -79,33 +79,37 @@ const ProductForm = ({ data, type, close }) => {
   };
 
   const [product, setProduct] = useState(data ?? initialState);
-  const [images, setImages] = useState(data ?? initialState);
+  const [images, setImages] = useState(null);
 
   useEffect(() => {
   }, [images])
 
-  const handleChange = (e) => {
+  const handleChange = ({ target }) => {
     setProduct((prev) => {
-      return { ...prev, [e.target.name]: e.target.name === 'inStock' ? e.target.checked : e.target.value };
+      return { ...prev, [target.name]: target.name === 'inStock' ? target.checked : target.value };
     });
   };
 
   const handleClick = (e) => {
-    e.preventDefault(); // TODO IMAGE UPLOAD
-    const test = new FormData();
-    test.append("images", images)
-    test.append("data", product)
-    if (e.target.id === 'update') updateProduct(product['_id'], test /*{ ...product, img: images }*/);
-    else addProduct(product);
+    e.preventDefault();
+    let data = product;
+    if (images) {
+      data = new FormData();
+      data.append("images", images, product['title']);
+      for (const productKey in product) {
+        data.append(productKey, product[productKey])
+      }
+    }
+    if (e.target.id === 'update') updateProduct(product['_id'], data);
+    else addProduct(data);
   };
 
   const uploadImage = (e) => {
     setProduct(prev => ({ ...prev, img: URL.createObjectURL(e.target.files[0]) }));
-    // const reader = new FileReader();
-    // reader.onloadend = () => setImages(reader.result);
-    // reader.readAsDataURL(e.target.files[0]);
     setImages(e.target.files[0]);
   };
+
+  const image = images ? product['img'] : process.env.REACT_APP_BACKEND_URL + product['img'];
 
   return (
     <Form>
@@ -132,7 +136,7 @@ const ProductForm = ({ data, type, close }) => {
           <TextField label="Quantité" name={'quantity'} size="small" value={product['quantity']} onChange={handleChange}
                      type={'number'} fullWidth/>
         </Stack>
-        <Stack direction="row" spacing={2}>
+        <Stack direction={"row"} spacing={2}>
           <TextField label="Prix" name={'price'} value={product['price']} onChange={handleChange} size="small"
                      InputProps={{ endAdornment: <InputAdornment position="end">€</InputAdornment> }} fullWidth/>
           <TextField label="Réduction" name={'discount'} value={product['discount']} onChange={handleChange}
@@ -144,7 +148,7 @@ const ProductForm = ({ data, type, close }) => {
       </FormLeft>
 
       <FormRight>
-        <Img src={product['img']}/>
+        <Img src={image}/>
         <Label htmlFor="file">
           <InputImage accept="image/*" id="file" type="file" onChange={uploadImage}/>
           <IconButton aria-label="upload picture" name={'img'} component={'span'}>

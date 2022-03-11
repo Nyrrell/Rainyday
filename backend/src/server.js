@@ -1,7 +1,9 @@
-import multer from 'fastify-multer'
+import fastifyStatic from 'fastify-static';
+import multer from 'fastify-multer';
 import mongoose from 'mongoose';
 import fastify from 'fastify';
 import jwt from 'fastify-jwt';
+import path from "path";
 import 'dotenv/config';
 
 import productRoutes from './routes/productRoutes.js';
@@ -10,38 +12,32 @@ import userRoutes from './routes/userRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import cartRoutes from './routes/cartRoutes.js';
 
-const upload = multer({ dest: 'uploads/' })
-const app = fastify({
-  logger: false
-});
+import { authenticate, isAdmin, upload } from './helpers/decorate.js';
+
+const server = fastify({ logger: false });
 
 mongoose.connect(process.env.MONGO_DB)
   .then(() => console.log('Mongo connect success'))
   .catch(reason => console.error(reason));
 
-app.register(jwt, { secret: process.env.JWT_SEC });
-app.register(multer.contentParser);
+server.register(fastifyStatic, { root: path.join(path.resolve(), 'media'), prefix: '/media/' });
+server.register(jwt, { secret: process.env.JWT_SEC });
+server.register(multer.contentParser);
 
-app.decorate('authenticate', async (req, res) => {
-  await req.jwtVerify().catch((err) => res.send(err))
-});
+server.decorate('authenticate', authenticate);
+server.decorate('isAdmin', isAdmin);
+server.decorate('upload', upload);
 
-app.decorate('isAdmin', async (req, res) => {
-  if (!req.user.isAdmin) return res.code(403).send(new Error('Unauthorized access'))
-});
+server.register(productRoutes, { prefix: '/api/products' });
+server.register(orderRoutes, { prefix: '/api/orders' });
+server.register(userRoutes, { prefix: '/api/users' });
+server.register(cartRoutes, { prefix: '/api/carts' });
+server.register(authRoutes, { prefix: '/api/auth' });
 
-app.decorate('upload', upload);
-
-app.register(productRoutes, { prefix: '/api/products' });
-app.register(orderRoutes, { prefix: '/api/orders' });
-app.register(userRoutes, { prefix: '/api/users' });
-app.register(cartRoutes, { prefix: '/api/carts' });
-app.register(authRoutes, { prefix: '/api/auth' });
-
-app.listen(process.env.PORT || 5000, (err, address) => {
+server.listen(process.env.PORT || 5000, (err, address) => {
   if (err) {
     console.error(err);
-    app.log.error(err);
+    server.log.error(err);
     process.exit(1);
   }
   console.log(`Server is now listening on ${address}`);

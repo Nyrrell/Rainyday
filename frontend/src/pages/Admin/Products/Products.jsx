@@ -49,7 +49,7 @@ const Products = () => {
       field: 'img',
       headerName: 'Image',
       type: 'actions',
-      renderCell: ({ value }) => <ProductImage src={value} alt="image"/>
+      renderCell: ({ value }) => <ProductImage src={process.env.REACT_APP_BACKEND_URL + value} alt="image"/>
     },
     { field: 'title', headerName: 'Article', flex: 2 },
     { field: 'category', headerName: 'Catégorie', flex: 1 },
@@ -76,7 +76,7 @@ const Products = () => {
         title={"produits"}
         onClick={handleClickOpen}
       />
-      <Dialog open={open} onClose={handleClose} fullWidth maxWidth={"md"}>
+      <Dialog open={open} onClose={handleClose} fullWidth maxWidth={"lg"}>
         <ProductForm data={product} type={product ? 'update' : 'enregister'} close={handleClose}/>
       </Dialog>
     </>
