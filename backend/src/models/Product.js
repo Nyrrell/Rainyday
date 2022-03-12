@@ -14,7 +14,7 @@ const ProductSchema = new Schema(
     price: { type: Number, required: true },
     inStock: { type: Boolean, default: true },
     quantity: { type: String, require: true },
-    discount: { type: Number, default: null }
+    discount: { type: Number, default: 0 }
   },
   { timestamps: true }
 );

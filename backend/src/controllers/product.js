@@ -1,10 +1,11 @@
-import { writeFileSync } from "fs";
+import { existsSync, rmdirSync } from "fs";
 
 import Product from "../models/Product.js";
 
 export const createProduct = async (req, res) => {
   const newProduct = new Product(req.body);
-
+  const { path } = req.files[0];
+  newProduct['img'] = path;
   try {
     const product = await newProduct.save();
     res.send(product)
@@ -32,7 +33,9 @@ export const updateProduct = async (req, res) => {
 export const deleteProduct = async (req, res) => {
   try {
     const product = await Product.findByIdAndDelete(req.params.id);
-    res.send(product) //TODO 'Product delete'
+    const path = `media/products/${req.params.id}`;
+    if (existsSync(path)) rmdirSync(path, { recursive: true });
+    res.send(product);
   } catch (e) {
     res.send(e);
   }

@@ -1,5 +1,6 @@
 import { existsSync, mkdirSync } from 'fs';
 import multer from 'fastify-multer';
+import mongoose from "mongoose";
 
 export const authenticate = async (req, res) => {
   await req.jwtVerify().catch((err) => res.send(err));
@@ -17,14 +18,18 @@ const MIME_TYPES = {
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    const path = req.url.replace("/api", 'media');
-    if (!existsSync(path)) {
-      mkdirSync(path, { recursive: true });
+    let path = req.url.replace("/api", 'media').toLowerCase();
+
+    if (!req.params.id) {
+      const id = mongoose.Types.ObjectId()
+      path += `/${id}`;
+      req.body = { _id: id}
     }
+    if (!existsSync(path)) mkdirSync(path, { recursive: true });
     callback(null, path);
   },
   filename: (req, file, callback) => {
-    const name = file.originalname.replaceAll(' ', '_');
+    const name = file.originalname.replaceAll(' ', '_').toLowerCase();
     const extension = MIME_TYPES[file.mimetype];
     callback(null, `${name}.${extension}`);
   }
