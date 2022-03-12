@@ -7,8 +7,9 @@ import DataTableAction from "../../../components/Admin/DataTable/DataTableAction
 import ProductForm from "./Components/ProductForm.jsx";
 import DataTable from "../../../components/Admin/DataTable/DataTable.jsx";
 import productStore from "../../../store/productStore.js";
+import Image from "../../../components/Image.jsx";
 
-const ProductImage = styled.img`
+const ProductImage = styled(Image)`
   width: 45px;
   height: 45px;
   border-radius: 50%;

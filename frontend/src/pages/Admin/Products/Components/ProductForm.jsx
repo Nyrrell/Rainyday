@@ -2,17 +2,13 @@ import { Publish } from "@mui/icons-material";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import {
-  Button,
-  Switch,
-  TextField,
-  InputLabel,
-  IconButton,
-  FormControl,
-  InputAdornment,
-  FormControlLabel, MenuItem, Select, Stack, Input, OutlinedInput,
+  Button, Switch, TextField, InputLabel,
+  IconButton, FormControl, InputAdornment,
+  FormControlLabel, MenuItem, Select, Stack,
 } from "@mui/material";
 
 import productStore from "../../../../store/productStore.js";
+import Image from "../../../../components/Image.jsx";
 
 const Form = styled.form`
   flex: 2;
@@ -48,7 +44,7 @@ const InputImage = styled.input`
   display: none;
 `;
 
-const Img = styled.img`
+const Img = styled(Image)`
   width: 300px;
   height: 300px;
   border: 1px slategray solid;
@@ -70,12 +66,12 @@ const ProductForm = ({ data, type, close }) => {
   const initialState = {
     title: '',
     desc: '',
-    price: '',
+    price: 1,
     category: '',
     img: '',
     inStock: true,
-    quantity: '',
-    discount: ''
+    quantity: 0,
+    discount: 0
   };
 
   const [product, setProduct] = useState(data ?? initialState);
@@ -148,7 +144,7 @@ const ProductForm = ({ data, type, close }) => {
       </FormLeft>
 
       <FormRight>
-        <Img src={image}/>
+        <Img src={image} alt={"image"}/>
         <Label htmlFor="file">
           <InputImage accept="image/*" id="file" type="file" onChange={uploadImage}/>
           <IconButton aria-label="upload picture" name={'img'} component={'span'}>

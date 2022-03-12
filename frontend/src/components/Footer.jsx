@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import { mobile } from "../services/responsive.js";
-import logo from "../images/logo.png";
+import logo from "../assets/logo.png";
 
 const Container = styled.footer`
   border-top: 3px solid var(--color-gray);

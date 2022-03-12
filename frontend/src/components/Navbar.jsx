@@ -3,7 +3,7 @@ import { ShoppingCartOutlined } from '@mui/icons-material';
 import styled from 'styled-components';
 import { Badge } from '@mui/material';
 
-import logo from "../images/logo.png";
+import logo from "../assets/logo.png";
 import authStore from "../store/authStore.js";
 import cartStore from "../store/cartStore.js";
 import { mobile } from "../services/responsive.js";
