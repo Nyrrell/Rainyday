@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Dialog } from "@mui/material";
 
 import DataTableAction from "../../../components/Admin/DataTable/DataTableAction.jsx";
-import UserForm from "./Components/UserForm.jsx";
+import UserForm from "./UserForm.jsx";
 import DataTable from "../../../components/Admin/DataTable/DataTable.jsx";
 import userStore from "../../../store/userStore.js";
 
@@ -12,9 +12,8 @@ const Users = () => {
   const { users, getUsers, deleteUser } = userStore();
 
   useEffect(() => {
-    if (users.length) return;
     getUsers();
-  }, [getUsers, users])
+  }, [getUsers]);
 
   const handleClose = () => {
     setOpen(false);

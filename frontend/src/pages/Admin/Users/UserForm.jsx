@@ -1,21 +1,9 @@
-import { Button, InputAdornment, TextField } from "@mui/material";
+import { InputAdornment, TextField } from "@mui/material";
 import styled from "styled-components";
 import { useState } from 'react';
-import userStore from "../../../../store/userStore.js";
 
-const Form = styled.form`
-  padding: 0 1.5rem 1rem 1.5rem;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-`;
-
-const Title = styled.h2`
-  font-size: 20px;
-  font-weight: 600;
-  flex: 0 0 100%;
-  padding: 20px 0;
-`;
+import AdminForm from "../../../components/Admin/AdminForm.jsx";
+import userStore from "../../../store/userStore.js";
 
 const FormGroup = styled.div`
   display: flex;
@@ -34,14 +22,7 @@ const FormRight = styled.div`
   margin-left: 10px;
 `;
 
-const BtnContainer = styled.div`
-  flex: 0 0 100%;
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 1rem;
-`;
-
-const UserForm = ({ user, type, close }) => {
+const UserForm = ({ user, close }) => {
   const { updateUser } = userStore();  // TODO FETCHING & ERROR
   const [data, setData] = useState(user);
 
@@ -57,8 +38,7 @@ const UserForm = ({ user, type, close }) => {
   }
 
   return (
-    <Form>
-      <Title>{"Edition utilisateur"}</Title>
+    <AdminForm title={"Edition utilisateur"} valid={handleClick} close={close}>
       <FormGroup>
         <FormLeft>
           <TextField fullWidth label="Nom d'utilisateur" value={data['username']} name={'username'} size="small"
@@ -73,11 +53,7 @@ const UserForm = ({ user, type, close }) => {
           <TextField fullWidth label="Prénom" value={data['firstname']} name={'firstname'} size="small" disabled/>
         </FormRight>
       </FormGroup>
-      <BtnContainer>
-        <Button variant={'contained'} color="info" onClick={handleClick} id={type}>Enregistrer</Button>
-        <Button variant={'outlined'} color="error" onClick={close}>Annuler</Button>
-      </BtnContainer>
-    </Form>
+    </AdminForm>
   );
 };
 

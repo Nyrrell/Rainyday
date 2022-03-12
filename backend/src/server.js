@@ -6,11 +6,16 @@ import jwt from 'fastify-jwt';
 import path from "path";
 import 'dotenv/config';
 
-import productRoutes from './routes/productRoutes.js';
-import orderRoutes from './routes/orderRoutes.js';
-import userRoutes from './routes/userRoutes.js';
-import authRoutes from './routes/authRoutes.js';
-import cartRoutes from './routes/cartRoutes.js';
+import {
+  categoryRoutes,
+  discountRoutes,
+  productRoutes,
+  orderRoutes,
+  userRoutes,
+  authRoutes,
+  cartRoutes
+} from './routes/routes.js';
+
 
 import { authenticate, isAdmin, upload } from './helpers/decorate.js';
 
@@ -28,6 +33,8 @@ server.decorate('authenticate', authenticate);
 server.decorate('isAdmin', isAdmin);
 server.decorate('upload', upload);
 
+server.register(categoryRoutes, { prefix: '/api/categories' });
+server.register(discountRoutes, { prefix: '/api/discounts' });
 server.register(productRoutes, { prefix: '/api/products' });
 server.register(orderRoutes, { prefix: '/api/orders' });
 server.register(userRoutes, { prefix: '/api/users' });

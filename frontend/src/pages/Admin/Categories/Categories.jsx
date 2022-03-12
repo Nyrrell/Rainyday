@@ -1,31 +1,33 @@
-import { DeleteOutline, EditOutlined, DoNotDisturb, CheckCircleOutline, } from "@mui/icons-material";
-import { Dialog, IconButton } from "@mui/material";
-import { Link } from "react-router-dom";
+import { CheckCircleOutline, HighlightOff, } from "@mui/icons-material";
+import { useEffect, useState } from "react";
+import { Dialog } from "@mui/material";
 import styled from "styled-components";
-import { useState } from "react";
 
-import ProductForm from "../Products/Components/ProductForm.jsx";
+import DataTableAction from "../../../components/Admin/DataTable/DataTableAction.jsx";
 import DataTable from "../../../components/Admin/DataTable/DataTable.jsx";
-import productStore from "../../../store/productStore.js";
+import CategoryForm from "./CategoryForm.jsx";
+import Image from "../../../components/Image.jsx";
 
-const ProductItem = styled.div`
-  display: flex;
-  align-items: center;
-`;
+import categoryStore from "../../../store/categoryStore.js";
 
-const ProductImage = styled.img`
-  width: 32px;
-  height: 32px;
+const CategoryImage = styled(Image)`
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   object-fit: cover;
-  margin-right: 10px;
 `;
 
 const Categories = () => {
+  const [category, setCategory] = useState(null);
   const [open, setOpen] = useState(false);
-  const { products, deleteProduct } = productStore();
+  const { categories, getCategories, deleteCategory } = categoryStore();
+
+  useEffect(() => {
+    getCategories();
+  }, [getCategories])
 
   const handleClickOpen = () => {
+    setCategory(null)
     setOpen(true);
   };
 
@@ -33,62 +35,47 @@ const Categories = () => {
     setOpen(false);
   };
 
+  const handleEdit = (id) => {
+    setCategory(categories.find(c => c['_id'] === id));
+    setOpen(true);
+  };
+
   const handleDelete = (e, id) => {
-    deleteProduct(id);
+    e.stopPropagation();
+    deleteCategory(id);
   };
 
   const columns = [
     {
-      field: 'product', headerName: 'Produit', width: 200,
-      renderCell: (params) => {
-        return (
-          <ProductItem>
-            <ProductImage src={params.row.img} alt=""/>
-            {params.row.title}
-          </ProductItem>
-        );
-      },
+      field: 'img',
+      headerName: 'Image',
+      type: 'actions',
+      renderCell: ({ value }) => <CategoryImage src={process.env.REACT_APP_BACKEND_URL + value} alt="image"/>
     },
-    { field: 'category', headerName: 'Catégorie', width: 220 },
+    { field: 'title', headerName: 'Catégorie', flex: 1 },
+    { field: 'desc', headerName: 'Description', flex: 4 },
     {
-      field: 'inStock', headerName: 'Disponible', width: 100,
-      renderCell: params => params.row.inStock ? <CheckCircleOutline color={"success"}/> : <DoNotDisturb color={"warning"}/>
+      field: 'visible', headerName: 'Visible', type: 'boolean',
+      renderCell: ({ value }) => value
+        ? <CheckCircleOutline color={"success"}/>
+        : <HighlightOff color={"warning"}/>
     },
     {
-      field: 'quantity',
-      headerName: 'Stock',
-      width: 100,
-    },
-    { field: 'price', headerName: 'Prix', width: 160, renderCell: params => <>{`${params.row.price} €`}</> },
-    {
-      field: 'action', headerName: 'Action', width: 100,
-      renderCell: params => {
-        return (
-          <>
-            <Link to={"/admin/product/" + params.row._id}>
-              <IconButton aria-label="éditer" color={'info'}>
-                <EditOutlined/>
-              </IconButton>
-            </Link>
-            <IconButton aria-label="delete" color={"warning"} onClick={() => handleDelete(params.row._id)}>
-              <DeleteOutline/>
-            </IconButton>
-          </>
-        )
-      }
+      field: 'action', headerName: 'Action', type: 'actions',
+      renderCell: ({ id }) => <DataTableAction id={id} handleDelete={handleDelete} onClick={handleEdit}/>
     },
   ];
 
   return (
     <>
       <DataTable
-        rows={products}
+        rows={categories}
         columns={columns}
-        title={"produits"}
+        title={"catégories"}
         onClick={handleClickOpen}
       />
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth={"md"}>
-        <ProductForm type={'enregister'} close={handleClose}/>
+        <CategoryForm data={category} close={handleClose}/>
       </Dialog>
     </>
   );

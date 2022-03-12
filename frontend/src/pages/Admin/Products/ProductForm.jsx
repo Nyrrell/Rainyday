@@ -1,33 +1,24 @@
 import { Publish } from "@mui/icons-material";
-import styled from "styled-components";
 import { useEffect, useState } from "react";
+import styled from "styled-components";
 import {
-  Button, Switch, TextField, InputLabel,
+  Switch, TextField, InputLabel,
   IconButton, FormControl, InputAdornment,
   FormControlLabel, MenuItem, Select, Stack,
 } from "@mui/material";
 
-import productStore from "../../../../store/productStore.js";
-import Image from "../../../../components/Image.jsx";
-
-const Form = styled.form`
-  flex: 2;
-  padding: 0 1.5rem 1rem 1.5rem;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-`;
-
-const Title = styled.h2`
-  font-size: 20px;
-  font-weight: 600;
-  flex: 0 0 100%;
-  padding: 20px 0;
-`;
+import productStore from "../../../store/productStore.js";
+import Image from "../../../components/Image.jsx";
+import AdminForm from "../../../components/Admin/AdminForm.jsx";
 
 const FormLeft = styled.div`
+  flex: 1;
   & > :not(style) {
     margin: 0.5rem 0;
+  }
+  
+  & > div:last-of-type {
+    padding-top: 0.5rem;
   }
 `;
 
@@ -53,14 +44,7 @@ const Img = styled(Image)`
   margin-right: 20px;
 `;
 
-const BtnContainer = styled.div`
-  flex: 0 0 100%;
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 1rem;
-`;
-
-const ProductForm = ({ data, type, close }) => {
+const ProductForm = ({ data, close }) => {
   const { updateProduct, addProduct, } = productStore(); // TODO FETCHING & ERROR
 
   const initialState = {
@@ -88,16 +72,16 @@ const ProductForm = ({ data, type, close }) => {
 
   const handleClick = (e) => {
     e.preventDefault();
-    let data = product;
+    let payload = product;
     if (images) {
-      data = new FormData();
-      data.append("images", images, product['title']);
+      payload = new FormData();
+      payload.append("images", images, product['title']);
       for (const productKey in product) {
-        data.append(productKey, product[productKey])
+        payload.append(productKey, product[productKey])
       }
     }
-    if (e.target.id === 'update') updateProduct(product['_id'], data);
-    else addProduct(data);
+    if (data) updateProduct(product['_id'], payload);
+    else addProduct(payload);
   };
 
   const uploadImage = (e) => {
@@ -105,11 +89,10 @@ const ProductForm = ({ data, type, close }) => {
     setImages(e.target.files[0]);
   };
 
-  const image = images ? product['img'] : process.env.REACT_APP_BACKEND_URL + product['img'];
+  const image = (images || !data) ? product['img'] : process.env.REACT_APP_BACKEND_URL + product['img'];
 
   return (
-    <Form>
-      <Title>{data ? "Edition" : "Nouvel Article"}</Title>
+    <AdminForm title={data ? "Edition" : "Nouvel Article"} valid={handleClick} close={close}>
       <FormLeft>
         <TextField fullWidth label="Nom" name={'title'} size="small" value={product['title']} onChange={handleChange}/>
         <TextField fullWidth label="Description" name={'desc'} size="small" multiline rows={3} value={product['desc']}
@@ -152,11 +135,7 @@ const ProductForm = ({ data, type, close }) => {
           </IconButton>
         </Label>
       </FormRight>
-      <BtnContainer>
-        <Button variant={'contained'} color="info" onClick={handleClick} id={type}>Enregistrer</Button>
-        <Button variant={'outlined'} color="error" onClick={close}>Annuler</Button>
-      </BtnContainer>
-    </Form>
+    </AdminForm>
   );
 };
 

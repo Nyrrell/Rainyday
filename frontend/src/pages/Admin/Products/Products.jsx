@@ -4,10 +4,11 @@ import { Dialog } from "@mui/material";
 import styled from "styled-components";
 
 import DataTableAction from "../../../components/Admin/DataTable/DataTableAction.jsx";
-import ProductForm from "./Components/ProductForm.jsx";
 import DataTable from "../../../components/Admin/DataTable/DataTable.jsx";
-import productStore from "../../../store/productStore.js";
+import ProductForm from "./ProductForm.jsx";
 import Image from "../../../components/Image.jsx";
+
+import productStore from "../../../store/productStore.js";
 
 const ProductImage = styled(Image)`
   width: 45px;
@@ -22,9 +23,8 @@ const Products = () => {
   const { products, getProducts, deleteProduct } = productStore();
 
   useEffect(() => {
-    if (products.length) return;
     getProducts();
-  }, [getProducts, products])
+  }, [getProducts])
 
   const handleClickOpen = () => {
     setProduct(null);
@@ -77,8 +77,8 @@ const Products = () => {
         title={"produits"}
         onClick={handleClickOpen}
       />
-      <Dialog open={open} onClose={handleClose} fullWidth maxWidth={"lg"}>
-        <ProductForm data={product} type={product ? 'update' : 'enregister'} close={handleClose}/>
+      <Dialog open={open} onClose={handleClose} fullWidth maxWidth={"md"}>
+        <ProductForm data={product} close={handleClose}/>
       </Dialog>
     </>
   );
