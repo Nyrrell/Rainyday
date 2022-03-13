@@ -1,34 +1,24 @@
-import { CheckCircleOutline, HighlightOff, } from "@mui/icons-material";
+import { CheckCircleOutline, HighlightOff, Stars } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { Dialog } from "@mui/material";
-import styled from "styled-components";
 
 import DataTableAction from "../../../components/Admin/DataTable/DataTableAction.jsx";
-import { DataEllipsis } from "../../../components/Admin/DataTable/DataEllipsis.jsx";
 import DataTable from "../../../components/Admin/DataTable/DataTable.jsx";
-import CategoryForm from "./CategoryForm.jsx";
-import Image from "../../../components/Image.jsx";
+import DiscountForm from "./DiscountForm.jsx";
 
-import categoryStore from "../../../store/categoryStore.js";
-
-const CategoryImage = styled(Image)`
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  object-fit: cover;
-`;
+import discountStore from "../../../store/discountStore.js";
 
 const Categories = () => {
-  const [category, setCategory] = useState(null);
+  const [discount, setDiscount] = useState(null);
   const [open, setOpen] = useState(false);
-  const { categories, getCategories, deleteCategory } = categoryStore();
+  const { discountCodes, getDiscountCodes, deleteDiscountCode } = discountStore();
 
   useEffect(() => {
-    getCategories();
-  }, [getCategories])
+    getDiscountCodes();
+  }, [getDiscountCodes])
 
   const handleClickOpen = () => {
-    setCategory(null)
+    setDiscount(null)
     setOpen(true);
   };
 
@@ -37,29 +27,33 @@ const Categories = () => {
   };
 
   const handleEdit = (id) => {
-    setCategory(categories.find(c => c['_id'] === id));
+    setDiscount(discountCodes.find(c => c['_id'] === id));
     setOpen(true);
   };
 
   const handleDelete = (e, id) => {
     e.stopPropagation();
-    deleteCategory(id);
+    deleteDiscountCode(id);
   };
 
   const columns = [
     {
-      field: 'img',
-      headerName: 'Image',
-      type: 'actions',
-      renderCell: ({ value }) => <CategoryImage src={process.env.REACT_APP_BACKEND_URL + value} alt="image"/>
+      field: 'title', headerName: 'Code', cellClassName: 'main-cell', flex: 1,
     },
-    { field: 'title', headerName: 'Catégorie', cellClassName: 'main-cell', flex: 1 },
-    { field: 'desc', headerName: 'Description', flex: 3, renderCell: DataEllipsis },
+    { field: 'desc', headerName: 'Description', flex: 3 },
     {
-      field: 'visible', headerName: 'Visible', type: 'boolean',
+      field: 'percentage', headerName: 'Réduction', type: 'number',
+      valueFormatter: ({ value }) => `${value} %`
+    },
+    {
+      field: 'active', headerName: 'Actif', type: 'boolean',
       renderCell: ({ value }) => value
         ? <CheckCircleOutline color={"success"}/>
         : <HighlightOff color={"warning"}/>
+    },
+    {
+      field: 'announce', headerName: 'Accueil', type: 'boolean',
+      renderCell: ({ value }) => value && <Stars color={"warning"}/>
     },
     {
       field: 'createdAt', headerName: 'Ajout', type: 'date',
@@ -78,13 +72,13 @@ const Categories = () => {
   return (
     <>
       <DataTable
-        rows={categories}
+        rows={discountCodes}
         columns={columns}
-        title={"catégories"}
+        title={"codes promo"}
         onClick={handleClickOpen}
       />
-      <Dialog open={open} onClose={handleClose} fullWidth maxWidth={"md"}>
-        <CategoryForm data={category} close={handleClose}/>
+      <Dialog open={open} onClose={handleClose} fullWidth maxWidth={"sm"}>
+        <DiscountForm data={discount} close={handleClose}/>
       </Dialog>
     </>
   );

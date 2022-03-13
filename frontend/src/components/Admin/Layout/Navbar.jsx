@@ -7,21 +7,25 @@ import authStore from "../../../store/authStore.js";
 
 const Container = styled.div`
   height: 60px;
-  background-color: #fff;
+  background-color: #232e3c;
   position: sticky;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
   ${mobile({ height: "50px" })}
 `;
 
 const Wrapper = styled.div`
-  padding: 10px 20px;
+  width: 80%;
+  margin: auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  ${mobile({ padding: "10px 0" })}
 `;
 
 const Left = styled.div`
@@ -31,8 +35,8 @@ const Left = styled.div`
 
 const Logo = styled.span`
   font-weight: bold;
-  font-size: 30px;
-  color: darkblue;
+  font-size: 1.5rem;
+  text-transform: uppercase;
   cursor: pointer;
 `
 

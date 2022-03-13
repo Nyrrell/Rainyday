@@ -30,13 +30,21 @@ const Users = () => {
   };
 
   const columns = [
-    { field: 'username', headerName: 'Utilisateur', flex: 1 },
+    { field: 'username', headerName: 'Utilisateur', cellClassName: 'main-cell', flex: 1 },
     { field: 'email', headerName: 'Email', flex: 1 },
     { field: 'lastname', headerName: 'Nom', flex: 1 },
     { field: 'firstname', headerName: 'Prénom', flex: 1 },
-    { field: 'credit', headerName: 'Avoir', type: 'number', renderCell: ({ value }) => `${Number(value)} €` },
+    { field: 'credit', headerName: 'Avoir', type: 'number', valueFormatter: ({ value }) => `${Number(value)} €` },
     { field: 'sale', headerName: 'Vente', type: 'number' },
     { field: 'total', headerName: 'Total', type: 'number' },
+    {
+      field: 'createdAt', headerName: 'Ajout', type: 'date',
+      valueGetter: ({ value }) => value && new Date(value),
+    },
+    {
+      field: 'updatedAt', headerName: 'Maj', type: 'date',
+      valueGetter: ({ value }) => value && new Date(value),
+    },
     {
       field: 'action', headerName: 'Action', type: 'actions',
       renderCell: ({ id }) => <DataTableAction id={id} handleDelete={handleDelete} onClick={handleEdit}/>

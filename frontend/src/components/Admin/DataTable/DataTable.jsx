@@ -10,16 +10,24 @@ const TitleContainer = styled.div`
 `;
 
 const PageTitle = styled.h1``;
-const AddButton = styled(Button)``;
+
+const DataGridStyle = styled(DataGrid)`
+
+  & .main-cell {
+    font-weight: 800;
+    text-transform: capitalize;
+  }
+`;
+
 
 const DataTable = ({ rows, columns, title, onClick }) => {
   return (
     <>
       <TitleContainer>
         <PageTitle>Liste des {title}</PageTitle>
-        {title !== 'utilisateurs' && <AddButton variant={'outlined'} onClick={onClick}>Nouveau</AddButton>}
+        {title !== 'utilisateurs' && <Button variant={'outlined'} onClick={onClick}>Nouveau</Button>}
       </TitleContainer>
-      <DataGrid
+      <DataGridStyle
         rows={rows}
         getRowId={row => row._id}
         disableSelectionOnClick
