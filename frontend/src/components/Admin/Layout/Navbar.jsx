@@ -5,7 +5,7 @@ import styled from "styled-components";
 import media from "css-in-js-media";
 import authStore from "../../../store/authStore.js";
 
-const Container = styled.div`
+const Container = styled.header`
   height: 60px;
   background-color: #232e3c;
   position: sticky;
@@ -16,11 +16,22 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
+
+  :after {
+    content: "";
+    height: 9rem;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: inherit;
+    z-index: -1;
+    //box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
+  }
   ${media("<=phone")} { height: 50px }
 `;
 
-const Wrapper = styled.div`
+const Wrapper = styled.nav`
   width: 80%;
   margin: auto;
   display: flex;

@@ -6,6 +6,12 @@ import React from 'react';
 import App from './App';
 
 const GlobalStyles = createGlobalStyle`
+  * {
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Urbanist', sans-serif;
+  }
+  
   html {
     --color-light: rgb(238, 238, 238);
     --color-dark: rgb(24, 26, 27);

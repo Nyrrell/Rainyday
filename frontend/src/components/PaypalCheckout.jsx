@@ -1,6 +1,9 @@
-import { PayPalButtons } from "@paypal/react-paypal-js";
+import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
+
+import { paypalOptions } from "../services/paypal.js";
 
 const PaypalCheckout = ({ products, total }) => {
+
 // TODO PRIX NE CE MET PAS A JOUR
   const orderItems = products.map(p => ({
     name: p['title'],
@@ -42,14 +45,16 @@ const PaypalCheckout = ({ products, total }) => {
   }
 
   return (
-    <PayPalButtons
-      style={{
-        layout: "horizontal",
-        tagline: false
-      }}
-      createOrder={handleOrder}
-      onApprove={handleApprove}
-    />
+    <PayPalScriptProvider options={paypalOptions}>
+      <PayPalButtons
+        style={{
+          layout: "horizontal",
+          tagline: false
+        }}
+        createOrder={handleOrder}
+        onApprove={handleApprove}
+      />
+    </PayPalScriptProvider>
   );
 };
 

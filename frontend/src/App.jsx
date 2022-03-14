@@ -1,4 +1,3 @@
-import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { Routes, Route } from "react-router-dom";
 
 import { AlreadyAuth, RequireAuth, RequireAuthorization } from "./services/ProtectedRoute.js";
@@ -22,39 +21,30 @@ import AdminUsers from "./pages/Admin/Users/Users.jsx";
 import HomeAdmin from "./pages/Admin/Home.jsx";
 import AdminLayout from "./pages/Admin.jsx";
 
-const paypalOptions = {
-  "client-id": process.env.REACT_APP_PAYPAL_ID,
-  currency: "EUR",
-  intent: "capture",
-  locale: 'fr_FR',
-};
-
 const App = () => {
   return (
-    <PayPalScriptProvider options={paypalOptions}>
-      <Routes>
-        <Route path="/" element={<Layout/>}>
-          <Route index element={<Home/>}/>
-          <Route path="/products" element={<ProductList/>}>
-            <Route path=":category" element={<ProductList/>}/>
-          </Route>
-          <Route path="/product/:id" element={<Product/>}/>
-          <Route path="/cart" element={<Cart/>}/>
-          <Route path="/success" element={<Success/>}/>
-          <Route path="/login" element={<AlreadyAuth><Login/></AlreadyAuth>}/>
-          <Route path="/register" element={<AlreadyAuth><Register/></AlreadyAuth>}/>
-          <Route path="/profile" element={<RequireAuth><Register/></RequireAuth>}/> {/*TODO*/}
+    <Routes>
+      <Route path="/" element={<Layout/>}>
+        <Route index element={<Home/>}/>
+        <Route path="/products" element={<ProductList/>}>
+          <Route path=":category" element={<ProductList/>}/>
         </Route>
-        <Route path="/admin" element={<RequireAuthorization><AdminLayout/></RequireAuthorization>}>
-          <Route index element={<HomeAdmin/>}/>
-          <Route path="users" element={<AdminUsers/>}/>
-          <Route path="products" element={<AdminProducts/>}/>
-          <Route path="categories" element={<AdminCategories/>}/>
-          <Route path="discounts" element={<AdminDiscounts/>}/>
-        </Route>
-        <Route path="*" element={<NoMatch/>}/>
-      </Routes>
-    </PayPalScriptProvider>
+        <Route path="/product/:id" element={<Product/>}/>
+        <Route path="/cart" element={<Cart/>}/>
+        <Route path="/success" element={<Success/>}/>
+        <Route path="/login" element={<AlreadyAuth><Login/></AlreadyAuth>}/>
+        <Route path="/register" element={<AlreadyAuth><Register/></AlreadyAuth>}/>
+        <Route path="/profile" element={<RequireAuth><Register/></RequireAuth>}/> {/*TODO*/}
+      </Route>
+      <Route path="/admin" element={<RequireAuthorization><AdminLayout/></RequireAuthorization>}>
+        <Route index element={<HomeAdmin/>}/>
+        <Route path="users" element={<AdminUsers/>}/>
+        <Route path="products" element={<AdminProducts/>}/>
+        <Route path="categories" element={<AdminCategories/>}/>
+        <Route path="discounts" element={<AdminDiscounts/>}/>
+      </Route>
+      <Route path="*" element={<NoMatch/>}/>
+    </Routes>
   );
 };
 
