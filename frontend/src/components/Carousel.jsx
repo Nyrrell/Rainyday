@@ -1,8 +1,7 @@
 import { ArrowLeftOutlined, ArrowRightOutlined } from "@mui/icons-material";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-
-import { mobile } from "../services/responsive.js";
+import media from "css-in-js-media";
 
 const Arrow = styled.div`
   width: 50px;
@@ -23,15 +22,24 @@ const Arrow = styled.div`
 `;
 
 const Container = styled.section`
-  width: var(--container-size);
-  margin: 1.2rem auto;
-  height: 45vh;
-  min-height: 400px;
-  overflow: hidden;
+  display: none;
   position: relative;
-  border: 2px solid var(--color-gray);
-  ${mobile({ display: "none" })}
+  overflow: hidden;
   
+  ${media(">phone")} {
+    display: block;
+    width: 100vw;
+    height: 45vh;
+    border-bottom: 2px solid var(--color-gray);
+  }
+
+  ${media(">tablet")} {
+    width: var(--container-size);
+    margin: 1.2rem auto;
+    min-height: 400px;
+    border: 2px solid var(--color-gray);
+  }
+
   &:hover ${Arrow} {
     opacity: 0.5;
   }

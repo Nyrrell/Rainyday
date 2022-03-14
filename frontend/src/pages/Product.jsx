@@ -4,7 +4,7 @@ import { Button } from "@mui/material";
 import styled from "styled-components";
 
 import AmountProduct from "../components/AmountProduct";
-import { mobile } from "../services/responsive.js";
+import media from "css-in-js-media";
 import Products from "../components/Products";
 import cartStore from "../store/cartStore.js";
 import { popularProducts } from "../data";
@@ -13,7 +13,7 @@ const Container = styled.div`
   width: var(--container-size);
   margin: 3rem auto;
 
-  ${mobile({ width: "100vw" })}
+  ${media("<=phone")} { width: 100vw }
 `;
 
 const BackToProduct = styled(Link)`
@@ -34,11 +34,11 @@ const Wrapper = styled.div`
   border: 3px solid var(--color-gray);
   margin-top: 1rem;
 
-  ${mobile({
-    padding: "10px",
-    flexDirection: "column",
-    border: 'none'
-  })}
+  ${media("<=phone")} {
+    padding: 10px;
+    flex-direction: column;
+    border: none;
+  }
 `;
 
 const ImgContainer = styled.div`
@@ -50,13 +50,13 @@ const Image = styled.img`
   object-fit: cover;
   border: 1px solid var(--color-gray);
 
-  ${mobile({ height: "40vh" })}
+  ${media("<=phone")} { height: 40vh }
 `;
 
 const InfoContainer = styled.div`
   flex: 1;
   padding: 0 50px;
-  ${mobile({ padding: "10px" })}
+  ${media("<=phone")} { padding: 10px }
 `;
 
 const Article = styled.h1`
@@ -68,7 +68,7 @@ const Article = styled.h1`
   rgba(240, 165, 0, 0.8) 40%, transparent 40.01%) content-box no-repeat left bottom / 100% 100%;
   display: inline-flex;
 
-  ${mobile({ fontSize: "2rem" })}
+  ${media("<=phone")} { font-size: 2rem }
 `;
 
 const Desc = styled.p`
@@ -86,7 +86,7 @@ const FilterContainer = styled.div`
   margin: 30px 0;
   display: flex;
   justify-content: space-between;
-  ${mobile({ width: "100%" })}
+  ${media("<=phone")} { width: 100% }
 `;
 
 const Filter = styled.div`
@@ -120,7 +120,7 @@ const AddContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  ${mobile({ width: "100%" })}
+  ${media("<=phone")} { width: 100% }
 `;
 
 const Btn = styled(Button)`

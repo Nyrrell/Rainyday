@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React from 'react';
+import media from "css-in-js-media";
 
 import Categories from "../components/Categories.jsx";
 import Products from "../components/Products.jsx";
@@ -19,6 +19,13 @@ const Title = styled.h2`
    background: linear-gradient(to top, transparent 10%, rgba(240, 165, 0, 0.8) 10.01%,
    rgba(240, 165, 0, 0.8) 40%, transparent 40.01%) no-repeat left bottom / 100% 100%;
  }
+  
+  ${media("<=phone")} {
+    margin: 1rem auto;
+    font-size: 1.4rem;
+    text-align: center;
+    padding-right: unset;
+  }
 `;
 
 const Home = () => {

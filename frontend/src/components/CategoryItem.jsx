@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { mobile } from "../services/responsive.js";
+import media from "css-in-js-media";
 
 const Hover = styled.div`
   opacity: 0;
@@ -15,9 +15,16 @@ const Hover = styled.div`
 `;
 
 const Category = styled.article`
-  flex: 1;
-  border: 1px solid var(--color-gray);
+  border-top: 1px solid var(--color-gray);
+  border-bottom: 1px solid var(--color-gray);
   position: relative;
+  height: 75vh;
+
+  ${media(">phone")} {
+    flex: 1;
+    min-height: 450px;
+    border: 1px solid var(--color-gray);
+  }
 
   & > a {
     text-decoration: none;
@@ -27,7 +34,7 @@ const Category = styled.article`
     text-transform: uppercase;
   }
 
-  &:hover button{
+  &:hover button {
     color: var(--color-yellow);
     border-color: var(--color-yellow);
   }
@@ -41,7 +48,6 @@ const Image = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  ${mobile({ height: "30vh" })}
 `;
 
 const Info = styled.div`
@@ -58,7 +64,8 @@ const Info = styled.div`
   z-index: 4;
 `;
 
-const Title = styled.h2`
+const Title = styled.h3`
+  font-size: 1.8rem;
   color: var(--color-light);
   text-shadow: 2px 2px var(--color-dark);
 `;

@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 import cartStore from "../store/cartStore.js";
 import AmountProduct from "./AmountProduct";
-import { mobile } from "../services/responsive.js";
+import media from "css-in-js-media";
 
 const ProductCard = styled.div`
   display: flex;
@@ -13,7 +13,7 @@ const ProductCard = styled.div`
   padding-bottom: 5px;
   margin: 5px 0;
   border-bottom: 1px solid var(--color-gray);
-  ${mobile({ flexDirection: "column" })};
+  ${media("<=phone")} { flex-direction: column }
 `;
 
 const Image = styled.img`

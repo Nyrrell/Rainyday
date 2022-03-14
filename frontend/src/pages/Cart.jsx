@@ -2,19 +2,20 @@ import { Link, useNavigate } from "react-router-dom";
 import { Delete } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import styled from "styled-components";
+import media from "css-in-js-media";
 import { useEffect } from "react";
 
 import PaypalCheckout from "../components/PaypalCheckout.jsx";
 import { userRequest } from "../services/requestApi.js";
 import ProductCart from "../components/ProductCart";
-import { mobile } from "../services/responsive.js";
+
 import cartStore from "../store/cartStore.js";
 
 const Wrapper = styled.div`
   width: var(--container-size);
   min-height: 60vh;
   margin: 3rem auto;
-  ${mobile({ padding: "10px" })}
+  ${media("<=phone")} { padding: 10px; }
 `;
 
 const Top = styled.div`
@@ -53,7 +54,7 @@ const ClearCart = styled(Button)`
 const Bottom = styled.div`
   display: flex;
   justify-content: space-between;
-  ${mobile({ flexDirection: "column" })}
+  ${media("<=phone")} { flex-direction: column }
 `;
 
 const Info = styled.div`

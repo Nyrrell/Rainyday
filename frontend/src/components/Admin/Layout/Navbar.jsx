@@ -2,7 +2,7 @@ import { PowerSettingsNew } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import { mobile } from "../../../services/responsive.js";
+import media from "css-in-js-media";
 import authStore from "../../../store/authStore.js";
 
 const Container = styled.div`
@@ -17,7 +17,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: space-between;
   box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
-  ${mobile({ height: "50px" })}
+  ${media("<=phone")} { height: 50px }
 `;
 
 const Wrapper = styled.div`
@@ -45,10 +45,13 @@ const Right = styled.div`
   align-items: center;
 `;
 
-const MenuItem = styled.div`
+const MenuAction = styled.div`
   margin: 0 10px;
   cursor: pointer;
-  color: #555;
+`;
+
+const MenuItem = styled.div`
+  margin: 0 10px;
 `;
 
 function Navbar() {
@@ -65,15 +68,15 @@ function Navbar() {
     <Container>
       <Wrapper>
         <Left>
-          <Link to={'/'} style={{ textDecoration: "none", color: "inherit" }}>
+          <Link to={'/'}>
             <Logo>{process.env.REACT_APP_NAME}</Logo>
           </Link>
         </Left>
         <Right>
           <MenuItem>{username.toUpperCase()}</MenuItem>
-          <MenuItem>
+          <MenuAction>
             <PowerSettingsNew onClick={handleClick}/>
-          </MenuItem>
+          </MenuAction>
         </Right>
       </Wrapper>
     </Container>

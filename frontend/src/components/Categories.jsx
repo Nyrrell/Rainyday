@@ -2,18 +2,21 @@ import styled from "styled-components";
 
 import { categories } from "../data.js";
 import CategoryItem from "./CategoryItem.jsx";
-import { mobile } from "../services/responsive.js";
+import media from "css-in-js-media";
 
 const Container = styled.section`
-  width: var(--container-size);
-  height: 50vh;
-  min-height: 400px;
-  margin: 1.2rem auto;
+  padding: 0;
   display: flex;
   justify-content: space-between;
+  flex-direction: column;
   gap: 1rem;
+  margin: 1.2rem auto;
   
-  ${mobile({ padding: 0, flexDirection: "column" })}
+  ${media(">phone")} {
+    width: var(--container-size);
+    margin: 1.2rem auto;
+    flex-direction: row;
+  }
 `;
 
 const Categories = () => {

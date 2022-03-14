@@ -6,7 +6,7 @@ import { Badge } from '@mui/material';
 import logo from "../assets/logo.png";
 import authStore from "../store/authStore.js";
 import cartStore from "../store/cartStore.js";
-import { mobile } from "../services/responsive.js";
+import media from "css-in-js-media";
 import { categories } from "../data";
 
 const Wrapper = styled.nav`
@@ -22,13 +22,20 @@ const Wrapper = styled.nav`
   top: 0;
   z-index: 100;
 
-  ${mobile({ padding: "10px 0", height: "50px" })}
+  ${media("<=phone")} {
+    padding: 10px 0;
+    height: 50px;
+  }
 `;
 
 const Left = styled.div`
   flex: 1;
   display: flex;
   align-items: center;
+
+  ${media("<=phone")} {
+    display: none;
+  }
 `;
 
 const Center = styled.div`
@@ -39,7 +46,9 @@ const Center = styled.div`
 const Logo = styled.img`
   height: 70px;
 
-  ${mobile({ fontSize: "16px" })}
+  ${media("<=phone")} {
+    height: 40px;
+  }
 `;
 
 const Right = styled.div`
@@ -48,7 +57,10 @@ const Right = styled.div`
   align-items: center;
   justify-content: flex-end;
   margin-right: 25px;
-  ${mobile({ flex: 2, justifyContent: "center" })}
+  
+  ${media("<=phone")} {
+    display: none;
+  }
 `;
 
 const MenuItem = styled.div`
@@ -57,7 +69,11 @@ const MenuItem = styled.div`
   font-size: 14px;
   cursor: pointer;
   margin-left: 25px;
-  ${mobile({ fontSize: "12px", marginLeft: "10px" })}
+
+  ${media("<=phone")} {
+    font-size: 12px;
+    margin-left: 10px
+  }
 `;
 
 const CartBadge = styled(Badge)`

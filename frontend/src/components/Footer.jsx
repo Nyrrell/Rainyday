@@ -2,7 +2,7 @@ import { EmailOutlined, Instagram, Phone } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-import { mobile } from "../services/responsive.js";
+import media from "css-in-js-media";
 import logo from "../assets/logo.png";
 
 const Container = styled.footer`
@@ -15,7 +15,7 @@ const Wrapper = styled.div`
   margin: 0 auto;
   padding: 1rem 0;
   display: flex;
-  ${mobile({ flexDirection: "column" })}
+  ${media("<=phone")} { flex-direction: column }
 `;
 
 const Left = styled.div`
@@ -52,7 +52,7 @@ const SocialIcon = styled.div`
 const Center = styled.div`
   flex: 1;
   padding: 20px;
-  ${mobile({ display: "none" })}
+  ${media("<=phone")} { display: none }
 `;
 
 const Title = styled.h3`
@@ -75,7 +75,7 @@ const ListItem = styled.li`
 const Right = styled.div`
   flex: 1;
   padding: 20px;
-  ${mobile({ backgroundColor: "#eee" })}
+  ${media("<=phone")} { background-color: #eee }
 `;
 
 const ContactItem = styled.div`

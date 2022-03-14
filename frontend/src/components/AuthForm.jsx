@@ -2,7 +2,7 @@ import { Alert, Button, LinearProgress } from "@mui/material";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-import { mobile } from "../services/responsive.js";
+import media from "css-in-js-media";
 import authStore from "../store/authStore.js";
 
 const Container = styled.div`
@@ -21,7 +21,7 @@ const Wrapper = styled.div`
   width: 25vw;
   padding: 20px;
   background-color: var(--color-light);
-  ${mobile({ width: "75%" })}
+  ${media("<=phone")} { width: 75% }
 `;
 
 const Title = styled.h1`

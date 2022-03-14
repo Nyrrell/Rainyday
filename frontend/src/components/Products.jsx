@@ -2,7 +2,8 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 
 import Product from "./Product.jsx";
-import { popularProducts } from "../data";
+import productStore from "../store/productStore.js";
+import media from "css-in-js-media";
 
 const Container = styled.section`
   width: var(--container-size);
@@ -10,24 +11,28 @@ const Container = styled.section`
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+
+  ${media("<=phone")} { width: 80% }
 `;
 
 
 const Products = ({ cat, filters, sort, limit }) => {
-  const [products, setProducts] = useState([]);
+  // const [products, setProducts] = useState([]);
   const [filteredProducts, setfilteredProducts] = useState([]);
+  const { products, getProducts } = productStore();
+
 
   useEffect(() => {
-    const getProducts = async () => {
-      try {
-        // const { data } = await publicRequest.get(cat ? `products?category=${cat}` : "/products");
-        // setProducts(data);
-        setProducts(!limit ? popularProducts : popularProducts.slice(0, limit))
-      } catch (e) {
-      }
-    }
+    // const getProducts = async () => {
+    //   try {
+    //     // const { data } = await publicRequest.get(cat ? `products?category=${cat}` : "/products");
+    //     // setProducts(data);
+    //     setProducts(!limit ? popularProducts : popularProducts.slice(0, limit))
+    //   } catch (e) {
+    //   }
+    // }
     getProducts();
-  }, [cat, limit]);
+  }, [/*cat, limit*/getProducts]);
 
   useEffect(() => {
     cat && setfilteredProducts(

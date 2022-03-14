@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import media from "css-in-js-media";
 
 const Container = styled.div`
   height: 30px;
@@ -9,6 +10,10 @@ const Container = styled.div`
   justify-content: center;
   font-size: 0.9rem;
   font-weight: 800;
+
+  ${media("<=phone")} {
+    font-size: 0.7rem;
+  }
 `;
 
 const Announcement = ({ promo }) => {

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useState } from "react";
 
 import Products from "../components/Products.jsx";
-import { mobile } from "../services/responsive.js";
+import media from "css-in-js-media";
 
 const Container = styled.div`
   width: var(--container-size);
@@ -28,20 +28,20 @@ const FilterContainer = styled.div`
 
 const Filter = styled.div`
   margin: 1.6rem;
-  ${mobile({ margin: "0px 20px", display: "flex", flexDirection: "column" })}
+  ${media("<=phone")} { margin: 0 20px; display: flex; flex-direction: column }
 `;
 
 const FilterText = styled.span`
   font-size: 20px;
   font-weight: 800;
   margin-right: 20px;
-  ${mobile({ marginRight: 0 })}
+  ${media("<=phone")} { margin-right: 0 }
 `;
 
 const Select = styled.select`
   padding: 10px;
   margin-right: 20px;
-  ${mobile({ margin: "10px 0" })}
+  ${media("<=phone")} { margin: 10px 0 }
 `;
 
 const Option = styled.option``;

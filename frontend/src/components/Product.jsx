@@ -16,8 +16,7 @@ const Hover = styled.div`
 `;
 
 const Container = styled.article`
-  min-width: 300px;
-  max-width: 300px;
+  width: 300px;
   padding-bottom: 20px;
   display: flex;
   align-items: center;
@@ -42,6 +41,7 @@ const Image = styled.img`
   object-fit: cover;
   width: 100%;
   height: 100%;
+  min-height: 300px;
 `;
 
 const SoldOut = styled.span`
@@ -95,10 +95,12 @@ const Product = ({ item }) => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
   });
 
+  const inStock = item['quantity'] > 0;
+
   return (
     <Container>
       <ImageContainer to={`/product/${item['_id']}`}>
-        {!item['stock'] && <SoldOut>SOLD <br/>OUT</SoldOut>}
+        {!inStock && <SoldOut>SOLD <br/>OUT</SoldOut>}
         <Image src={item['img']}/>
         <Hover/>
       </ImageContainer>
@@ -107,7 +109,7 @@ const Product = ({ item }) => {
         <Title>{item['title']}</Title>
         <Price>{item['price']} €</Price>
       </Info>
-      {item['stock']
+      {inStock
         ? <Btn href={`/product/${item['_id']}`} variant="outlined">commander</Btn>
         : <Btn href={`/product/${item['_id']}`} cursor={'not-allowed'} color={'error'} variant="outlined">victime de son
           succes</Btn>}
