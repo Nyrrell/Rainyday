@@ -2,14 +2,6 @@ import { existsSync, mkdirSync } from 'fs';
 import multer from 'fastify-multer';
 import mongoose from "mongoose";
 
-export const authenticate = async (req, res) => {
-  await req.jwtVerify().catch((err) => res.send(err));
-};
-
-export const isAdmin = async (req, res) => {
-  if (!req.user.isAdmin) return res.code(403).send(new Error('Unauthorized access'));
-};
-
 const MIME_TYPES = {
   'image/jpg': 'jpg',
   'image/jpeg': 'jpg',

@@ -16,8 +16,7 @@ import {
   cartRoutes
 } from './routes/routes.js';
 
-
-import { authenticate, isAdmin, upload } from './helpers/decorate.js';
+import { validateCart, authenticate, isAdmin, upload } from './decorate/index.js';
 
 const server = fastify({ logger: false });
 
@@ -29,6 +28,7 @@ server.register(fastifyStatic, { root: path.join(path.resolve(), 'media'), prefi
 server.register(jwt, { secret: process.env.JWT_SEC });
 server.register(multer.contentParser);
 
+server.decorate('validateCart', validateCart);
 server.decorate('authenticate', authenticate);
 server.decorate('isAdmin', isAdmin);
 server.decorate('upload', upload);

@@ -1,8 +1,10 @@
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 import { paypalOptions } from "../services/paypal.js";
+import orderStore from "../store/orderStore.js";
 
 const PaypalCheckout = ({ products, total }) => {
+  const { createOrder } = orderStore();
 
 // TODO PRIX NE CE MET PAS A JOUR
   const orderItems = products.map(p => ({
@@ -14,8 +16,9 @@ const PaypalCheckout = ({ products, total }) => {
     quantity: p['quantity'],
   }))
 
-  const handleOrder = (data, actions) => {
-    console.log(data)
+  const handleOrder = async (data, actions) => {
+    console.log(products)
+    await createOrder(products);
     return actions.order.create({
       purchase_units: [
         {
