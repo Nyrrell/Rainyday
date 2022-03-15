@@ -10,7 +10,16 @@ const categoryStore = create(
     getCategories: async () => {
       set({ isFetching: true, error: false });
       try {
-        const { data } = await publicRequest.get("/categories");
+        const { data } = await publicRequest.get("/categories/public");
+        set({ categories: data, isFetching: false });
+      } catch {
+        set({ isFetching: false, error: true });
+      }
+    },
+    getAllCategories: async () => {
+      set({ isFetching: true, error: false });
+      try {
+        const { data } = await userRequest.post("/categories");
         set({ categories: data, isFetching: false });
       } catch {
         set({ isFetching: false, error: true });
@@ -48,7 +57,7 @@ const categoryStore = create(
     addCategory: async (payload) => {
       set({ isFetching: true, error: false });
       try {
-        const { data } = await userRequest.post(`/categories`, payload);
+        const { data } = await userRequest.post(`/categories/new`, payload);
         set(state => {
           state.categories = [...state.categories, data];
           state.isFetching = false;

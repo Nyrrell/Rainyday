@@ -1,4 +1,4 @@
-import { PowerSettingsNew } from "@mui/icons-material";
+import { Logout } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
@@ -28,7 +28,9 @@ const Container = styled.header`
   //  z-index: -1;
   //  //box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
   //}
-  ${media("<=phone")} { height: 50px }
+  ${media("<=phone")} {
+    height: 50px
+  }
 `;
 
 const Wrapper = styled.nav`
@@ -56,11 +58,6 @@ const Right = styled.div`
   align-items: center;
 `;
 
-const MenuAction = styled.div`
-  margin: 0 10px;
-  cursor: pointer;
-`;
-
 const MenuItem = styled.div`
   margin: 0 10px;
 `;
@@ -85,9 +82,7 @@ function Navbar() {
         </Left>
         <Right>
           <MenuItem>{username.toUpperCase()}</MenuItem>
-          <MenuAction>
-            <PowerSettingsNew onClick={handleClick}/>
-          </MenuAction>
+          <Logout onClick={handleClick}/>
         </Right>
       </Wrapper>
     </Container>

@@ -21,11 +21,11 @@ const CategoryImage = styled(Image)`
 const Categories = () => {
   const [category, setCategory] = useState(null);
   const [open, setOpen] = useState(false);
-  const { categories, getCategories, deleteCategory } = categoryStore();
+  const { categories, getAllCategories, deleteCategory } = categoryStore();
 
   useEffect(() => {
-    getCategories();
-  }, [getCategories])
+    getAllCategories();
+  }, [getAllCategories])
 
   const handleClickOpen = () => {
     setCategory(null)

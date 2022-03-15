@@ -68,6 +68,7 @@ const Info = styled.div`
 `;
 
 const Title = styled.h3`
+  text-align: center;
   font-size: 1.8rem;
   color: var(--color-light);
   text-shadow: 2px 2px var(--color-dark);

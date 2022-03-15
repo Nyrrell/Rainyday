@@ -42,6 +42,7 @@ const Img = styled(Image)`
   width: 100%;
   height: 100%;
   min-height: 300px;
+  max-height: 300px;
 `;
 
 const SoldOut = styled.span`

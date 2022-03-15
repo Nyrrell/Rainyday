@@ -17,7 +17,9 @@ const ProductCard = styled.div`
 `;
 
 const Image = styled.img`
+  object-fit: cover;
   width: 150px;
+  height: 150px;
   border: 1px solid var(--color-gray);
 `;
 
