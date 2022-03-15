@@ -20,12 +20,13 @@ import AdminProducts from "./pages/Admin/Products/Products.jsx"
 import AdminUsers from "./pages/Admin/Users/Users.jsx";
 import HomeAdmin from "./pages/Admin/Home.jsx";
 import AdminLayout from "./pages/Admin.jsx";
+import ScrollToTop from "./utils/scrollToTop.jsx";
 
 const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Layout/>}>
-        <Route index element={<Home/>}/>
+        <Route index element={<ScrollToTop smooth><Home/></ScrollToTop>}/>
         <Route path="/products" element={<ProductList/>}>
           <Route path=":category" element={<ProductList/>}/>
         </Route>

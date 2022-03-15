@@ -2,12 +2,13 @@ import { Link, useMatch, useResolvedPath } from "react-router-dom";
 import { ShoppingCartOutlined } from '@mui/icons-material';
 import styled from 'styled-components';
 import { Badge } from '@mui/material';
+import media from "css-in-js-media";
 
 import logo from "../assets/logo.png";
+
 import authStore from "../store/authStore.js";
 import cartStore from "../store/cartStore.js";
-import media from "css-in-js-media";
-import { categories } from "../data";
+import categoryStore from "../store/categoryStore.js";
 
 const Wrapper = styled.nav`
   height: 90px;
@@ -124,6 +125,8 @@ const IsLogged = ({ user, onClick }) => (
 
 const Navbar = () => {
   const { logout, username } = authStore();
+  const { categories } = categoryStore();
+
   const quantity = cartStore(state => state.quantity);
 
   const handleClick = (e) => {
@@ -135,7 +138,7 @@ const Navbar = () => {
     <Wrapper>
       <Left>
         <NavLink to={'/'}>home</NavLink>
-        {categories.map(item => <NavLink to={`/products/${item['cat']}`} key={item['cat']}>{item['cat']}</NavLink>)}
+        {categories.map(item => <NavLink to={`/products/${item['title']}`} key={item['_id']}>{item['title']}</NavLink>)}
       </Left>
       <Center>
         <Link to={'/'}><Logo src={logo} alt="Logo"/></Link>

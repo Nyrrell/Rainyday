@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-import { popularProducts } from "../data.js"; //TODO VRAI DATA
 import Carousel from "./Carousel.jsx";
+import productStore from "../store/productStore.js";
 
 const Article = styled.article`
   display: inline-flex;
@@ -42,12 +42,16 @@ const Button = styled.button`
 `;
 
 const Slider = () => {
+  const { products } = productStore();
+
+  const productSlider = products.sort(() => 0.5 - Math.random()).slice(0, 6);
+
   return (
     <>
       <Carousel>
-        {popularProducts.map(item => (
+        {productSlider.map(item => (
           <Article key={item['_id']}>
-            <Image src={item['img']}/>
+            <Image src={process.env.REACT_APP_BACKEND_URL + item['img']}/>
             <Link to={`/product/${item['_id']}`}>
               <Button>{item['title']}</Button>
             </Link>

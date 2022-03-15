@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
-import { useLayoutEffect } from "react";
+import Image from "./Image.jsx";
 
 const Hover = styled.div`
   opacity: 0;
@@ -37,7 +37,7 @@ const ImageContainer = styled(Link)`
   text-decoration: none;
 `;
 
-const Image = styled.img`
+const Img = styled(Image)`
   object-fit: cover;
   width: 100%;
   height: 100%;
@@ -90,18 +90,14 @@ const Btn = styled(Button)`
   }
 `;
 
-const Product = ({ item }) => {
-  useLayoutEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
-  });
-
+const ProductCard = ({ item }) => {
   const inStock = item['quantity'] > 0;
 
   return (
     <Container>
       <ImageContainer to={`/product/${item['_id']}`}>
         {!inStock && <SoldOut>SOLD <br/>OUT</SoldOut>}
-        <Image src={item['img']}/>
+        <Img src={process.env.REACT_APP_BACKEND_URL + item['img']}/>
         <Hover/>
       </ImageContainer>
 
@@ -109,12 +105,14 @@ const Product = ({ item }) => {
         <Title>{item['title']}</Title>
         <Price>{item['price']} €</Price>
       </Info>
-      {inStock
-        ? <Btn href={`/product/${item['_id']}`} variant="outlined">commander</Btn>
-        : <Btn href={`/product/${item['_id']}`} cursor={'not-allowed'} color={'error'} variant="outlined">victime de son
-          succes</Btn>}
+      <Link to={`/product/${item['_id']}`}>
+        {inStock
+          ? <Btn variant="outlined">commander</Btn>
+          : <Btn cursor={'not-allowed'} color={'error'} variant="outlined">victime de son
+            succes</Btn>}
+      </Link>
     </Container>
   );
 };
 
-export default Product;
+export default ProductCard;

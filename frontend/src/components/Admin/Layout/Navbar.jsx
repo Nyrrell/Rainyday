@@ -17,17 +17,17 @@ const Container = styled.header`
   align-items: center;
   justify-content: space-between;
 
-  :after {
-    content: "";
-    height: 9rem;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background-color: inherit;
-    z-index: -1;
-    //box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
-  }
+  //:after {
+  //  content: "";
+  //  height: 9rem;
+  //  position: absolute;
+  //  top: 100%;
+  //  left: 0;
+  //  right: 0;
+  //  background-color: inherit;
+  //  z-index: -1;
+  //  //box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
+  //}
   ${media("<=phone")} { height: 50px }
 `;
 

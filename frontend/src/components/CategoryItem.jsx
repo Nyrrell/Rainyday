@@ -2,6 +2,8 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import media from "css-in-js-media";
 
+import Image from "./Image.jsx";
+
 const Hover = styled.div`
   opacity: 0;
   width: 100%;
@@ -24,6 +26,7 @@ const Category = styled.article`
     flex: 1;
     min-height: 450px;
     border: 1px solid var(--color-gray);
+    height: 45vh;
   }
 
   & > a {
@@ -44,7 +47,7 @@ const Category = styled.article`
   }
 `;
 
-const Image = styled.img`
+const Img = styled(Image)`
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -87,11 +90,11 @@ const Button = styled.button`
 const CategoryItem = ({ item }) => {
   return (
     <Category>
-      <Link to={`/products/${item['cat']}`}>
-        <Image src={item['img']}/>
+      <Link to={`/products/${item['title']}`}>
+        <Img src={process.env.REACT_APP_BACKEND_URL + item['img']}/>
         <Hover/>
         <Info>
-          <Title>{item['cat']}</Title>
+          <Title>{item['title']}</Title>
           <Button>voir</Button>
         </Info>
       </Link>

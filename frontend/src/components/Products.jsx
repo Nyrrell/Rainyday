@@ -1,9 +1,11 @@
-import styled from "styled-components";
 import { useEffect, useState } from "react";
-
-import Product from "./Product.jsx";
-import productStore from "../store/productStore.js";
+import styled from "styled-components";
 import media from "css-in-js-media";
+
+import ProductCard from "./ProductCard.jsx";
+
+import productStore from "../store/productStore.js";
+import { useLocation, useParams } from "react-router-dom";
 
 const Container = styled.section`
   width: var(--container-size);
@@ -16,47 +18,37 @@ const Container = styled.section`
 `;
 
 
-const Products = ({ cat, filters, sort, limit }) => {
-  // const [products, setProducts] = useState([]);
-  const [filteredProducts, setfilteredProducts] = useState([]);
-  const { products, getProducts } = productStore();
+const Products = ({ cat, sort, limit }) => {
+  const { products } = productStore();
+  const location = useLocation();
+  const { id } = useParams();
 
-
-  useEffect(() => {
-    // const getProducts = async () => {
-    //   try {
-    //     // const { data } = await publicRequest.get(cat ? `products?category=${cat}` : "/products");
-    //     // setProducts(data);
-    //     setProducts(!limit ? popularProducts : popularProducts.slice(0, limit))
-    //   } catch (e) {
-    //   }
-    // }
-    getProducts();
-  }, [/*cat, limit*/getProducts]);
+  const [filteredProducts, setfilteredProducts] = useState(products);
 
   useEffect(() => {
     cat && setfilteredProducts(
-      products.filter((item) => Object.entries(filters).every(([key, value]) => item[key].includes(value)))
+      products.filter(item => item['category'] === cat)
     )
-  }, [products, cat, filters]);
+  }, [products, cat]);
 
   useEffect(() => {
     if (sort === 'newest') {
-      setfilteredProducts(prev => [...prev].sort((a, b) => a.createdAt - b.createdAt))
+      setfilteredProducts(prev => [...prev].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)))
     } else if (sort === 'asc') {
       setfilteredProducts(prev => [...prev].sort((a, b) => a.price - b.price))
     } else {
       setfilteredProducts(prev => [...prev].sort((a, b) => b.price - a.price))
     }
-  }, [sort])
+  }, [sort]);
+
+  useEffect(() => {
+    limit &&
+    setfilteredProducts(products.filter(p => p['_id'] !== id).sort(() => 0.5 - Math.random()).slice(0, limit))
+  },[location, limit, id, products]);
 
   return (
     <Container>
-      {
-        cat
-          ? filteredProducts.map(item => <Product item={item} key={item['_id']}/>)
-          : products.map(item => <Product item={item} key={item['_id']}/>)
-      }
+      {filteredProducts.map(item => <ProductCard item={item} key={item['_id']}/>)}
     </Container>
   );
 };

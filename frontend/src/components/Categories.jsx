@@ -1,8 +1,8 @@
 import styled from "styled-components";
-
-import { categories } from "../data.js";
-import CategoryItem from "./CategoryItem.jsx";
 import media from "css-in-js-media";
+
+import CategoryItem from "./CategoryItem.jsx";
+import categoryStore from "../store/categoryStore.js";
 
 const Container = styled.section`
   padding: 0;
@@ -20,9 +20,11 @@ const Container = styled.section`
 `;
 
 const Categories = () => {
+  const { categories } = categoryStore();
+
   return (
     <Container>
-      {categories.map(item => <CategoryItem item={item} key={item['id']}/>)}
+      {categories.map(item => <CategoryItem item={item} key={item['_id']}/>)}
     </Container>
   );
 };

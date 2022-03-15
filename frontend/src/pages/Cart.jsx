@@ -48,8 +48,7 @@ const BackToProduct = styled(Link)`
   }
 `;
 
-const ClearCart = styled(Button)`
-`;
+const ClearCart = styled(Button)``;
 
 const Bottom = styled.div`
   display: flex;
@@ -72,6 +71,7 @@ const Summary = styled.div`
   border: 0.5px solid var(--color-gray);
   border-radius: 10px;
   padding: 20px;
+  height: fit-content;
 `;
 
 const SummaryTitle = styled.h2`

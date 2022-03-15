@@ -14,12 +14,12 @@ const Title = styled.h2`
   text-shadow: 2px 2px 2px rgba(0, 0, 0, .4);
   text-align: right;
   padding-right: 2rem;
-  
- & > span {
-   background: linear-gradient(to top, transparent 10%, rgba(240, 165, 0, 0.8) 10.01%,
-   rgba(240, 165, 0, 0.8) 40%, transparent 40.01%) no-repeat left bottom / 100% 100%;
- }
-  
+
+  & > span {
+    background: linear-gradient(to top, transparent 10%, rgba(240, 165, 0, 0.8) 10.01%,
+    rgba(240, 165, 0, 0.8) 40%, transparent 40.01%) no-repeat left bottom / 100% 100%;
+  }
+
   ${media("<=phone")} {
     margin: 1rem auto;
     font-size: 1.4rem;
@@ -35,7 +35,7 @@ const Home = () => {
       <Title><span>Catégories</span></Title>
       <Categories/>
       <Title><span>Produits populaire</span></Title>
-      <Products/>
+      <Products limit={12}/>
     </>
   );
 };

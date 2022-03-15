@@ -10,9 +10,9 @@ import media from "css-in-js-media";
 const ProductCard = styled.div`
   display: flex;
   width: 95%;
-  padding-bottom: 5px;
-  margin: 5px 0;
-  border-bottom: 1px solid var(--color-gray);
+  padding: 0.5rem 0;
+  margin: 0.4rem 0;
+  border-bottom: 0.1rem solid var(--color-gray);
   ${media("<=phone")} { flex-direction: column }
 `;
 
@@ -56,18 +56,9 @@ const ProductName = styled(Link)`
   transition: .3s;
 
   &:hover {
-    border-bottom: 2px solid var(--color-light);
+    color: var(--color-yellow);
   }
 `;
-
-const ProductColor = styled.div`
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: ${props => props['color']};
-`;
-
-const ProductSize = styled.span``;
 
 const PriceDetail = styled.div`
   display: flex;
@@ -82,6 +73,7 @@ const ProductPrice = styled.div`
   font-size: 30px;
   font-weight: 600;
   color: var(--color-yellow);
+  cursor: pointer;
 `;
 
 const ProductCart = ({ product }) => {
@@ -98,17 +90,15 @@ const ProductCart = ({ product }) => {
 
   return (
     <ProductCard>
-      <Link to={`/product/${product['_id']}`}><Image src={product['img']}/></Link>
+      <Link to={`/product/${product['_id']}`}><Image src={process.env.REACT_APP_BACKEND_URL + product['img']}/></Link>
       <Details>
         <DeleteProduct color={"error"} size={'small'} onClick={handleDelete}><Clear/></DeleteProduct>
         <ProductDetail>
           <ProductName to={`/product/${product['_id']}`}>{product['title']}</ProductName>
-          {product['color'] && <ProductColor color={product['color']}/>}
-          {product['size'] && <ProductSize><b>Taille : </b>{product['size']}</ProductSize>}
         </ProductDetail>
         <PriceDetail>
           <AmountProduct size={'small'} quantity={product['quantity']} setQuantity={handleQuantity}/>
-          <InitialPrice title={`${product['price']} €`} placement="left" arrow>
+          <InitialPrice title={`Prix unitaire ${product['price']} €`} placement="left" arrow>
             <ProductPrice>{product['price'] * product['quantity']} €</ProductPrice>
           </InitialPrice>
         </PriceDetail>
