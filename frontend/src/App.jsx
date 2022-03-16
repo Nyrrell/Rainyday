@@ -3,35 +3,33 @@ import { Routes, Route } from "react-router-dom";
 import { AlreadyAuth, RequireAuth, RequireAuthorization } from "./services/ProtectedRoute.js";
 
 // SHOP PAGES
-import ProductList from "./pages/ProductList.jsx";
-import Register from "./pages/Register.jsx";
-import NoMatch from "./pages/NoMatch.jsx";
-import Success from "./pages/Success.jsx";
-import Product from "./pages/Product.jsx";
-import Layout from "./pages/Client.jsx";
-import Login from "./pages/Login.jsx";
-import Home from "./pages/Home.jsx";
-import Cart from "./pages/Cart.jsx";
+import ProductCatalog from "./components/Product/ProductCatalog.jsx";
+import ProductDetailPage from "./components/ProductDetail/ProductDetailPage.jsx";
+import Register from "./components/Users/Register.jsx";
+import NoMatch from "./components/NoMatch.jsx";
+import Success from "./components/Cart/Success.jsx";
+import Layout from "./components/Base/Client.jsx";
+import Login from "./components/Users/Login.jsx";
+import Home from "./components/Home.jsx";
+import Cart from "./components/Cart/Cart.jsx";
 
 // ADMIN PAGES
-import AdminCategories from "./pages/Admin/Categories/Categories.jsx"
-import AdminDiscounts from "./pages/Admin/Discounts/Discounts.jsx"
-import AdminProducts from "./pages/Admin/Products/Products.jsx"
-import AdminUsers from "./pages/Admin/Users/Users.jsx";
-import HomeAdmin from "./pages/Admin/Home.jsx";
-import AdminLayout from "./pages/Admin.jsx";
+import AdminCategories from "./components/Admin/Categories/Categories.jsx"
+import AdminDiscounts from "./components/Admin/Discounts/Discounts.jsx"
+import AdminProducts from "./components/Admin/Products/Products.jsx"
+import AdminUsers from "./components/Admin/Users/Users.jsx";
+import HomeAdmin from "./components/Admin/Home.jsx";
+import AdminLayout from "./components/Base/Admin.jsx";
 import ScrollToTop from "./utils/scrollToTop.jsx";
 
 const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Layout/>}>
-        <Route index element={<ScrollToTop smooth><Home/></ScrollToTop>}/>
-        <Route path="/products" element={<ProductList/>}>
-          <Route path=":category" element={<ProductList/>}/>
-        </Route>
-        <Route path="/product/:id" element={<Product/>}/>
-        <Route path="/cart" element={<Cart/>}/>
+        <Route index element={<ScrollToTop><Home/></ScrollToTop>}/>
+        <Route path="/products/:category" element={<ScrollToTop><ProductCatalog/></ScrollToTop>}/>
+        <Route path="/product/:id" element={<ScrollToTop ><ProductDetailPage/></ScrollToTop>}/> {/*TODO SLUGIFY*/}
+        <Route path="/cart" element={<ScrollToTop><Cart/></ScrollToTop>}/>
         <Route path="/success" element={<Success/>}/>
         <Route path="/login" element={<AlreadyAuth><Login/></AlreadyAuth>}/>
         <Route path="/register" element={<AlreadyAuth><Register/></AlreadyAuth>}/>
@@ -43,7 +41,7 @@ const App = () => {
         <Route path="products" element={<AdminProducts/>}/>
         <Route path="categories" element={<AdminCategories/>}/>
         <Route path="discounts" element={<AdminDiscounts/>}/>
-      </Route>
+    </Route>
       <Route path="*" element={<NoMatch/>}/>
     </Routes>
   );

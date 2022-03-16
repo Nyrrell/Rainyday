@@ -2,7 +2,7 @@ import { useLocation, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import authStore from "../store/authStore.js";
-import NoMatch from "../pages/NoMatch.jsx";
+import NoMatch from "../components/NoMatch.jsx";
 
 export const RequireAuth = ({ children }) => {
   const location = useLocation();

@@ -1,13 +1,15 @@
 import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 
-const ScrollToTop = ({ children, smooth }) => {
+const ScrollToTop = ({ children }) => {
   const location = useLocation();
-  useEffect(() => {
+
+  useLayoutEffect(() => {
+    const smooth = location['state']?.['from'].split('/')[1] === 'product';
     window.scrollTo({ top: 0, left: 0, ...(smooth && { behavior: 'smooth' }) });
   }, [location]);
 
-  return <>{children}</>
+  return children
 };
 
 export default ScrollToTop;
