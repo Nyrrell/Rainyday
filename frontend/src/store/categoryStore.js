@@ -10,7 +10,7 @@ const categoryStore = create(
     getCategories: async () => {
       set({ isFetching: true, error: false });
       try {
-        const { data } = await publicRequest.get("/categories/public");
+        const { data } = await publicRequest.get("/categories?public=true");
         set({ categories: data, isFetching: false });
       } catch {
         set({ isFetching: false, error: true });

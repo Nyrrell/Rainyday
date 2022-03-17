@@ -52,7 +52,7 @@ const Slider = () => {
         {productSlider.map(item => (
           <Article key={item['_id']}>
             <Image src={process.env.REACT_APP_BACKEND_URL + item['img']}/>
-            <Link to={`/product/${item['_id']}`}>
+            <Link to={`/product/${item['slug']}`}>
               <Button>{item['title']}</Button>
             </Link>
           </Article>

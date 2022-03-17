@@ -28,7 +28,7 @@ const App = () => {
       <Route path="/" element={<Layout/>}>
         <Route index element={<ScrollToTop><Home/></ScrollToTop>}/>
         <Route path="/products/:category" element={<ScrollToTop><ProductCatalog/></ScrollToTop>}/>
-        <Route path="/product/:id" element={<ScrollToTop ><ProductDetailPage/></ScrollToTop>}/> {/*TODO SLUGIFY*/}
+        <Route path="/product/:slug" element={<ScrollToTop ><ProductDetailPage/></ScrollToTop>}/> {/*TODO SLUGIFY*/}
         <Route path="/cart" element={<ScrollToTop><Cart/></ScrollToTop>}/>
         <Route path="/success" element={<Success/>}/>
         <Route path="/login" element={<AlreadyAuth><Login/></AlreadyAuth>}/>

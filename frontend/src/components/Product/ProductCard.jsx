@@ -100,7 +100,7 @@ const ProductCard = ({ item }) => {
 
   return (
     <Container>
-      <ImageContainer state={state} to={`/product/${item['_id']}`}>
+      <ImageContainer state={state} to={`/product/${item['slug']}`}>
         {!inStock && <SoldOut>SOLD <br/>OUT</SoldOut>}
         <Img src={process.env.REACT_APP_BACKEND_URL + item['img']}/>
         <Hover/>
@@ -110,7 +110,7 @@ const ProductCard = ({ item }) => {
         <Title>{item['title']}</Title>
         <Price>{item['price']} €</Price>
       </Info>
-      <Link state={state} to={`/product/${item['_id']}`}>
+      <Link state={state} to={`/product/${item['slug']}`}>
         {inStock
           ? <Btn variant="outlined">commander</Btn>
           : <Btn cursor={'not-allowed'} color={'error'} variant="outlined">victime de son succes</Btn>}

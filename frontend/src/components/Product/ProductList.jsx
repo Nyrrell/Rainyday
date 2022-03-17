@@ -1,3 +1,4 @@
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import media from "css-in-js-media";
@@ -5,7 +6,6 @@ import media from "css-in-js-media";
 import ProductCard from "./ProductCard.jsx";
 
 import productStore from "../../store/productStore.js";
-import { useLocation, useParams } from "react-router-dom";
 
 const Container = styled.section`
   width: var(--container-size);
@@ -21,7 +21,7 @@ const Container = styled.section`
 
 const ProductList = ({ cat, sort, limit }) => {
   const { products } = productStore();
-  const { id } = useParams();
+  const { slug } = useParams();
 
   const [filteredProducts, setfilteredProducts] = useState([]);
 
@@ -41,8 +41,8 @@ const ProductList = ({ cat, sort, limit }) => {
 
   useEffect(() => {
     limit &&
-    setfilteredProducts(products.filter(p => p['_id'] !== id).sort(() => 0.5 - Math.random()).slice(0, limit))
-  }, [limit, id, products]);
+    setfilteredProducts(products.filter(p => p['slug'] !== slug).sort(() => 0.5 - Math.random()).slice(0, limit))
+  }, [limit, slug, products]);
 
   return (
     <Container>

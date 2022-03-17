@@ -51,13 +51,18 @@ export const getCategory = async (req, res) => {
 };
 
 export const getAllCategories = async (req, res) => {
-  const visible = req.params.visible === 'public';
+  const visible = req.query.public;
+
+  if (!visible && req.method !== 'POST') return res.code(404).send(new Error('Not Found'));
 
   try {
-    let categories;
-    if (visible) categories = await Category.find().where({ visible: true });
-    else categories = await Category.find();
-    res.send(categories);
+    if (!visible) res.send(await Category.find());
+    const categories = await Category.find().where({ visible: true });
+    const publicCategories = categories.map(cat => {
+      const { _id, title, desc, img, slug, ...other } = cat.toJSON();
+      return { _id, title, desc, img, slug };
+    })
+    res.send(publicCategories);
   } catch (e) {
     res.send(e);
   }

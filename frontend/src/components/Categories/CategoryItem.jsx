@@ -91,7 +91,7 @@ const Button = styled.button`
 const CategoryItem = ({ item }) => {
   return (
     <Category>
-      <Link to={`/products/${item['title']}`}>
+      <Link to={`/products/${item['slug']}`}>
         <Img src={process.env.REACT_APP_BACKEND_URL + item['img']}/>
         <Hover/>
         <Info>

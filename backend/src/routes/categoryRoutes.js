@@ -6,6 +6,6 @@ export default async function categoryRoutes(fastify) {
   fastify.put('/:id', { preValidation: [authenticate, isAdmin], preHandler: upload }, updateCategory);
   fastify.delete('/:id', { preValidation: [authenticate, isAdmin] }, deleteCategory);
   fastify.post('/', { preValidation: [authenticate, isAdmin] }, getAllCategories);
-  fastify.get('/:visible', getAllCategories);
+  fastify.get('/', getAllCategories);
   fastify.get('/find/:id', getCategory);
 };

@@ -64,13 +64,13 @@ const Subtitle = styled.h2`
 
 const ProductDetailPage = () => {
   const { products } = productStore();
-  const { id } = useParams();
+  const { slug } = useParams();
 
   const [product, setProduct] = useState({});
 
   useEffect(() => {
-    Object.keys(products).length && setProduct(products.find(p => p["_id"] === id) || {})
-  }, [id, products])
+    Object.keys(products).length && setProduct(products.find(p => p["slug"] === slug) || {})
+  }, [slug, products])
 
   const isExist = Boolean(Object.keys(product).length);
 
