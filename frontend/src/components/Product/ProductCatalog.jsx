@@ -9,6 +9,7 @@ const CatContainer = styled.div`
   margin: 0 1.6rem;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 `;
 
 const Title = styled.h1`
