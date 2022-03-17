@@ -9,15 +9,6 @@ import ProductList from "../Product/ProductList.jsx";
 
 import productStore from "../../store/productStore.js";
 
-const Container = styled.div`
-  width: var(--container-size);
-  margin: 3rem auto;
-
-  ${media("<=phone")} {
-    width: 100vw
-  }
-`;
-
 const BackToProduct = styled(Link)`
   font-weight: 600;
   font-size: 1.4rem;
@@ -75,8 +66,9 @@ const ProductDetailPage = () => {
   const isExist = Boolean(Object.keys(product).length);
 
   return ( // TODO VERIFER MAUVAISE URL
-    <Container>
-      <BackToProduct to={isExist ? `/products/${product['category']}` : "/"}>Retour à la liste des articles</BackToProduct>
+    <>
+      <BackToProduct to={isExist ? `/products/${product['category']}` : "/"}>Retour à la liste des
+        articles</BackToProduct>
       <Wrapper>
         {isExist
           ? <ProductDetail product={product}/>
@@ -87,7 +79,7 @@ const ProductDetailPage = () => {
         <Subtitle>Produits recommandés</Subtitle>
         <ProductList limit={4}/>
       </RecommendedContainer>
-    </Container>
+    </>
   )
 };
 

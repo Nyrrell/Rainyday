@@ -5,19 +5,13 @@ import { useState } from "react";
 
 import ProductList from "./ProductList.jsx";
 
-const Container = styled.div`
-  width: var(--container-size);
-  margin: 3rem auto;
-`;
-
 const CatContainer = styled.div`
-  margin: 1.6rem;
+  margin: 0 1.6rem;
   display: flex;
   justify-content: space-between;
 `;
 
 const Title = styled.h1`
-
   font-size: 1.8rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -61,7 +55,7 @@ const ProductCatalog = () => {
   const [sort, setSort] = useState("newest");
 
   return (
-    <Container>
+    <>
       <CatContainer>
         <Title>{category}</Title>
         <Filter>
@@ -74,7 +68,7 @@ const ProductCatalog = () => {
         </Filter>
       </CatContainer>
       <ProductList cat={category} sort={sort}/>
-    </Container>
+    </>
   );
 };
 

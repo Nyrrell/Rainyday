@@ -75,7 +75,7 @@ const ListItem = styled.li`
 const Right = styled.div`
   flex: 1;
   padding: 20px;
-  ${media("<=phone")} { background-color: #eee }
+  ${media("<=phone")} { display: none }
 `;
 
 const ContactItem = styled.div`

@@ -35,7 +35,6 @@ const Container = styled.section`
 
   ${media(">tablet")} {
     width: var(--container-size);
-    margin: 1.2rem auto;
     min-height: 400px;
     border: 2px solid var(--color-gray);
   }

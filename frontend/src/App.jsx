@@ -25,14 +25,14 @@ import ScrollToTop from "./utils/scrollToTop.jsx";
 const App = () => {
   return (
     <Routes>
-      <Route path="/" element={<Layout/>}>
-        <Route index element={<ScrollToTop><Home/></ScrollToTop>}/>
-        <Route path="/products/:category" element={<ScrollToTop><ProductCatalog/></ScrollToTop>}/>
-        <Route path="/product/:slug" element={<ScrollToTop ><ProductDetailPage/></ScrollToTop>}/> {/*TODO SLUGIFY*/}
-        <Route path="/cart" element={<ScrollToTop><Cart/></ScrollToTop>}/>
+      <Route path="/" element={<ScrollToTop><Layout/></ScrollToTop>}>
+        <Route index element={<Home/>}/>
+        <Route path="/products/:category" element={<ProductCatalog/>}/>
+        <Route path="/product/:slug" element={<ProductDetailPage/>}/>
+        <Route path="/cart" element={<Cart/>}/>
         <Route path="/success" element={<Success/>}/>
-        <Route path="/login" element={<AlreadyAuth><Login/></AlreadyAuth>}/>
-        <Route path="/register" element={<AlreadyAuth><Register/></AlreadyAuth>}/>
+        <Route path="/login" element={<AlreadyAuth><Login className={'auth'}/></AlreadyAuth>}/>
+        <Route path="/register" element={<AlreadyAuth><Register className={'auth'}/></AlreadyAuth>}/>
         <Route path="/profile" element={<RequireAuth><Register/></RequireAuth>}/> {/*TODO*/}
       </Route>
       <Route path="/admin" element={<RequireAuthorization><AdminLayout/></RequireAuthorization>}>
@@ -41,7 +41,7 @@ const App = () => {
         <Route path="products" element={<AdminProducts/>}/>
         <Route path="categories" element={<AdminCategories/>}/>
         <Route path="discounts" element={<AdminDiscounts/>}/>
-    </Route>
+      </Route>
       <Route path="*" element={<NoMatch/>}/>
     </Routes>
   );

@@ -1,4 +1,6 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
+import styled from "styled-components";
+import media from "css-in-js-media";
 import { useEffect } from "react";
 
 import Announcement from "../Layout/Announcement.jsx";
@@ -8,9 +10,27 @@ import Footer from "../Layout/Footer.jsx";
 import categoryStore from "../../store/categoryStore.js";
 import productStore from "../../store/productStore.js";
 
+const Container = styled.div`
+  width: var(--container-size);
+  margin: 3rem auto;
+  flex-grow: 1;
+
+  &.auth {
+    margin-top: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  ${media("<=phone")} {
+    width: 90vw;
+  }
+`;
+
 const Client = () => {
-  const { products, getProducts } = productStore();
   const { categories, getCategories } = categoryStore();
+  const { products, getProducts } = productStore();
+  const location = useLocation();
 
   useEffect(() => {
     if (Object.keys(products).length) return;
@@ -26,7 +46,9 @@ const Client = () => {
     <>
       <Navbar/>
       <Announcement/>
-      <Outlet style={{minHeight: "60vh"}}/>
+      <Container className={["/login", "/register"].includes(location.pathname) && "auth"}>
+        <Outlet/>
+      </Container>
       <Footer/>
     </>
   );

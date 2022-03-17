@@ -8,14 +8,13 @@ import ProductCard from "./ProductCard.jsx";
 import productStore from "../../store/productStore.js";
 
 const Container = styled.section`
-  width: var(--container-size);
-  margin: 0 auto 3rem auto;
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
 
   ${media("<=phone")} {
-    width: 80%
+    flex-direction: column;
+    align-items: center;
   }
 `;
 

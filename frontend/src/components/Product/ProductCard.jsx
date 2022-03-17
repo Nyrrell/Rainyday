@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@mui/material";
 import styled from "styled-components";
+
 import Image from "../Image.jsx";
 
 const Hover = styled.div`

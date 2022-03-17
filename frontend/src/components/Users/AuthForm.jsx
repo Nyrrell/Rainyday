@@ -3,33 +3,23 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import media from "css-in-js-media";
 
-import auth_bg from "../../assets/auth_bg.webp"
-
 import authStore from "../../store/authStore.js";
 
-const Container = styled.div`
-  width: 100%;
-  min-height: 80vh;
-  color: var(--color-dark);
-  background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5)), url(${auth_bg});
-  background-size: cover;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
 const Wrapper = styled.div`
-  position: absolute;
   width: 25vw;
   padding: 20px;
+  color: var(--color-dark);
   background-color: var(--color-light);
-  ${media("<=phone")} { width: 75% }
+
+  ${media("<=phone")} {
+    width: 75%
+  }
 `;
 
 const Title = styled.h1`
   font-size: 32px;
   font-weight: 300;
-  margin-bottom: 0.5rem;
+  margin: 0;
 `;
 
 const Form = styled.form`
@@ -78,7 +68,7 @@ const AuthForm = ({ children, onClick, type }) => {
   }
 
   return (
-    <Container>
+    <>
       <Wrapper>
         <Title>{type === 'login' ? 'Connexion' : 'Inscription'}</Title>
         {error &&
@@ -98,7 +88,7 @@ const AuthForm = ({ children, onClick, type }) => {
         </Form>
         {isFetching && <Fetching/>}
       </Wrapper>
-    </Container>
+    </>
   );
 };
 

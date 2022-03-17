@@ -11,22 +11,16 @@ import ProductCart from "./ProductCart.jsx";
 
 import cartStore from "../../store/cartStore.js";
 
-const Wrapper = styled.div`
-  width: var(--container-size);
-  min-height: 60vh;
-  margin: 3rem auto;
-  ${media("<=phone")} { padding: 10px; }
-`;
-
 const Top = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 3rem 0 0.5rem 0;
+  margin: 1rem 0 0.5rem 0;
 `;
 
 const Title = styled.h1`
   margin-left: 1.6rem;
+  margin-top: 0;
   width: fit-content;
   font-size: 1.8rem;
   font-weight: 800;
@@ -128,10 +122,10 @@ const Cart = () => {
   };
 
   return (
-    <Wrapper>
+    <>
       <Title>Panier</Title>
       <Top>
-        <BackToProduct to={`/products/`}>Continue tes achats</BackToProduct>
+        <BackToProduct to={'/'}>Continue tes achats</BackToProduct>
         {!isEmpty && <ClearCart variant={'outlined'} color={'error'} startIcon={<Delete/>} onClick={handleClick}>Vider le panier</ClearCart>}
       </Top>
       <Bottom>
@@ -165,7 +159,7 @@ const Cart = () => {
           <PaypalCheckout products={products} total={total}/> {/*// TODO TOTAL A CONTROLER*/}
         </Summary>
       </Bottom>
-    </Wrapper>
+    </>
   );
 };
 
