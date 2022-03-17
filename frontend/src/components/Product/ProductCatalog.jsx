@@ -6,7 +6,7 @@ import { useState } from "react";
 import ProductList from "./ProductList.jsx";
 
 const CatContainer = styled.div`
-  margin: 0 1.6rem;
+  margin: 0 1.6rem 1.6rem 1.6rem; 
   display: flex;
   justify-content: space-between;
   align-items: center;

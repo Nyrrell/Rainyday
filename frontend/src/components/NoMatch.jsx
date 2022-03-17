@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import media from "css-in-js-media";
 
 const Container = styled.div`
   height: 100vh;
@@ -15,12 +16,21 @@ const Container = styled.div`
 const Title = styled.h1`
   font-weight: 600;
   font-size: 30vh;
+  margin: 0;
+
+  ${media("<=phone")} {
+    font-size: 30vw;
+  }
 `;
 
 const SubTitle = styled.h2`
   font-weight: 600;
   font-size: 10vh;
   margin-bottom: 50px;
+  
+  ${media("<=phone")} {
+    font-size: 10vw;
+  }
 `;
 
 const Button = styled.button`
@@ -31,7 +41,6 @@ const Button = styled.button`
   border-radius: 50px;
   background-color: deepskyblue;
   font-weight: 600;
-
   cursor: pointer;
 `;
 

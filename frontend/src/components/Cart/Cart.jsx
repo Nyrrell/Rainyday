@@ -15,12 +15,11 @@ const Top = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 1rem 0 0.5rem 0;
+  margin: 2rem 0 0.5rem 0;
 `;
 
 const Title = styled.h1`
   margin-left: 1.6rem;
-  margin-top: 0;
   width: fit-content;
   font-size: 1.8rem;
   font-weight: 800;

@@ -7,6 +7,7 @@ import App from './App';
 
 const GlobalStyles = createGlobalStyle`
   * {
+    margin: 0;
     box-sizing: border-box;
     font-family: 'Urbanist', sans-serif;
   }
@@ -14,7 +15,7 @@ const GlobalStyles = createGlobalStyle`
   html,
   body {
     height: 100%;
-    margin: 0;
+
   }
   
   :root {
