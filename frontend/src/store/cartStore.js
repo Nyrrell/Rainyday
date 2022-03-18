@@ -13,29 +13,32 @@ const cartStore = create(persist(
   set => ({
     ...initalState,
     addProduct: (payload) => set(state => {
-      state.quantity += payload['quantity'];
-      state.total += payload.price * payload['quantity'];
-      const exist = findInCart(state, payload['_id']);
-      if (exist) exist.quantity += payload['quantity'];
-      else state.products.push(payload);
+      const { _id, quantity, price } = payload;
+      state.quantity += quantity;
+      state.total += price * quantity;
+      const exist = findInCart(state, _id);
+      if (exist) exist.quantity += quantity;
+      else state.products.push({ _id, quantity });
     }),
     removeProduct: (payload) => set(state => {
-      state.quantity -= payload['quantity'];
-      state.total -= payload['price'] * payload['quantity'];
-      state.products = state.products.filter((item) => item['_id'] !== payload['_id']);
+      const { _id, quantity, price } = payload;
+      state.quantity -= quantity;
+      state.total -= price * quantity;
+      state.products = state.products.filter((item) => item['_id'] !== _id);
     }),
     updateProduct: (payload) => set(state => {
-      const product = findInCart(state, payload['_id']);
-      if (payload['quantity'] > product['quantity']) {
-        const newQuantity = payload['quantity'] - product['quantity'];
-        product['quantity'] += newQuantity;
+      const { _id, quantity, price } = payload;
+      const productCart = findInCart(state, _id);
+      if (quantity > productCart['quantity']) {
+        const newQuantity = quantity - productCart['quantity'];
+        productCart['quantity'] += newQuantity;
         state.quantity += newQuantity;
-        state.total += newQuantity * product['price'];
-      } else if (payload['quantity'] < product['quantity']) {
-        const newQuantity = product['quantity'] - payload['quantity'];
-        product['quantity'] -= newQuantity;
+        state.total += newQuantity * price;
+      } else if (quantity < productCart['quantity']) {
+        const newQuantity = productCart['quantity'] - quantity;
+        productCart['quantity'] -= newQuantity;
         state.quantity -= newQuantity;
-        state.total -= newQuantity * product['price'];
+        state.total -= newQuantity * price;
       }
     }),
     emptyProduct: () => set({ ...initalState })

@@ -6,7 +6,6 @@ const OrderStore = create(
   set => ({
     userOrders: [],
     allOrders: [],
-    order: {},
     isFetching: false,
     error: false,
     // CLIENT ORDER
@@ -48,12 +47,11 @@ const OrderStore = create(
       set({ isFetching: true, error: false });
       try {
         const { data } = await userRequest.post(`/orders`, payload);
-        set(state => {
-          state.order = data;
-          state.isFetching = false;
-          state.error = false;
-        });
-      } catch {
+        set({ isFetching: false, error: false });
+        console.log('oui')
+        return data;
+      } catch (e) {
+        console.log(e.response)
         set({ isFetching: false, error: true });
       }
     }

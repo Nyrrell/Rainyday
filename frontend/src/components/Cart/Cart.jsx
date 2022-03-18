@@ -91,7 +91,7 @@ const Empty = styled.div`
 
 const Cart = () => {
   const { products, total, emptyProduct } = cartStore();
-  const stripeToken = null;
+  const paypalToken = null;
   const navigate = useNavigate();
   const isEmpty = !products.length;
 
@@ -100,7 +100,7 @@ const Cart = () => {
     const makeRequest = async () => {
       try {
         const res = await userRequest.post('checkout/payment', {
-          tokenId: stripeToken.id,
+          tokenId: paypalToken.id,
           amount: total * 100,
         });
         navigate('/success', {
@@ -112,8 +112,8 @@ const Cart = () => {
       } catch (e) {
       }
     }
-    stripeToken && total >= 1 && makeRequest();
-  }, [stripeToken, products, total, navigate])
+    paypalToken && total >= 1 && makeRequest();
+  }, [paypalToken, products, total, navigate])
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -132,7 +132,7 @@ const Cart = () => {
           {!isEmpty
             ?
             products.map((product, key) => (
-              <ProductCart key={key} product={product}/>
+              <ProductCart key={key} data={product}/>
             ))
             : <Empty>Panier vide</Empty>
           }
@@ -155,7 +155,7 @@ const Cart = () => {
             <SummaryItemText>Total</SummaryItemText>
             <SummaryItemPrice>{total} €</SummaryItemPrice>
           </SummaryItem>
-          <PaypalCheckout products={products} total={total}/> {/*// TODO TOTAL A CONTROLER*/}
+          <PaypalCheckout products={products}/>
         </Summary>
       </Bottom>
     </>

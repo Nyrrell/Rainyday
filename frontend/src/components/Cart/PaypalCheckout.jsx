@@ -3,9 +3,9 @@ import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { paypalOptions } from "../../services/paypal.js";
 import orderStore from "../../store/orderStore.js";
 
-const PaypalCheckout = ({ products, total }) => {
-  const { createOrder } = orderStore();
-
+const PaypalCheckout = ({ products }) => {
+  const { createOrder, error } = orderStore();
+  const total = null
 // TODO PRIX NE CE MET PAS A JOUR
   const orderItems = products.map(p => ({
     name: p['title'],
@@ -16,9 +16,14 @@ const PaypalCheckout = ({ products, total }) => {
     quantity: p['quantity'],
   }))
 
+  const handleClick = async (data, actions) => {
+
+    await createOrder(products)
+
+    return actions.reject()
+  }
+  console.log(error)
   const handleOrder = async (data, actions) => {
-    console.log(products)
-    await createOrder(products);
     return actions.order.create({
       purchase_units: [
         {
@@ -54,6 +59,7 @@ const PaypalCheckout = ({ products, total }) => {
           layout: "horizontal",
           tagline: false
         }}
+        onClick={handleClick}
         createOrder={handleOrder}
         onApprove={handleApprove}
       />
