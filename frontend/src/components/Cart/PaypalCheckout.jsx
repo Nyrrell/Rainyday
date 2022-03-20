@@ -4,7 +4,7 @@ import { paypalOptions } from "../../services/paypal.js";
 import orderStore from "../../store/orderStore.js";
 
 const PaypalCheckout = ({ products }) => {
-  const { createOrder, error } = orderStore();
+  const { createOrder, error, newOrder } = orderStore();
   const total = null
 // TODO PRIX NE CE MET PAS A JOUR
   const orderItems = products.map(p => ({
@@ -17,13 +17,14 @@ const PaypalCheckout = ({ products }) => {
   }))
 
   const handleClick = async (data, actions) => {
-
-    await createOrder(products)
-
-    return actions.reject()
+    const isValidCheckout = await createOrder(products);
+    if (isValidCheckout) return actions.resolve();
+    return actions.reject();
   }
   console.log(error)
   const handleOrder = async (data, actions) => {
+    console.log(newOrder)
+    console.log(data)
     return actions.order.create({
       purchase_units: [
         {

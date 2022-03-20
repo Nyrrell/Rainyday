@@ -1,33 +1,32 @@
 import Product from "../models/Product.js";
 
 export const validateCart = async (req, res) => {
-  const productsCart = req.body;
+  const productsInCart = req.body;
+  const paypalCheckout = [];
   const notAvailable = [];
-  console.log(productsCart)
 
   try {
-    const products = await Product.find({ _id: { $in: productsCart.map(p => p['_id']) } });
+    const products = await Product.find({ _id: { $in: productsInCart.map(p => p['_id']) } });
 
     for await (const product of products) {
       const { _id, quantity } = product.toJSON();
-      quantity < productsCart.find(pCart => pCart['_id'] === _id.toString())['quantity']
-      && notAvailable.push({ _id: _id.toString(), quantity })
+      const inCart = productsInCart.find(pCart => pCart['_id'] === _id.toString());
+
+      quantity < inCart['quantity']
+        ? notAvailable.push({ _id: _id.toString(), quantity })
+        : paypalCheckout.push({
+          name: product['title'],
+          unit_amount: {
+            value: product['price'],
+            currency_code: 'EUR'
+          },
+          quantity: inCart['quantity'],
+        });
     }
 
-    console.log(notAvailable)
-
-    if (notAvailable.length > 0) return res.code(403).send(notAvailable);
-    const orderItems = products.map(p => ({
-      name: p['title'],
-      unit_amount: {
-        value: p['price'],
-        currency_code: 'EUR'
-      },
-      quantity: p['quantity'],
-    }))
-
-    console.log(orderItems)
-
+    if (notAvailable.length > 0) return res.code(403).send({ message: "Invalid available quantity", notAvailable });
+    console.log(paypalCheckout)
+    res.send(paypalCheckout);
   } catch (e) {
     console.log(e)
   }
