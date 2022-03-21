@@ -14,8 +14,9 @@ const OrderSchema = new Schema(
     productsTotal: { type: Number, required: true },
     total: { type: Number, required: true },
     discount: { type: String },
-    discountTotal: { type: Number },
-    address: { type: Object },
+    discountAmount: { type: Number },
+    paypalId: { type: String },
+    shipping: { type: Object },
     state: {
       type: String,
       enum: {

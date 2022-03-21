@@ -1,12 +1,47 @@
 import Order from "../models/Order.js";
 import User from "../models/User.js";
+import Product from "../models/Product.js";
 
 export const createOrder = async (req, res) => {
-  const newOrder = new Order(req.body);
+  const productsInCart = req.body;
+  const checkout = { id: null, items: [], total: 0 };
+  const notAvailable = [];
 
   try {
-    const order = await newOrder.save();
-    res.send(order)
+    const products = await Product.find({ _id: { $in: productsInCart.map(p => p['_id']) } });
+
+    for await (const product of products) {
+      const { _id, quantity } = product.toJSON();
+      const inCart = productsInCart.find(pCart => pCart['_id'] === _id.toString());
+
+      if (quantity < inCart['quantity']) {
+        notAvailable.push({ _id: _id.toString(), quantity });
+      } else {
+        checkout['items'].push({
+          name: product['title'],
+          unit_amount: {
+            value: product['price'],
+            currency_code: 'EUR'
+          },
+          quantity: inCart['quantity'],
+        });
+        checkout['total'] += product['price'] * inCart['quantity'];
+      }
+    }
+    if (notAvailable.length > 0) return res.code(403).send({ message: "Invalid available quantity", notAvailable });
+
+    const newOrder = new Order({
+      customer: req['user']['id'],
+      products: checkout['items'],
+      productsTotal: checkout['items'].reduce((prevValue, currentValue) => prevValue['quantity'] + currentValue['quantity']),
+      total: checkout['total'],
+      discount: '',
+      discountAmount: 0,
+    });
+
+    console.log(newOrder)
+    checkout['id'] = newOrder['_id'];
+    res.send({ ...checkout });
   } catch (e) {
     res.send(e);
   }

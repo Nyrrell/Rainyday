@@ -89,7 +89,7 @@ const CategoryForm = ({ data, close }) => {
                           label="Visible" labelPlacement="start"/>
       </FormLeft>
       <FormRight>
-        <Img src={image} alt={"image"}/>
+        <Img src={image}/>
         <Label htmlFor="file">
           <InputImage accept="image/*" id="file" type="file" onChange={uploadImage}/>
           <IconButton aria-label="upload picture" name={'img'} component={'span'}>

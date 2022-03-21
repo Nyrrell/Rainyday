@@ -51,7 +51,7 @@ const Products = () => {
       field: 'img',
       headerName: 'Image',
       type: 'actions',
-      renderCell: ({ value }) => <ProductImage src={process.env.REACT_APP_BACKEND_URL + value} alt="image"/>
+      renderCell: ({ value }) => <ProductImage src={process.env.REACT_APP_BACKEND_URL + value}/>
     },
     { field: 'title', headerName: 'Article', cellClassName: 'main-cell', flex: 1 },
     { field: 'category', headerName: 'Catégorie', flex: 1 },

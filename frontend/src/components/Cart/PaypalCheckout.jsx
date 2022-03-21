@@ -4,40 +4,31 @@ import { paypalOptions } from "../../services/paypal.js";
 import orderStore from "../../store/orderStore.js";
 
 const PaypalCheckout = ({ products }) => {
-  const { createOrder, error, newOrder } = orderStore();
-  const total = null
-// TODO PRIX NE CE MET PAS A JOUR
-  const orderItems = products.map(p => ({
-    name: p['title'],
-    unit_amount: {
-      value: p['price'],
-      currency_code: 'EUR'
-    },
-    quantity: p['quantity'],
-  }))
+  const { createOrder } = orderStore();
+  let checkout;
 
   const handleClick = async (data, actions) => {
-    const isValidCheckout = await createOrder(products);
-    if (isValidCheckout) return actions.resolve();
-    return actions.reject();
+    const getCheckout = await createOrder(products);
+    if (!getCheckout) return actions.reject();
+    checkout = getCheckout;
+    return actions.resolve();
   }
-  console.log(error)
+
   const handleOrder = async (data, actions) => {
-    console.log(newOrder)
-    console.log(data)
     return actions.order.create({
       purchase_units: [
         {
+          reference_id: checkout['id'],
           amount: {
-            value: total,
+            value: checkout['total'],
             breakdown: {
               item_total: {
-                value: total,
+                value: checkout['total'],
                 currency_code: 'EUR'
               }
             },
           },
-          items: orderItems
+          items: checkout['items']
         },
       ],
     });
@@ -53,6 +44,11 @@ const PaypalCheckout = ({ products }) => {
 
   }
 
+  const handleShipping = (data, actions) => {
+    if (data.shipping_address.country_code !== 'FR') return actions.reject();
+    return actions.resolve();
+  }
+
   return (
     <PayPalScriptProvider options={paypalOptions}>
       <PayPalButtons
@@ -63,6 +59,7 @@ const PaypalCheckout = ({ products }) => {
         onClick={handleClick}
         createOrder={handleOrder}
         onApprove={handleApprove}
+        onShippingChange={handleShipping}
       />
     </PayPalScriptProvider>
   );

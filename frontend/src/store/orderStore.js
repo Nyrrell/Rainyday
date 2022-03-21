@@ -6,9 +6,10 @@ const OrderStore = create(
   set => ({
     userOrders: [],
     allOrders: [],
-    newOrder: [],
+    newOrder: {},
     isFetching: false,
     error: false,
+    errorOrder: [],
     // CLIENT ORDER
     getUserOrder: async (id) => {
       set({ isFetching: true, error: false });
@@ -47,11 +48,11 @@ const OrderStore = create(
     createOrder: async (payload) => {
       set({ isFetching: true, error: false });
       try {
-        const { data } = await userRequest.post(`/orders`, payload);
+        const { data } = await userRequest.post(`/orders/checkout`, payload);
         set({ newOrder: data, isFetching: false, error: false });
-        return true;
+        return data;
       } catch (e) {
-        set({ isFetching: false, error: true, newOrder: e['response']?.['data']?.['notAvailable'] });
+        set({ isFetching: false, error: true, errorOrder: e['response']?.['data']?.['notAvailable'] });
         return false;
       }
     }

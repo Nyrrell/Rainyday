@@ -1,8 +1,8 @@
 import { allOrder, createOrder, getStat, monthlyIncome, updateOrder, userOrder } from "../controllers/order.js";
 
 export default async function orderRoutes(fastify) {
-  const { authenticate, isAdmin, validateCart } = fastify;
-  fastify.post('/', { preValidation: [authenticate, validateCart] }, createOrder);
+  const { authenticate, isAdmin } = fastify;
+  fastify.post('/checkout', { preValidation: [authenticate] }, createOrder);
   fastify.get('/', { preValidation: [authenticate, isAdmin] }, allOrder);
   fastify.put('/:id', { preValidation: [authenticate, isAdmin] }, updateOrder);
   fastify.get('/find/:id', { preValidation: [authenticate] }, userOrder);

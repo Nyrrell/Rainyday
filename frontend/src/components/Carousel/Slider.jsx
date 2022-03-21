@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import Carousel from "./Carousel.jsx";
 import productStore from "../../store/productStore.js";
+import { useEffect, useState } from "react";
 
 const Article = styled.article`
   display: inline-flex;
@@ -43,8 +44,11 @@ const Button = styled.button`
 
 const Slider = () => {
   const { products } = productStore();
+  const [productSlider, setProductSlider] = useState([]);
 
-  const productSlider = products.sort(() => 0.5 - Math.random()).slice(0, 6);
+  useEffect(() => {
+    setProductSlider(products.sort(() => 0.5 - Math.random()).slice(0, 6)) // TODO FROM ADMIN
+  }, [products])
 
   return (
     <>

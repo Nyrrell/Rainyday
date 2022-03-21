@@ -51,7 +51,7 @@ const Categories = () => {
       field: 'img',
       headerName: 'Image',
       type: 'actions',
-      renderCell: ({ value }) => <CategoryImage src={process.env.REACT_APP_BACKEND_URL + value} alt="image"/>
+      renderCell: ({ value }) => <CategoryImage src={process.env.REACT_APP_BACKEND_URL + value}/>
     },
     { field: 'title', headerName: 'Catégorie', cellClassName: 'main-cell', flex: 1 },
     { field: 'desc', headerName: 'Description', flex: 3, renderCell: DataEllipsis },

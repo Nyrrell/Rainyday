@@ -1,4 +1,4 @@
-import { IconButton, Tooltip } from "@mui/material";
+import { Alert, IconButton, Tooltip } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Clear } from "@mui/icons-material";
 import { Link } from "react-router-dom";
@@ -67,6 +67,10 @@ const ProductName = styled(Link)`
   }
 `;
 
+const AlertQuantity = styled(Alert)`
+  color: var(--color-light);
+`;
+
 const PriceDetail = styled.div`
   display: flex;
   align-items: center;
@@ -83,7 +87,7 @@ const ProductPrice = styled.div`
   cursor: help;
 `;
 
-const ProductCart = ({ data }) => {
+const ProductCart = ({ data, error }) => {
   const { updateProduct, removeProduct } = cartStore();
   const { products } = productStore();
 
@@ -103,7 +107,15 @@ const ProductCart = ({ data }) => {
     e.preventDefault();
     removeProduct({ ...product, quantity: quantity });
   };
+
+  const ShowAlert = () => {
+    return error['quantity'] > 1
+      ? <AlertQuantity variant="outlined" severity={'warning'}>{`${error['quantity']} article${error['quantity'] > 1 && 's'} disponible seulement`}</AlertQuantity>
+      : <AlertQuantity variant="outlined" severity={'error'}>{'Cet article n\'est plus en stock'}</AlertQuantity>
+  }
+
   if (!Object.keys(product).length) return null;
+
   return (
     <ProductCard>
       <Link to={`/product/${product['slug']}`}><Image src={process.env.REACT_APP_BACKEND_URL + product['img']}/></Link>
@@ -114,6 +126,7 @@ const ProductCart = ({ data }) => {
         </ProductDetail>
         <PriceDetail>
           <AmountProduct size={'small'} quantity={quantity} setQuantity={handleQuantity}/>
+          {error && <ShowAlert/>}
           <InitialPrice title={`Prix unitaire ${product['price']} €`} placement="left" arrow>
             <ProductPrice>{product['price'] * quantity} €</ProductPrice>
           </InitialPrice>

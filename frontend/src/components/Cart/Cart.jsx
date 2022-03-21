@@ -10,6 +10,8 @@ import { userRequest } from "../../services/requestApi.js";
 import ProductCart from "./ProductCart.jsx";
 
 import cartStore from "../../store/cartStore.js";
+import authStore from "../../store/authStore.js";
+import orderStore from "../../store/orderStore.js";
 
 const Top = styled.div`
   display: flex;
@@ -46,7 +48,10 @@ const ClearCart = styled(Button)``;
 const Bottom = styled.div`
   display: flex;
   justify-content: space-between;
-  ${media("<=phone")} { flex-direction: column }
+
+  ${media("<=phone")} {
+    flex-direction: column
+  }
 `;
 
 const Info = styled.div`
@@ -91,6 +96,9 @@ const Empty = styled.div`
 
 const Cart = () => {
   const { products, total, emptyProduct } = cartStore();
+  const { error, errorOrder } = orderStore();
+  const { token } = authStore();
+
   const paypalToken = null;
   const navigate = useNavigate();
   const isEmpty = !products.length;
@@ -125,14 +133,16 @@ const Cart = () => {
       <Title>Panier</Title>
       <Top>
         <BackToProduct to={'/'}>Continue tes achats</BackToProduct>
-        {!isEmpty && <ClearCart variant={'outlined'} color={'error'} startIcon={<Delete/>} onClick={handleClick}>Vider le panier</ClearCart>}
+        {!isEmpty &&
+          <ClearCart variant={'outlined'} color={'error'} startIcon={<Delete/>} onClick={handleClick}>Vider le
+            panier</ClearCart>}
       </Top>
       <Bottom>
         <Info empty={isEmpty}>
           {!isEmpty
             ?
             products.map((product, key) => (
-              <ProductCart key={key} data={product}/>
+              <ProductCart key={key} data={product} error={error && errorOrder.find(o => o['_id'] === product['_id'] )}/>
             ))
             : <Empty>Panier vide</Empty>
           }
@@ -155,7 +165,10 @@ const Cart = () => {
             <SummaryItemText>Total</SummaryItemText>
             <SummaryItemPrice>{total} €</SummaryItemPrice>
           </SummaryItem>
-          <PaypalCheckout products={products}/>
+          {token
+            ? <PaypalCheckout products={products}/>
+            : <Link to={"/login"}><Button variant={'outlined'} fullWidth>Connectez vous</Button></Link>
+          }
         </Summary>
       </Bottom>
     </>
