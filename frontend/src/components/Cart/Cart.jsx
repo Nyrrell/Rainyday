@@ -1,17 +1,15 @@
-import { Link, useNavigate } from "react-router-dom";
 import { Delete } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
 import styled from "styled-components";
 import media from "css-in-js-media";
-import { useEffect } from "react";
 
 import PaypalCheckout from "./PaypalCheckout.jsx";
-import { userRequest } from "../../services/requestApi.js";
 import ProductCart from "./ProductCart.jsx";
 
+import checkoutStore from "../../store/checkoutStore.js";
 import cartStore from "../../store/cartStore.js";
 import authStore from "../../store/authStore.js";
-import orderStore from "../../store/orderStore.js";
 
 const Top = styled.div`
   display: flex;
@@ -96,32 +94,10 @@ const Empty = styled.div`
 
 const Cart = () => {
   const { products, total, emptyProduct } = cartStore();
-  const { error, errorOrder } = orderStore();
+  const { errorOrder } = checkoutStore();
   const { token } = authStore();
 
-  const paypalToken = null;
-  const navigate = useNavigate();
   const isEmpty = !products.length;
-
-
-  useEffect(() => {
-    const makeRequest = async () => {
-      try {
-        const res = await userRequest.post('checkout/payment', {
-          tokenId: paypalToken.id,
-          amount: total * 100,
-        });
-        navigate('/success', {
-          replace: true, state: { // TODO
-            data: res.data,
-            products: products
-          }
-        });
-      } catch (e) {
-      }
-    }
-    paypalToken && total >= 1 && makeRequest();
-  }, [paypalToken, products, total, navigate])
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -142,7 +118,7 @@ const Cart = () => {
           {!isEmpty
             ?
             products.map((product, key) => (
-              <ProductCart key={key} data={product} error={error && errorOrder.find(o => o['_id'] === product['_id'] )}/>
+              <ProductCart key={key} data={product} error={errorOrder && errorOrder.find(o => o['_id'] === product['_id'] )}/>
             ))
             : <Empty>Panier vide</Empty>
           }

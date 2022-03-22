@@ -20,9 +20,9 @@ const OrderSchema = new Schema(
     state: {
       type: String,
       enum: {
-        values: ['Pending', 'New', 'Delay', 'Cancel', 'Fulfilled'],
+        values: ['pending', 'new', 'delay', 'cancelled', 'fulfilled', 'error'],
         message: '{VALUE} is not supported'
-      }, default: "Pending"
+      }, default: "pending"
     },
   },
   { timestamps: true }

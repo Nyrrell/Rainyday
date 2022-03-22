@@ -9,11 +9,11 @@ import 'dotenv/config';
 import {
   categoryRoutes,
   discountRoutes,
+  checkoutRoutes,
   productRoutes,
   orderRoutes,
   userRoutes,
-  authRoutes,
-  cartRoutes
+  authRoutes
 } from './routes/routes.js';
 
 import { authenticate, isAdmin, upload } from './decorate/index.js';
@@ -34,10 +34,10 @@ server.decorate('upload', upload);
 
 server.register(categoryRoutes, { prefix: '/api/categories' });
 server.register(discountRoutes, { prefix: '/api/discounts' });
+server.register(checkoutRoutes, { prefix: '/api/checkout' });
 server.register(productRoutes, { prefix: '/api/products' });
 server.register(orderRoutes, { prefix: '/api/orders' });
 server.register(userRoutes, { prefix: '/api/users' });
-server.register(cartRoutes, { prefix: '/api/carts' });
 server.register(authRoutes, { prefix: '/api/auth' });
 
 server.listen(process.env.PORT || 5000, (err, address) => {

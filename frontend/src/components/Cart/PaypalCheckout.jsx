@@ -1,52 +1,37 @@
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 import { paypalOptions } from "../../services/paypal.js";
-import orderStore from "../../store/orderStore.js";
+import checkoutStore from "../../store/checkoutStore.js";
 
 const PaypalCheckout = ({ products }) => {
-  const { createOrder } = orderStore();
-  let checkout;
+  const { createOrder } = checkoutStore();
 
   const handleClick = async (data, actions) => {
-    const getCheckout = await createOrder(products);
-    if (!getCheckout) return actions.reject();
-    checkout = getCheckout;
-    return actions.resolve();
+    return createOrder(products, actions);
   }
 
-  const handleOrder = async (data, actions) => {
-    return actions.order.create({
-      purchase_units: [
-        {
-          reference_id: checkout['id'],
-          amount: {
-            value: checkout['total'],
-            breakdown: {
-              item_total: {
-                value: checkout['total'],
-                currency_code: 'EUR'
-              }
-            },
-          },
-          items: checkout['items']
-        },
-      ],
-    });
+  const handleOrder = async () => {
+    console.log(checkoutStore.getState().orderId)
+    return checkoutStore.getState().orderId;
   };
 
   const handleApprove = (data, actions) => {
     console.log(data)
-
     return actions.order.capture().then((details) => {
       console.log(details)
-
     });
-
   }
 
   const handleShipping = (data, actions) => {
     if (data.shipping_address.country_code !== 'FR') return actions.reject();
     return actions.resolve();
+  }
+  const handleCancel = (data, actions) => {
+    console.log('onCancel', data)
+    console.log('onCancel', actions)
+  }
+  const handleError = (error) => {
+    console.log('onError', error)
   }
 
   return (
@@ -60,6 +45,8 @@ const PaypalCheckout = ({ products }) => {
         createOrder={handleOrder}
         onApprove={handleApprove}
         onShippingChange={handleShipping}
+        onCancel={handleCancel}
+        onError={handleError}
       />
     </PayPalScriptProvider>
   );
