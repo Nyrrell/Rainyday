@@ -11,7 +11,7 @@ const ProductSchema = new Schema(
     category: { type: Schema.Types.ObjectId, ref: 'Category', required: true },
     price: { type: Number, required: true },
     inStock: { type: Boolean, default: true },
-    quantity: { type: String, require: true },
+    quantity: { type: Number, require: true },
     discount: { type: Number, default: 0 }
   },
   { timestamps: true, toJSON: { virtuals: true } }

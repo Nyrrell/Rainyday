@@ -1,14 +1,15 @@
 import Product from "../models/Product.js";
 import Order from "../models/Order.js";
 
-import { paypalCreateOrder } from "../services/paypalApi.js";
+import { paypalCaptureOrder, paypalCreateOrder } from "../services/paypalApi.js";
 
 export const createOrder = async (req, res) => {
   const productsInCart = req.body;
+  const productsInCartID = productsInCart.map(p => p['_id']);
   const checkout = { items: [], total: 0 };
   const notAvailable = [];
   try {
-    const products = await Product.find({ _id: { $in: productsInCart.map(p => p['_id']) } });
+    const products = await Product.find({ _id: { $in: productsInCartID } });
 
     for await (const product of products) {
       const { _id, quantity } = product.toJSON();
@@ -19,6 +20,7 @@ export const createOrder = async (req, res) => {
       } else {
         checkout['items'].push({
           name: product['title'],
+          sku: product['_id'].toString(),
           unit_amount: {
             value: product['price'],
             currency_code: 'EUR'
@@ -34,41 +36,73 @@ export const createOrder = async (req, res) => {
 
     const newOrder = new Order({
       customer: req['user']['id'],
-      products: checkout['items'],
+      products: checkout['items'].map(i => {
+        return { productId: i['sku'], quantity: i['quantity'] }
+      }),
       productsTotal: checkout['items'].reduce((prevValue, currentValue) => prevValue['quantity'] + currentValue['quantity']),
       total: checkout['total'],
       discount: '',
       discountAmount: 0,
     });
 
-    const order = {
-      intent: "CAPTURE",
-      purchase_units: [
-        {
-          reference_id: newOrder['_id'],
-          amount: {
-            value: checkout['total'],
-            breakdown: {
-              item_total: {
-                value: checkout['total'],
-                currency_code: 'EUR'
-              }
-            },
-          },
-          items: checkout['items']
-        },
-      ],
-    }
+    const { id } = await paypalCreateOrder(checkout, newOrder['_id'].toString());
+    newOrder['paypalId'] = id;
 
-    const { id } = await paypalCreateOrder(order)
+    await Product.bulkWrite(
+      productsInCart.map(product => ({
+        updateOne: {
+          filter: { _id: product['_id'] },
+          update: { $inc: { quantity: Number(-product['quantity']) } }
+        }
+      })));
 
-    res.send();
-  } catch
-    (e) {
+    await newOrder.save();
+    res.send(id);
+  } catch (e) {
+    if (e['message'] === "PAYPAL_ERROR") return res.code(502).send(e);
     res.send(e);
   }
 };
 
-export const captureOrder = (req, res) => {
-  res.send()
+export const captureOrder = async (req, res) => {
+  const paypalOrderID = req.params.id;
+
+  try {
+    const paypalOrder = await paypalCaptureOrder(paypalOrderID);
+    console.log(paypalOrder)
+    if (paypalOrder['status'] !== "COMPLETED") return // TODO
+
+    const { shipping, reference_id } = paypalOrder['purchase_units'][0];
+    const order = await Order.findById(reference_id);
+
+    await order.update({
+      shipping: shipping,
+      state: 'new'
+    })
+
+    res.send(paypalOrder['status'])
+  } catch (e) {
+    if (e['message'] === "PAYPAL_ERROR") return res.code(502).send(e);
+    res.send(e)
+  }
+}
+
+export const cancelOrder = async (req, res) => {
+  try {
+    const order = await Order.findOneAndDelete({ paypalId: req.params.id });
+    if (!order) return res.code(404).send(new Error('Invalid ID'));
+
+    await Product.bulkWrite(
+      order['products'].map(product => ({
+        updateOne: {
+          filter: { _id: product['productId'] },
+          update: { $inc: { quantity: product['quantity'] } }
+        }
+      })));
+
+    res.send();
+  } catch (e) {
+    console.log(e)
+    res.send(new Error('ERROR_OCCURRED'));
+  }
 }
