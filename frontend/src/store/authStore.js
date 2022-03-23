@@ -26,13 +26,14 @@ const authStore = create(
         return false;
       }
     },
-    login: async (payload) => {
+    login: async (payload, callback) => {
       set({ isFetching: true });
       try {
         const { data } = await publicRequest.post('/auth/login', payload);
         localStorage.setItem("token", data);
         set({ token: data, username: jwtDecode(data)['username'] });
         get().clearError();
+        callback();
       } catch (e) {
         set({
           isFetching: false,

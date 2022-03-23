@@ -5,7 +5,7 @@ const ScrollToTop = ({ children }) => {
   const location = useLocation();
 
   useLayoutEffect(() => {
-    const smooth = location['state']?.['from'].split('/')[1] === 'product';
+    const smooth = location['state']?.['from']?.['pathname'].split('/')[1] === 'product';
     window.scrollTo({ top: 0, left: 0, ...(smooth && { behavior: 'smooth' }) });
   }, [location]);
 

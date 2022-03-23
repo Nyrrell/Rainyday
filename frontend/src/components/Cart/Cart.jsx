@@ -1,5 +1,5 @@
 import { Delete } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@mui/material";
 import styled from "styled-components";
 import media from "css-in-js-media";
@@ -93,6 +93,8 @@ const Empty = styled.div`
 `;
 
 const Cart = () => {
+  const location = useLocation();
+
   const { products, total, emptyProduct } = cartStore();
   const { errorOrder } = checkoutStore();
   const { token } = authStore();
@@ -143,7 +145,7 @@ const Cart = () => {
           </SummaryItem>
           {token
             ? <PaypalCheckout products={products}/>
-            : <Link to={"/login"}><Button variant={'outlined'} fullWidth>Connectez vous</Button></Link>
+            : <Link to={"/login"} state={{ from: location }}><Button variant={'outlined'} fullWidth>Connectez vous</Button></Link>
           }
         </Summary>
       </Bottom>

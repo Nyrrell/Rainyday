@@ -54,7 +54,7 @@ const Fetching = styled(LinearProgress)`
 `;
 
 const AuthForm = ({ children, onClick, type }) => {
-  const { isFetching, error, status, message, clearError } = authStore();
+  const { isFetching, error, status, message, clearError, username } = authStore();
 
   const AlertMessage = () => {
     switch (status) {
@@ -76,6 +76,7 @@ const AuthForm = ({ children, onClick, type }) => {
             <AlertMessage/>
           </Alert>)
         }
+        {username && <Alert severity="success">Connexion réussie</Alert>}
         <Form onKeyPress={e => e.key === 'Enter' && onClick(e)}>
           {children}
           <Button variant={'contained'} onClick={onClick}

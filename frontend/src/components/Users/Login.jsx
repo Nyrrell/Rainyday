@@ -1,11 +1,17 @@
 import { IconButton, InputAdornment, TextField } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 import AuthForm from "./AuthForm.jsx";
 import authStore from "../../store/authStore.js";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+
+
   const { login } = authStore();
   const [values, setValues] = useState({
     username: '',
@@ -37,7 +43,7 @@ const Login = () => {
         passwordEmpty: !Boolean(password)
       })
     }
-    login({ username, password });
+    login({ username, password }, () => setTimeout(() => navigate(from, { replace: true })), 1000);
   }
 
   return (
