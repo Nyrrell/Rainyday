@@ -6,6 +6,7 @@ import { paypalCaptureOrder, paypalCreateOrder } from "../services/paypalApi.js"
 export const createOrder = async (req, res) => {
   const productsInCart = req.body;
   const productsInCartID = productsInCart.map(p => p['_id']);
+
   const checkout = { items: [], total: 0 };
   const notAvailable = [];
   try {
@@ -39,7 +40,7 @@ export const createOrder = async (req, res) => {
       products: checkout['items'].map(i => {
         return { productId: i['sku'], quantity: i['quantity'] }
       }),
-      productsTotal: checkout['items'].reduce((prevValue, currentValue) => prevValue['quantity'] + currentValue['quantity']),
+      productsTotal: checkout['items'].reduce((prevValue, currentValue) => prevValue + currentValue['quantity'], 0),
       total: checkout['total'],
       discount: '',
       discountAmount: 0,
@@ -57,10 +58,12 @@ export const createOrder = async (req, res) => {
       })));
 
     await newOrder.save();
+    console.log('oui')
     res.send(id);
   } catch (e) {
+    console.log(e.message)
     if (e['message'] === "PAYPAL_ERROR") return res.code(502).send(e);
-    res.send(e);
+    res.send(new Error('ERROR_OCCURRED'));
   }
 };
 
@@ -69,21 +72,19 @@ export const captureOrder = async (req, res) => {
 
   try {
     const paypalOrder = await paypalCaptureOrder(paypalOrderID);
-    console.log(paypalOrder)
-    if (paypalOrder['status'] !== "COMPLETED") return // TODO
+
+    if (paypalOrder['status'] !== "COMPLETED") return res.code(404).send("NOT_FOUND")// TODO
 
     const { shipping, reference_id } = paypalOrder['purchase_units'][0];
-    const order = await Order.findById(reference_id);
-
-    await order.update({
+    await Order.findByIdAndUpdate(reference_id, {
       shipping: shipping,
       state: 'new'
-    })
+    });
 
     res.send(paypalOrder['status'])
   } catch (e) {
-    if (e['message'] === "PAYPAL_ERROR") return res.code(502).send(e);
-    res.send(e)
+    if (["PAYPAL_ERROR", "INSTRUMENT_DECLINED"].includes(e['message'])) return res.code(502).send(e);
+    res.send(new Error('ERROR_OCCURRED'))
   }
 }
 

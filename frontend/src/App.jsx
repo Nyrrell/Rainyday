@@ -7,7 +7,6 @@ import ProductCatalog from "./components/Product/ProductCatalog.jsx";
 import ProductDetailPage from "./components/ProductDetail/ProductDetailPage.jsx";
 import Register from "./components/Users/Register.jsx";
 import NoMatch from "./components/NoMatch.jsx";
-import Success from "./components/Cart/Success.jsx";
 import Layout from "./components/Base/Client.jsx";
 import Login from "./components/Users/Login.jsx";
 import Home from "./components/Home.jsx";
@@ -30,7 +29,6 @@ const App = () => {
         <Route path="/products/:category" element={<ProductCatalog/>}/>
         <Route path="/product/:slug" element={<ProductDetailPage/>}/>
         <Route path="/cart" element={<Cart/>}/>
-        <Route path="/success" element={<Success/>}/>
         <Route path="/login" element={<AlreadyAuth><Login className={'auth'}/></AlreadyAuth>}/>
         <Route path="/register" element={<AlreadyAuth><Register className={'auth'}/></AlreadyAuth>}/>
         <Route path="/profile" element={<RequireAuth><Register/></RequireAuth>}/> {/*TODO*/}

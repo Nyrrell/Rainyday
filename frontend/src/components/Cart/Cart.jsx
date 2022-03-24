@@ -1,6 +1,6 @@
-import { Delete } from "@mui/icons-material";
 import { Link, useLocation } from "react-router-dom";
-import { Button } from "@mui/material";
+import { Alert, Button } from "@mui/material";
+import { Delete } from "@mui/icons-material";
 import styled from "styled-components";
 import media from "css-in-js-media";
 
@@ -10,6 +10,7 @@ import ProductCart from "./ProductCart.jsx";
 import checkoutStore from "../../store/checkoutStore.js";
 import cartStore from "../../store/cartStore.js";
 import authStore from "../../store/authStore.js";
+import { useEffect } from "react";
 
 const Top = styled.div`
   display: flex;
@@ -52,14 +53,19 @@ const Bottom = styled.div`
   }
 `;
 
-const Info = styled.div`
+const ProductList = styled.div`
   flex: 3;
+  margin-right: 1rem;
 
   ${({ empty }) => empty && {
     'display': 'flex',
     'justify-content': 'center',
     'align-items': 'center',
   }}
+`;
+
+const AlertFeedback = styled(Alert)`
+  color: var(--color-light);
 `;
 
 const Summary = styled.div`
@@ -87,25 +93,29 @@ const SummaryItemText = styled.span``;
 const SummaryItemPrice = styled.span``;
 
 const Empty = styled.div`
+  display: ${props => props['approve'] && "none"};
   font-size: 4rem;
   font-weight: 800;
   opacity: 0.4;
 `;
 
 const Cart = () => {
-  const location = useLocation();
-
   const { products, total, emptyProduct } = cartStore();
-  const { errorOrder } = checkoutStore();
+  const { notAvailable, error } = checkoutStore();
   const { token } = authStore();
+  const location = useLocation();
+  const approve = location.state?.approve;
 
-  const isEmpty = !products.length;
+  useEffect(() => {
+    if (approve) emptyProduct();
+  }, [approve, emptyProduct])
 
   const handleClick = (e) => {
     e.preventDefault();
     emptyProduct();
   };
 
+  const isEmpty = !products.length;
   return (
     <>
       <Title>Panier</Title>
@@ -114,17 +124,20 @@ const Cart = () => {
         {!isEmpty &&
           <ClearCart variant={'outlined'} color={'error'} startIcon={<Delete/>} onClick={handleClick}>Vider le
             panier</ClearCart>}
+
       </Top>
       <Bottom>
-        <Info empty={isEmpty}>
+        <ProductList empty={isEmpty}>
+          {approve && <AlertFeedback variant={'outlined'} severity={"success"}>Commande validé, merci pour votre achat.</AlertFeedback>}
+          {error && <AlertFeedback variant={'outlined'} severity={"error"}>Désolé, votre transaction n'a pas pu être traitée.</AlertFeedback>}
           {!isEmpty
             ?
             products.map((product, key) => (
-              <ProductCart key={key} data={product} error={errorOrder && errorOrder.find(o => o['_id'] === product['_id'] )}/>
+              <ProductCart key={key} data={product} error={notAvailable && notAvailable.find(o => o['_id'] === product['_id'] )}/>
             ))
-            : <Empty>Panier vide</Empty>
+            : <Empty approve={approve}>Panier vide</Empty>
           }
-        </Info>
+        </ProductList>
         <Summary>
           <SummaryTitle>Résumé commande</SummaryTitle>
           <SummaryItem>
@@ -143,7 +156,7 @@ const Cart = () => {
             <SummaryItemText>Total</SummaryItemText>
             <SummaryItemPrice>{total} €</SummaryItemPrice>
           </SummaryItem>
-          {token
+          { token
             ? <PaypalCheckout products={products}/>
             : <Link to={"/login"} state={{ from: location }}><Button variant={'outlined'} fullWidth>Connectez vous</Button></Link>
           }

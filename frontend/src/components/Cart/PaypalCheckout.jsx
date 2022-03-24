@@ -1,12 +1,15 @@
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
+import { useNavigate } from "react-router-dom";
 
 import { paypalOptions } from "../../services/paypal.js";
 import checkoutStore from "../../store/checkoutStore.js";
 
 const PaypalCheckout = ({ products }) => {
   const { createOrder, cancelOrder, approveOrder } = checkoutStore();
+  const navigate = useNavigate();
 
   const handleClick = async (data, actions) => {
+    if (!Boolean(products.length)) return actions.reject();
     return createOrder(products, actions);
   }
 
@@ -14,8 +17,10 @@ const PaypalCheckout = ({ products }) => {
     return checkoutStore.getState().orderId;
   };
 
-  const handleApprove = (data) => {
-    return approveOrder(data['orderID']);
+  const handleApprove = async (data, actions) => {
+    const approve = await approveOrder(data['orderID'], actions);
+    if (!approve) return;
+    navigate("/cart", { redirect: true, state: { approve } });
   }
 
   const handleShipping = (data, actions) => {
@@ -24,9 +29,6 @@ const PaypalCheckout = ({ products }) => {
   }
   const handleCancel = (data) => {
     return cancelOrder(data['orderID']);
-  }
-  const handleError = (error) => {
-    console.log('onError', error)
   }
 
   return (
@@ -41,7 +43,7 @@ const PaypalCheckout = ({ products }) => {
         onApprove={handleApprove}
         onShippingChange={handleShipping}
         onCancel={handleCancel}
-        onError={handleError}
+        disabled={!Boolean(products.length)}
       />
     </PayPalScriptProvider>
   );

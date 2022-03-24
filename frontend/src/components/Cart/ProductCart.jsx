@@ -11,7 +11,6 @@ import productStore from "../../store/productStore.js";
 
 const ProductCard = styled.div`
   display: flex;
-  width: 95%;
   padding: 0.5rem 0;
   margin: 0.4rem 0;
   border-bottom: 0.1rem solid var(--color-gray);

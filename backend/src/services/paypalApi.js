@@ -32,12 +32,12 @@ export const paypalCreateOrder = async (checkout, id) => {
   };
 
   try {
-    return axios.post("/v2/checkout/orders?return=minimal", invoice, {
+    return await axios.post("/v2/checkout/orders?return=minimal", invoice, {
       auth: {
         'username': PAYPAL_ID,
         'password': PAYPAL_SECRET
       }
-    }).then(res => res.data);
+    }).then(res => res['data']);
   } catch (e) {
     throw new Error('PAYPAL_ERROR');
   }
@@ -45,21 +45,22 @@ export const paypalCreateOrder = async (checkout, id) => {
 
 export const paypalCaptureOrder = async (id) => {
   try {
-    return axios.post(`/v2/checkout/orders/${id}/capture`, {}, {
+    return await axios.post(`/v2/checkout/orders/${id}/capture`, {}, {
       auth: {
         'username': PAYPAL_ID,
         'password': PAYPAL_SECRET
       }
-    }).then(res => res.data);
+    }).then(res => res['data']);
   } catch (e) {
-    console.log(e)
+    const errorDetail = Array.isArray(e.response.data.details) && e.response.data.details[0];
+    if (errorDetail && errorDetail.issue === "INSTRUMENT_DECLINED") throw new Error('INSTRUMENT_DECLINED');
     throw new Error('PAYPAL_ERROR');
   }
 }
 
 export const paypalGetOrder = async (id) => {
   try {
-    return axios.get(`/v2/checkout/orders/${id}`, {
+    return await axios.get(`/v2/checkout/orders/${id}`, {
       auth: {
         'username': PAYPAL_ID,
         'password': PAYPAL_SECRET

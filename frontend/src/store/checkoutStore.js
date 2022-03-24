@@ -5,9 +5,9 @@ import { userRequest } from "../services/requestApi.js";
 const CheckoutStore = create(
   set => ({
     orderId: '',
-    isFetching: false,
     error: false,
-    errorOrder: null,
+    isFetching: false,
+    notAvailable: null,
     // CREATE
     createOrder: async (payload, actions) => {
       set({ isFetching: true, error: false });
@@ -16,17 +16,20 @@ const CheckoutStore = create(
         set({ orderId: data, isFetching: false, error: false });
         return actions.resolve();
       } catch (e) {
-        set({ isFetching: false, error: true, errorOrder: e['response']?.['data']?.['notAvailable'] });
+        set({ isFetching: false, error: true, notAvailable: e['response']?.['data']?.['notAvailable'] });
         return actions.reject()
       }
     },
-    approveOrder: async (payload) => {
+    approveOrder: async (payload, actions) => {
       set({ isFetching: true, error: false });
       try {
         await userRequest.post(`/checkout/${payload}/capture`);
         set({ orderId: '', isFetching: false, error: false });
+        return true;
       } catch (e) {
         set({ isFetching: false, error: true });
+        if (e['response']?.['data']?.['message'] === 'INSTRUMENT_DECLINED') return actions.restart();
+        return false;
       }
     },
     cancelOrder: async (payload) => {
