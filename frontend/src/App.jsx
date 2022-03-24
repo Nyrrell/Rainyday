@@ -16,6 +16,7 @@ import Cart from "./components/Cart/Cart.jsx";
 import AdminCategories from "./components/Admin/Categories/Categories.jsx"
 import AdminDiscounts from "./components/Admin/Discounts/Discounts.jsx"
 import AdminProducts from "./components/Admin/Products/Products.jsx"
+import AdminSales from "./components/Admin/Sales/Sales.jsx";
 import AdminUsers from "./components/Admin/Users/Users.jsx";
 import HomeAdmin from "./components/Admin/Home.jsx";
 import AdminLayout from "./components/Base/Admin.jsx";
@@ -35,6 +36,7 @@ const App = () => {
       </Route>
       <Route path="/admin" element={<RequireAuthorization><AdminLayout/></RequireAuthorization>}>
         <Route index element={<HomeAdmin/>}/>
+        <Route path="sales" element={<AdminSales/>}/>
         <Route path="users" element={<AdminUsers/>}/>
         <Route path="products" element={<AdminProducts/>}/>
         <Route path="categories" element={<AdminCategories/>}/>

@@ -2,7 +2,7 @@ import { allOrder, getStat, monthlyIncome, updateOrder, userOrder } from "../con
 
 export default async function orderRoutes(fastify) {
   const { authenticate, isAdmin } = fastify;
-  fastify.get('/', { preValidation: [authenticate, isAdmin] }, allOrder);
+  fastify.post('/', { preValidation: [authenticate, isAdmin] }, allOrder);
   fastify.put('/:id', { preValidation: [authenticate, isAdmin] }, updateOrder);
   fastify.get('/find/:id', { preValidation: [authenticate] }, userOrder);
   fastify.get('/stats', { preValidation: [authenticate, isAdmin] }, getStat);
