@@ -17,6 +17,15 @@ const DataGridStyle = styled(DataGrid)`
     font-weight: 800;
     text-transform: capitalize;
   }
+  
+  & .status-chip {
+    justify-content: center;
+    text-transform: uppercase;
+    font-weight: 600;
+    min-width: fit-content;
+    max-width: fit-content;
+    width: fit-content;
+  }
 `;
 
 
