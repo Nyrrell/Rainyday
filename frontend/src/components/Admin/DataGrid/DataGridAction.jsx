@@ -8,7 +8,7 @@ import {
   IconButton,
 } from "@mui/material";
 
-const DataTableAction = ({ id, handleDelete, onClick }) => {
+const DataGridAction = ({ id, handleDelete, onClick }) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -38,4 +38,4 @@ const DataTableAction = ({ id, handleDelete, onClick }) => {
   );
 };
 
-export default DataTableAction;
+export default DataGridAction;

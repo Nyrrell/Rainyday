@@ -16,6 +16,6 @@ export const StatusComponent = (status) => {
   const STATUS = ENUM_STATUS.find(enums => enums.status === status.value);
 
   return (
-    <Chip label={STATUS['value']} color={STATUS['color']} icon={STATUS['icon']} variant="outlined"/>
+    <Chip label={STATUS['value']} color={STATUS['color']} icon={STATUS['icon']} variant="outlined" size={'small'}/>
   );
 };

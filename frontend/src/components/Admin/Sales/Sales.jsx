@@ -1,24 +1,33 @@
-import { HighlightOff, CheckCircleOutline, } from "@mui/icons-material";
-import { useEffect } from "react";
-import styled from "styled-components";
+import { FindInPage, } from "@mui/icons-material";
+import { Dialog, IconButton } from "@mui/material";
+import { useEffect, useState } from "react";
 
-import DataTableAction from "../DataTable/DataTableAction.jsx";
-import { DataEllipsis } from "../DataTable/DataEllipsis.jsx";
+import DataGridAction from "../DataGrid/DataGridAction.jsx";
+import { DataEllipsis } from "../DataGrid/DataEllipsis.jsx";
+import DataTableProducts from "./DataTableProducts.jsx";
 import { StatusComponent } from "./StatusComponent.jsx";
-import DataTable from "../DataTable/DataTable.jsx";
-import Image from "../../Image.jsx";
+import AdminDataGrid from "../DataGrid/DataGrid.jsx";
+
 
 import orderStore from "../../../store/orderStore.js";
-
-const ProductImage = styled(Image)`
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  object-fit: cover;
-`;
+import ProductForm from "../Products/ProductForm.jsx";
+import login from "../../Users/Login.jsx";
 
 const Sales = () => {
   const { allOrders, getAllOrders, updateOrders } = orderStore();
+  const [order, setOrder] = useState(null);
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = (id) => {
+    setOrder(id);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOrder(null);
+    setOpen(false);
+  };
+
 
   useEffect(() => {
     getAllOrders();
@@ -27,19 +36,33 @@ const Sales = () => {
   const getAddress = (params) => {
     const address = params['row']['shipping'] && params['row']['shipping']['address'];
     if (address)
-    return `${address['address_line_1'] || ''} ${address['address_line_2'] || ''} ${address['postal_code']} ${address['admin_area_2']}`;
+      return `${address['address_line_1'] || ''} ${address['address_line_2'] || ''} ${address['postal_code']} ${address['admin_area_2']}`;
   };
 
+  const getName = (params) => params?.['value']?.['name']?.['full_name'];
+
+  const openProduct = ({ row }) => (
+    <IconButton aria-label="voir" onClick={() => handleClickOpen(row)}>
+      <FindInPage/>
+    </IconButton>
+  );
+
   const columns = [
-    { field: '_id', headerName: 'Commande', cellClassName: 'main-cell', flex: 0.5 },
-    { field: 'state', headerName: 'Status', cellClassName: 'status-chip',renderCell: StatusComponent },
-    { field: 'shipping', headerName: 'Client', valueGetter: (params) => params?.['value']?.['name']?.['full_name'] },
-    { field: 'address', headerName: 'Adresse', minWidth: 100, flex: 1, valueGetter: getAddress },
+    { field: 'paypalId', headerName: 'Transaction Paypal', cellClassName: 'main-cell', minWidth: 180 },
+    { field: 'state', headerName: 'Status', cellClassName: 'status-chip', minWidth: 120, renderCell: StatusComponent },
+    { field: 'shipping', headerName: 'Client', minWidth: 200, valueGetter: getName, renderCell: DataEllipsis },
+    { field: 'address', headerName: 'Adresse', minWidth: 300, valueGetter: getAddress, renderCell: DataEllipsis },
     // { field: 'products', headerName: 'Articles', flex: 1, renderCell: DataEllipsis },
-    { field: 'productsTotal', headerName: 'Nb Articles', type: 'number' },
-    { field: 'products', headerName: 'Articles' },
-    { field: 'total', headerName: 'Total', type: 'number', valueFormatter: ({ value }) => `${value} €` },
-    { field: 'discount', headerName: 'Promo', type: 'number', valueFormatter: ({ value }) => `${Number(value)} %` },
+    { field: 'productsTotal', headerName: 'Nb Art.', cellClassName: 'main-cell', width: 80, type: 'number' },
+    { field: 'products', headerName: 'Articles', renderCell: openProduct, type: 'actions' },
+    {
+      field: 'total', headerName: 'Total', type: 'number', width: 80,
+      valueFormatter: ({ value }) => `${value || 0} €`
+    },
+    {
+      field: 'discount', headerName: 'Promo', type: 'number', width: 80,
+      valueFormatter: ({ value }) => value && `- ${Number(value)} €`
+    },
     {
       field: 'createdAt', headerName: 'Ajout', type: 'date',
       valueGetter: ({ value }) => value && new Date(value),
@@ -50,17 +73,20 @@ const Sales = () => {
     },
     {
       field: 'action', headerName: 'Action', type: 'actions',
-      renderCell: ({ id }) => <DataTableAction id={id} />
+      renderCell: ({ id }) => <DataGridAction id={id}/>
     },
   ];
 
   return (
     <>
-      <DataTable
+      <AdminDataGrid
         rows={allOrders}
         columns={columns}
         title={"ventes"}
       />
+      <Dialog open={open} onClose={handleClose} fullWidth maxWidth={"md"}>
+        <DataTableProducts open={open} close={handleClose} order={order}/>
+      </Dialog>
     </>
   );
 };

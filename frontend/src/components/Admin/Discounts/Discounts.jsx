@@ -2,8 +2,8 @@ import { CheckCircleOutline, HighlightOff, Stars } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { Dialog } from "@mui/material";
 
-import DataTableAction from "../DataTable/DataTableAction.jsx";
-import DataTable from "../DataTable/DataTable.jsx";
+import DataGridAction from "../DataGrid/DataGridAction.jsx";
+import AdminDataGrid from "../DataGrid/DataGrid.jsx";
 import DiscountForm from "./DiscountForm.jsx";
 
 import discountStore from "../../../store/discountStore.js";
@@ -65,13 +65,13 @@ const Categories = () => {
     },
     {
       field: 'action', headerName: 'Action', type: 'actions',
-      renderCell: ({ id }) => <DataTableAction id={id} handleDelete={handleDelete} onClick={handleEdit}/>
+      renderCell: ({ id }) => <DataGridAction id={id} handleDelete={handleDelete} onClick={handleEdit}/>
     },
   ];
 
   return (
     <>
-      <DataTable
+      <AdminDataGrid
         rows={discountCodes}
         columns={columns}
         title={"codes promo"}

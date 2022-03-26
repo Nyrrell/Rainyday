@@ -12,7 +12,6 @@ const TitleContainer = styled.div`
 const PageTitle = styled.h1``;
 
 const DataGridStyle = styled(DataGrid)`
-
   & .main-cell {
     font-weight: 800;
     text-transform: capitalize;
@@ -22,19 +21,16 @@ const DataGridStyle = styled(DataGrid)`
     justify-content: center;
     text-transform: uppercase;
     font-weight: 600;
-    min-width: fit-content;
-    max-width: fit-content;
-    width: fit-content;
   }
 `;
 
 
-const DataTable = ({ rows, columns, title, onClick }) => {
+const AdminDataGrid = ({ rows, columns, title, onClick }) => {
   return (
     <>
       <TitleContainer>
         <PageTitle>Liste des {title}</PageTitle>
-        {title !== 'utilisateurs' && <Button variant={'outlined'} onClick={onClick}>Nouveau</Button>}
+        {!['utilisateurs', 'ventes'].includes(title) && <Button variant={'outlined'} onClick={onClick}>Nouveau</Button>}
       </TitleContainer>
       <DataGridStyle
         rows={rows}
@@ -43,9 +39,12 @@ const DataTable = ({ rows, columns, title, onClick }) => {
         columns={columns}
         autoHeight
         localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
+        getRowHeight={() => {
+          return 1000
+        }}
       />
     </>
   );
 };
 
-export default DataTable;
+export default AdminDataGrid;

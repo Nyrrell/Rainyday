@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Dialog } from "@mui/material";
 
-import DataTableAction from "../DataTable/DataTableAction.jsx";
+import DataGridAction from "../DataGrid/DataGridAction.jsx";
 import UserForm from "./UserForm.jsx";
-import DataTable from "../DataTable/DataTable.jsx";
+import AdminDataGrid from "../DataGrid/DataGrid.jsx";
 import userStore from "../../../store/userStore.js";
 
 const Users = () => {
@@ -47,12 +47,12 @@ const Users = () => {
     },
     {
       field: 'action', headerName: 'Action', type: 'actions',
-      renderCell: ({ id }) => <DataTableAction id={id} handleDelete={handleDelete} onClick={handleEdit}/>
+      renderCell: ({ id }) => <DataGridAction id={id} handleDelete={handleDelete} onClick={handleEdit}/>
     },
   ];
   return (
     <>
-      <DataTable
+      <AdminDataGrid
         rows={users}
         columns={columns}
         title={"utilisateurs"}

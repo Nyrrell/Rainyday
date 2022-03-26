@@ -107,7 +107,7 @@ const ProductForm = ({ data, close }) => {
               label="Catégorie"
               onChange={handleChange}
             >
-              <MenuItem value={"sticker"}>Sticker</MenuItem>
+              <MenuItem value={"622cab434663bfd1c40cd53d"}>Sticker</MenuItem>
               <MenuItem value={"affiche"}>Affiche</MenuItem>
               <MenuItem value={'drapeau'}>Drapeau</MenuItem>
             </Select>

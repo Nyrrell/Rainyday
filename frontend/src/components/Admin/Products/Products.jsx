@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import { Dialog } from "@mui/material";
 import styled from "styled-components";
 
-import DataTableAction from "../DataTable/DataTableAction.jsx";
-import { DataEllipsis } from "../DataTable/DataEllipsis.jsx";
-import DataTable from "../DataTable/DataTable.jsx";
+import DataGridAction from "../DataGrid/DataGridAction.jsx";
+import { DataEllipsis } from "../DataGrid/DataEllipsis.jsx";
+import AdminDataGrid from "../DataGrid/DataGrid.jsx";
 import Image from "../../Image.jsx";
 import ProductForm from "./ProductForm.jsx";
 
@@ -75,13 +75,13 @@ const Products = () => {
     },
     {
       field: 'action', headerName: 'Action', type: 'actions',
-      renderCell: ({ id }) => <DataTableAction id={id} handleDelete={handleDelete} onClick={handleEdit}/>
+      renderCell: ({ id }) => <DataGridAction id={id} handleDelete={handleDelete} onClick={handleEdit}/>
     },
   ];
 
   return (
     <>
-      <DataTable
+      <AdminDataGrid
         rows={products}
         columns={columns}
         title={"produits"}
