@@ -21,4 +21,12 @@ ProductSchema.virtual('slug').get(function () {
     return slug(this.title)
 });
 
+ProductSchema.virtual('cat', {
+    ref: 'Category',
+    localField: 'category',
+    foreignField: '_id',
+    justOne: true,
+    get: (cat) => cat?.['title']
+})
+
 export default model("Product", ProductSchema)

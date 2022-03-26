@@ -58,10 +58,8 @@ export const createOrder = async (req, res) => {
       })));
 
     await newOrder.save();
-    console.log('oui')
     res.send(id);
   } catch (e) {
-    console.log(e.message)
     if (e['message'] === "PAYPAL_ERROR") return res.code(502).send(e);
     res.send(new Error('ERROR_OCCURRED'));
   }

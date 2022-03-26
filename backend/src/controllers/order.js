@@ -1,6 +1,7 @@
 import Order from "../models/Order.js";
 import User from "../models/User.js";
 import Product from "../models/Product.js";
+import Category from "../models/Category.js";
 
 export const updateOrder = async (req, res) => {
   try {
@@ -43,6 +44,16 @@ export const allOrder = async (req, res) => {
     res.send(e);
   }
 };
+
+export const getOrder = async (req, res) => {
+  try {
+    const { products: productsOrder } = await Order.findById(req.params.id);
+    const products = await Product.find({ _id: { $in: productsOrder.map(p => p['productId']) } }).populate('cat');
+    res.send(products)
+  } catch (e) {
+    res.send(new Error('ERROR_OCCURRED'))
+  }
+}
 
 export const monthlyIncome = async (req, res) => {
   const productId = req.query.pid;
