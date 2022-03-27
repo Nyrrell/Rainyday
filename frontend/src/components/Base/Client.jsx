@@ -34,12 +34,12 @@ const Client = () => {
 
   useEffect(() => {
     if (Object.keys(products).length) return;
-    getProducts();
+    getProducts('public');
   }, [getProducts, products]);
 
   useEffect(() => {
     if (categories.length > 1) return;
-    getCategories();
+    getCategories("public");
   }, [getCategories, categories]);
 
   return (

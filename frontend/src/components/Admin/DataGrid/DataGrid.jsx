@@ -25,12 +25,12 @@ const DataGridStyle = styled(DataGrid)`
 `;
 
 
-const AdminDataGrid = ({ rows, columns, title, onClick }) => {
+const AdminDataGrid = ({ rows, columns, title, onClick, create }) => {
   return (
     <>
       <TitleContainer>
         <PageTitle>Liste des {title}</PageTitle>
-        {!['utilisateurs', 'ventes'].includes(title) && <Button variant={'outlined'} onClick={onClick}>Nouveau</Button>}
+        {create && <Button variant={'outlined'} onClick={onClick}>Nouveau</Button>}
       </TitleContainer>
       <DataGridStyle
         rows={rows}

@@ -82,7 +82,7 @@ function Navbar() {
         </Left>
         <Right>
           <MenuItem>{username.toUpperCase()}</MenuItem>
-          <Logout onClick={handleClick}/>
+          <Logout cursor={"pointer"} titleAccess={'déconnexion'} onClick={handleClick}/>
         </Right>
       </Wrapper>
     </Container>

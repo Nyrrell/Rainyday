@@ -1,11 +1,8 @@
-import {
-  Table, TableBody,
-  TableCell, TableContainer,
-  TableHead, TableRow
-} from "@mui/material";
-import styled from "styled-components";
-import Image from "../../Image.jsx";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { useEffect, useState } from "react";
+import styled from "styled-components";
+
+import ImagePopover from "../ImagePopover.jsx";
 import { userRequest } from "../../../services/requestApi.js";
 
 const Container = styled(TableContainer)`
@@ -15,7 +12,7 @@ const Container = styled(TableContainer)`
     font-weight: 800;
     font-size: 1rem;
   }
-  
+
   & .image-cell {
     display: flex;
     align-items: center;
@@ -30,12 +27,12 @@ const Title = styled.h2`
   padding: 20px 0;
 `;
 
-const ProductImage = styled(Image)`
+const ProductImage = styled.img`
   width: 45px;
   height: 45px;
   border-radius: 50%;
   object-fit: cover;
-  
+
   &:hover {
     cursor: zoom-in;
   }
@@ -43,6 +40,17 @@ const ProductImage = styled(Image)`
 
 const DataTableProducts = ({ order }) => {
   const [product, setProduct] = useState([]);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
 
   useEffect(() => {
     if (!order) return;
@@ -76,11 +84,10 @@ const DataTableProducts = ({ order }) => {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell className={'image-cell'}>
-                <ProductImage
-                  src={process.env.REACT_APP_BACKEND_URL + row['img']}/>
+                <ProductImage src={process.env.REACT_APP_BACKEND_URL + row['img']} onClick={handleClick}/>
               </TableCell>
               <TableCell>{row['title']}</TableCell>
-              <TableCell>{row['cat']}</TableCell>
+              <TableCell>{row['category']['title']}</TableCell>
               <TableCell align="right">{order?.['products'].find(p => p.productId = row['_id'])['quantity']}</TableCell>
             </TableRow>
           ))}
@@ -91,6 +98,7 @@ const DataTableProducts = ({ order }) => {
           </TableRow>
         </TableBody>
       </Table>
+      <ImagePopover open={open} element={anchorEl} close={handleClose}/>
     </Container>
   );
 };

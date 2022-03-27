@@ -1,7 +1,6 @@
 import Order from "../models/Order.js";
 import User from "../models/User.js";
 import Product from "../models/Product.js";
-import Category from "../models/Category.js";
 
 export const updateOrder = async (req, res) => {
   try {
@@ -38,7 +37,7 @@ export const userOrder = async (req, res) => {
 
 export const allOrder = async (req, res) => {
   try {
-    const orders = await Order.find();
+    const orders = await Order.find().populate({ path: "customer", select: 'username email' });
     res.send(orders);
   } catch (e) {
     res.send(e);
@@ -48,7 +47,7 @@ export const allOrder = async (req, res) => {
 export const getOrder = async (req, res) => {
   try {
     const { products: productsOrder } = await Order.findById(req.params.id);
-    const products = await Product.find({ _id: { $in: productsOrder.map(p => p['productId']) } }).populate('cat');
+    const products = await Product.find({ _id: { $in: productsOrder.map(p => p['productId']) } }).populate('category');
     res.send(products)
   } catch (e) {
     res.send(new Error('ERROR_OCCURRED'))

@@ -7,9 +7,10 @@ import {
   FormControlLabel, MenuItem, Select, Stack,
 } from "@mui/material";
 
-import productStore from "../../../store/productStore.js";
-import Image from "../../Image.jsx";
 import AdminForm from "../AdminForm.jsx";
+import Image from "../../Image.jsx";
+
+import productStore from "../../../store/productStore.js";
 
 const FormLeft = styled.div`
   flex: 1;
@@ -44,7 +45,7 @@ const Img = styled(Image)`
   margin-right: 20px;
 `;
 
-const ProductForm = ({ data, close }) => {
+const ProductForm = ({ data, close, categories }) => {
   const { updateProduct, addProduct, } = productStore(); // TODO FETCHING & ERROR
 
   const initialState = {
@@ -98,18 +99,15 @@ const ProductForm = ({ data, close }) => {
         <TextField fullWidth label="Description" name={'desc'} size="small" multiline rows={3} value={product['desc']}
                    onChange={handleChange}/>
         <Stack direction="row" spacing={2}>
-          {/*// TODO CATEGORIE DE LA DB */}
           <FormControl fullWidth size="small">
             <InputLabel>Catégorie</InputLabel>
             <Select
               name={'category'}
-              defaultValue={product['category']}
+              defaultValue={product['category']['_id']}
               label="Catégorie"
               onChange={handleChange}
             >
-              <MenuItem value={"622cab434663bfd1c40cd53d"}>Sticker</MenuItem>
-              <MenuItem value={"affiche"}>Affiche</MenuItem>
-              <MenuItem value={'drapeau'}>Drapeau</MenuItem>
+              {categories.map(c => <MenuItem value={c['_id']}>{c['title']}</MenuItem>)}
             </Select>
           </FormControl>
           <TextField label="Quantité" name={'quantity'} size="small" value={product['quantity']} onChange={handleChange}

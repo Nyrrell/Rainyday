@@ -70,12 +70,6 @@ function Sidebar() {
           <List>
             <Element to={'/admin/'}><LineStyle/> Accueil</Element>
             <Element to={'/admin/sales'}><AttachMoney/> Ventes</Element>
-          </List>
-        </MenuItem>
-
-        <MenuItem>
-          <Title>Gestion</Title>
-          <List>
             <Element to={'/admin/users'}><PermIdentity/>Utilisateurs</Element>
             <Element to={'/admin/categories'}><Category/>Catégories</Element>
             <Element to={'/admin/products'}><Storefront/>Produits</Element>

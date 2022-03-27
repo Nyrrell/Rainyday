@@ -8,10 +8,12 @@ const productStore = create(
     isFetching: false,
     error: false,
     //GET ALL
-    getProducts: async () => {
+    getProducts: async (payload) => {
       set({ isFetching: true, error: false });
       try {
-        const { data } = await publicRequest.get("/products");
+        const { data } = payload === "public"
+          ? await publicRequest.get('/products?public=true')
+          : await userRequest.post('/products');
         set({ products: data, isFetching: false });
       } catch {
         set({ isFetching: false, error: true });
@@ -49,7 +51,7 @@ const productStore = create(
     addProduct: async (payload) => {
       set({ isFetching: true, error: false });
       try {
-        const { data } = await userRequest.post(`/products`, payload);
+        const { data } = await userRequest.post(`/products/new`, payload);
         set(state => {
           state.products = [...state.products, data];
           state.isFetching = false;

@@ -25,7 +25,7 @@ const ProductList = ({ cat, sort, limit }) => {
   const [filteredProducts, setfilteredProducts] = useState([]);
 
   useEffect(() => {
-    cat && setfilteredProducts(products.filter(item => item['category'] === cat));
+    cat && setfilteredProducts(products.filter(item => item['category']['slug'] === cat));
   }, [products, cat]);
 
   useEffect(() => {

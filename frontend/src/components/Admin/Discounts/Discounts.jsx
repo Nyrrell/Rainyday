@@ -76,6 +76,7 @@ const Categories = () => {
         columns={columns}
         title={"codes promo"}
         onClick={handleClickOpen}
+        create
       />
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth={"sm"}>
         <DiscountForm data={discount} close={handleClose}/>

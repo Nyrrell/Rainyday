@@ -21,11 +21,11 @@ const CategoryImage = styled(Image)`
 const Categories = () => {
   const [category, setCategory] = useState(null);
   const [open, setOpen] = useState(false);
-  const { categories, getAllCategories, deleteCategory } = categoryStore();
+  const { categories, getCategories, deleteCategory } = categoryStore();
 
   useEffect(() => {
-    getAllCategories();
-  }, [getAllCategories])
+    getCategories("private");
+  }, [getCategories])
 
   const handleClickOpen = () => {
     setCategory(null)
@@ -82,6 +82,7 @@ const Categories = () => {
         columns={columns}
         title={"catégories"}
         onClick={handleClickOpen}
+        create
       />
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth={"md"}>
         <CategoryForm data={category} close={handleClose}/>

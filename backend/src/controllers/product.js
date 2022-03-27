@@ -51,6 +51,9 @@ export const getProduct = async (req, res) => {
 };
 
 export const getAllProducts = async (req, res) => {
+  const visible = req.query.public;
+
+  if (!visible && req.method !== 'POST') return res.code(404).send(new Error('Not Found'));
   const qNew = req.query.new;
   const qCategory = req.query.category;
 
@@ -66,9 +69,10 @@ export const getAllProducts = async (req, res) => {
         }
       });
     } else {
-      products = await Product.find();
+      products = await Product.find().populate({ path: "category", select: 'title', ...(visible && { match: { visible: true } }) });
     }
 
+    if (visible) return res.send(products.filter(p => p['category']));
     res.send(products);
   } catch (e) {
     res.send(e);

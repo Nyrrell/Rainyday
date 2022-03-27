@@ -7,19 +7,12 @@ const categoryStore = create(
     categories: [],
     isFetching: false,
     error: false,
-    getCategories: async () => {
+    getCategories: async (payload) => {
       set({ isFetching: true, error: false });
       try {
-        const { data } = await publicRequest.get("/categories?public=true");
-        set({ categories: data, isFetching: false });
-      } catch {
-        set({ isFetching: false, error: true });
-      }
-    },
-    getAllCategories: async () => {
-      set({ isFetching: true, error: false });
-      try {
-        const { data } = await userRequest.post("/categories");
+        const { data } = payload === "public"
+          ? await publicRequest.get('/categories?public=true')
+          : await userRequest.post('/categories');
         set({ categories: data, isFetching: false });
       } catch {
         set({ isFetching: false, error: true });

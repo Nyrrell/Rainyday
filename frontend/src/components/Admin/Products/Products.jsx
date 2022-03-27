@@ -10,6 +10,7 @@ import Image from "../../Image.jsx";
 import ProductForm from "./ProductForm.jsx";
 
 import productStore from "../../../store/productStore.js";
+import categoryStore from "../../../store/categoryStore.js";
 
 const ProductImage = styled(Image)`
   width: 45px;
@@ -22,10 +23,12 @@ const Products = () => {
   const [product, setProduct] = useState(null);
   const [open, setOpen] = useState(false);
   const { products, getProducts, deleteProduct } = productStore();
+  const { categories, getCategories, } = categoryStore();
 
   useEffect(() => {
-    getProducts();
-  }, [getProducts])
+    getProducts('private');
+    getCategories('private');
+  }, [getProducts, getCategories])
 
   const handleClickOpen = () => {
     setProduct(null);
@@ -54,7 +57,7 @@ const Products = () => {
       renderCell: ({ value }) => <ProductImage src={process.env.REACT_APP_BACKEND_URL + value}/>
     },
     { field: 'title', headerName: 'Article', cellClassName: 'main-cell', flex: 1 },
-    { field: 'category', headerName: 'Catégorie', flex: 1 },
+    { field: 'category', headerName: 'Catégorie', valueGetter: ({ value }) => value?.['title'], flex: 1 },
     { field: 'desc', headerName: 'Description', flex: 1, renderCell: DataEllipsis },
     { field: 'quantity', headerName: 'Stock', type: 'number' },
     { field: 'price', headerName: 'Prix', type: 'number', valueFormatter: ({ value }) => `${value} €` },
@@ -86,9 +89,10 @@ const Products = () => {
         columns={columns}
         title={"produits"}
         onClick={handleClickOpen}
+        create={Boolean(categories.length)}
       />
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth={"md"}>
-        <ProductForm data={product} close={handleClose}/>
+        <ProductForm data={product} categories={categories} close={handleClose}/>
       </Dialog>
     </>
   );
