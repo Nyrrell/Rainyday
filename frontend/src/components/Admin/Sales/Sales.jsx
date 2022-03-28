@@ -1,5 +1,5 @@
-import { FindInPage, } from "@mui/icons-material";
-import { Dialog, IconButton } from "@mui/material";
+import { FindInPage, Feed } from "@mui/icons-material";
+import { Dialog, IconButton, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 
 import DataGridAction from "../DataGrid/DataGridAction.jsx";
@@ -30,13 +30,19 @@ const Sales = () => {
     getAllOrders();
   }, [getAllOrders])
 
+  const redirectPaypal = ({value}) => (
+      <IconButton aria-label="paypal" target={"_blank"} href={`https://www.sandbox.paypal.com/webscr?cmd=_history-details-from-hub&id=${value}`}>
+        <Feed/>
+      </IconButton>
+    );
+
   const getAddress = ({ value }) => {
     if (!value) return;
     const { name, address } = value;
     return (
       <>
-        <p>{name['full_name']}</p>
-        <p>{address['address_line_1'] || ''} {address['address_line_2'] || ''} {address['postal_code']} {address['admin_area_2']}</p>
+        <Typography>{name['full_name']}</Typography>
+        <Typography variant={"subtitle2"}>{address['address_line_1'] || ''} {address['address_line_2'] || ''} {address['postal_code']} {address['admin_area_2']}</Typography>
       </>
     );
   };
@@ -46,8 +52,8 @@ const Sales = () => {
     const { username, email } = value;
     return (
       <>
-        <p>{username}</p>
-        <p>{email}</p>
+        <Typography>{username}</Typography>
+        <Typography Typography variant={"subtitle2"}>{email}</Typography>
       </>
     );
   };
@@ -59,9 +65,9 @@ const Sales = () => {
   );
 
   const columns = [
-    { field: 'paypalId', headerName: 'Transaction Paypal', cellClassName: 'main-cell', minWidth: 180 },
-    { field: 'customer', headerName: 'Client', minWidth: 200, valueGetter: getClient, renderCell: DataEllipsis },
-    { field: 'shipping', headerName: 'Livraison', minWidth: 300, valueGetter: getAddress, renderCell: DataEllipsis },
+    { field: 'customer', headerName: 'Client', minWidth: 200, valueGetter: getClient, renderCell: DataEllipsis, flex: 1},
+    { field: 'shipping', headerName: 'Livraison', minWidth: 300, valueGetter: getAddress, renderCell: DataEllipsis, flex: 1 },
+    { field: 'paypalId', headerName: 'Paypal', type: 'actions', renderCell: redirectPaypal },
     { field: 'state', headerName: 'Status', cellClassName: 'status-chip', minWidth: 120, renderCell: StatusComponent },
     { field: 'productsTotal', headerName: 'Nb Art.', cellClassName: 'main-cell', width: 80, type: 'number' },
     { field: 'products', headerName: 'Articles', type: 'actions', renderCell: openProduct },

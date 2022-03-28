@@ -18,6 +18,17 @@ const Container = styled(TableContainer)`
     align-items: center;
     justify-content: center;
   }
+  
+  & .quantity-cell {
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  
+  & .total-row > .MuiTableCell-root {
+    padding-top: 1rem;
+    font-weight: 800;
+    font-size: 1.2rem;
+  }
 `;
 
 const Title = styled.h2`
@@ -88,10 +99,12 @@ const DataTableProducts = ({ order }) => {
               </TableCell>
               <TableCell>{row['title']}</TableCell>
               <TableCell>{row['category']['title']}</TableCell>
-              <TableCell align="right">{order?.['products'].find(p => p.productId = row['_id'])['quantity']}</TableCell>
+              <TableCell className={'quantity-cell'} align="right">
+                {order?.['products'].find(p => p.productId = row['_id'])['quantity']}
+              </TableCell>
             </TableRow>
           ))}
-          <TableRow>
+          <TableRow className={'total-row'}>
             <TableCell rowSpan={2}/>
             <TableCell align="right" colSpan={2}>Total</TableCell>
             <TableCell align="right">{order?.['productsTotal']}</TableCell>

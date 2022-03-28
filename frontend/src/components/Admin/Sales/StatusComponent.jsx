@@ -5,7 +5,7 @@ import { Chip } from "@mui/material";
 export const StatusComponent = (status) => {
 
   const ENUM_STATUS = [
-    { status: 'pending', value: 'non payer', icon: <AutorenewOutlined/>, color: 'secondary' },
+    { status: 'pending', value: 'non payé', icon: <AutorenewOutlined/>, color: 'secondary' },
     { status: 'new', value: 'nouveau', icon: <NewReleasesOutlined/>, color: 'info' },
     { status: 'delay', value: 'retard', icon: <PendingOutlined/>, color: 'warning' },
     { status: 'cancelled', value: 'annuler', icon: <CancelOutlined/>, color: 'error' },
