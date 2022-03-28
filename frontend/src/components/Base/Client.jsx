@@ -28,19 +28,17 @@ const Container = styled.div`
 `;
 
 const Client = () => {
-  const { categories, getCategories } = categoryStore();
-  const { products, getProducts } = productStore();
+  const { getCategories } = categoryStore();
+  const { getProducts } = productStore();
   const location = useLocation();
 
   useEffect(() => {
-    if (Object.keys(products).length) return;
     getProducts('public');
-  }, [getProducts, products]);
+  }, [getProducts]);
 
   useEffect(() => {
-    if (categories.length > 1) return;
     getCategories("public");
-  }, [getCategories, categories]);
+  }, [getCategories]);
 
   return (
     <>

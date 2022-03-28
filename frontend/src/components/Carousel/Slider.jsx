@@ -48,8 +48,8 @@ const Slider = () => {
 
   useEffect(() => {
     if (!products.length) return;
-    setProductSlider(products.sort(() => 0.5 - Math.random()).slice(0, 6)) // TODO FROM ADMIN
-  }, [products])
+    setProductSlider(Array.from(products).sort(() => 0.5 - Math.random()).slice(0, 6));
+  }, [products]);
 
   return (
     <>
