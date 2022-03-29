@@ -34,6 +34,7 @@ const Categories = () => {
 
   const handleClose = () => {
     setOpen(false);
+    categoryStore.setState({ error: false });
   };
 
   const handleEdit = (id) => {

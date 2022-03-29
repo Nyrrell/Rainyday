@@ -1,4 +1,4 @@
-import { Switch, TextField, IconButton, FormControlLabel, Alert } from "@mui/material";
+import { Switch, TextField, IconButton, FormControlLabel } from "@mui/material";
 import { Publish } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
@@ -37,7 +37,7 @@ const Img = styled(Image)`
 `;
 
 const CategoryForm = ({ data, close }) => {
-  const { updateCategory, addCategory } = categoryStore();
+  const { updateCategory, addCategory, error, isFetching } = categoryStore();
 
   const initialState = {
     title: '',
@@ -80,7 +80,7 @@ const CategoryForm = ({ data, close }) => {
   const image = (images || !data) ? category['img'] : process.env.REACT_APP_BACKEND_URL + category['img'];
 
   return (
-    <AdminForm title={data ? "Edition" : "Nouvelle catégorie"} valid={handleClick} close={close}>
+    <AdminForm title={data ? "Edition" : "Nouvelle catégorie"} valid={handleClick} close={close} error={error} fetching={isFetching}>
       <FormLeft>
         <TextField fullWidth label="Nom" name={'title'} size="small" value={category['title']} onChange={handleChange}/>
         <TextField fullWidth label="Description" name={'desc'} size="small" multiline rows={6} value={category['desc']}

@@ -24,6 +24,7 @@ const Categories = () => {
 
   const handleClose = () => {
     setOpen(false);
+    discountStore.setState({ error: false });
   };
 
   const handleEdit = (id) => {

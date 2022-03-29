@@ -17,6 +17,7 @@ const Users = () => {
 
   const handleClose = () => {
     setOpen(false);
+  userStore.setState({ error: false });
   };
 
   const handleDelete = (e, id) => {

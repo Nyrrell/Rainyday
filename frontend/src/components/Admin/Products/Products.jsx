@@ -37,6 +37,7 @@ const Products = () => {
 
   const handleClose = () => {
     setOpen(false);
+    productStore.setState({ error: false });
   }
 
   const handleEdit = (id) => {

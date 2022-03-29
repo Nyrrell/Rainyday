@@ -46,7 +46,7 @@ const Img = styled(Image)`
 `;
 
 const ProductForm = ({ data, close, categories }) => {
-  const { updateProduct, addProduct, } = productStore(); // TODO FETCHING & ERROR
+  const { updateProduct, addProduct, error, isFetching } = productStore();
 
   const initialState = {
     title: '',
@@ -93,7 +93,7 @@ const ProductForm = ({ data, close, categories }) => {
   const image = (images || !data) ? product['img'] : process.env.REACT_APP_BACKEND_URL + product['img'];
 
   return (
-    <AdminForm title={data ? "Edition" : "Nouvel Article"} valid={handleClick} close={close}>
+    <AdminForm title={data ? "Edition" : "Nouvel Article"} valid={handleClick} close={close} error={error} fetching={isFetching}>
       <FormLeft>
         <TextField fullWidth label="Nom" name={'title'} size="small" value={product['title']} onChange={handleChange}/>
         <TextField fullWidth label="Description" name={'desc'} size="small" multiline rows={3} value={product['desc']}

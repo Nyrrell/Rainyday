@@ -17,7 +17,7 @@ let FormSwitch = styled(FormControlLabel)`
 `;
 
 const DiscountForm = ({ data, close }) => {
-  const { updateDiscountCode, addDiscountCode } = discountStore();  // TODO FETCHING & ERROR
+  const { updateDiscountCode, addDiscountCode, error, isFetching } = discountStore();
 
   const initialState = {
     title: '',
@@ -42,7 +42,7 @@ const DiscountForm = ({ data, close }) => {
   }
 
   return (
-    <AdminForm title={data ? "Edition" : "Nouveau code promo"} valid={handleClick} close={close}>
+    <AdminForm title={data ? "Edition" : "Nouveau code promo"} valid={handleClick} close={close} error={error} fetching={isFetching}>
       <StackStyled>
         <TextField label="Code" name={'title'} size="small" value={discount['title']}
                    onChange={handleChange}/>

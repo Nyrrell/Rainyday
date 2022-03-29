@@ -23,7 +23,7 @@ const FormRight = styled.div`
 `;
 
 const UserForm = ({ user, close }) => {
-  const { updateUser } = userStore();  // TODO FETCHING & ERROR
+  const { updateUser, error, isFetching } = userStore();
   const [data, setData] = useState(user);
 
   const handleChange = (e) => {
@@ -38,7 +38,7 @@ const UserForm = ({ user, close }) => {
   }
 
   return (
-    <AdminForm title={"Edition utilisateur"} valid={handleClick} close={close}>
+    <AdminForm title={"Edition utilisateur"} valid={handleClick} close={close} error={error} fetching={isFetching}>
       <FormGroup>
         <FormLeft>
           <TextField fullWidth label="Nom d'utilisateur" value={data['username']} name={'username'} size="small"
