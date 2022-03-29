@@ -103,11 +103,11 @@ const ProductForm = ({ data, close, categories }) => {
             <InputLabel>Catégorie</InputLabel>
             <Select
               name={'category'}
-              defaultValue={product['category']['_id']}
+              defaultValue={product['category']['_id'] || ''}
               label="Catégorie"
               onChange={handleChange}
             >
-              {categories.map(c => <MenuItem value={c['_id']}>{c['title']}</MenuItem>)}
+              {categories.map(c => <MenuItem key={c['_id']} value={c['_id']}>{c['title']}</MenuItem>)}
             </Select>
           </FormControl>
           <TextField label="Quantité" name={'quantity'} size="small" value={product['quantity']} onChange={handleChange}
