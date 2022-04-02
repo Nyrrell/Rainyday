@@ -5,7 +5,7 @@ import validator from 'validator';
 import { useState } from "react";
 
 import AuthForm from './AuthForm.jsx'
-import authStore from "../../store/authStore.js";
+import authStore from "../../../store/authStore.js";
 
 
 const IconPassword = ({ onClick, show }) => {

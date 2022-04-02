@@ -8,7 +8,7 @@ import { DataEllipsis } from "../DataGrid/DataEllipsis.jsx";
 import AdminDataGrid from "../DataGrid/DataGrid.jsx";
 import ImagePopover from "../ImagePopover.jsx";
 import ProductForm from "./ProductForm.jsx";
-import Image from "../../Image.jsx";
+import Image from "../../Common/Image.jsx";
 
 import productStore from "../../../store/productStore.js";
 import categoryStore from "../../../store/categoryStore.js";

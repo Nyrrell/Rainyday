@@ -8,6 +8,7 @@ import ProductDetail from "./ProductDetail.jsx";
 import ProductList from "../Product/ProductList.jsx";
 
 import productStore from "../../store/productStore.js";
+import BaseTitle from "../Common/BaseTitle.jsx";
 
 const BackToProduct = styled(Link)`
   font-weight: 600;
@@ -44,13 +45,8 @@ const RecommendedContainer = styled.section`
   margin-top: 3rem;
 `;
 
-const Subtitle = styled.h2`
-  display: inline-flex;
+const Subtitle = styled(BaseTitle)`
   margin-bottom: 1rem;
-  text-transform: uppercase;
-  text-shadow: 2px 2px 2px rgba(0, 0, 0, .4);
-  background: linear-gradient(to top, transparent 10%, rgba(240, 165, 0, 0.8) 10.01%,
-  rgba(240, 165, 0, 0.8) 40%, transparent 40.01%) no-repeat left bottom / 100% 100%;
 `;
 
 const ProductDetailPage = () => {
@@ -76,7 +72,7 @@ const ProductDetailPage = () => {
         }
       </Wrapper>
       <RecommendedContainer>
-        <Subtitle>Produits recommandés</Subtitle>
+        <Subtitle forwardedAs={'h2'}>Produits recommandés</Subtitle>
         <ProductList limit={4}/>
       </RecommendedContainer>
     </>

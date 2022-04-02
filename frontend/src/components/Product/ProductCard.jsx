@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@mui/material";
 import styled from "styled-components";
 
-import Image from "../Image.jsx";
+import Image from "../Common/Image.jsx";
 
 const Hover = styled.div`
   opacity: 0;

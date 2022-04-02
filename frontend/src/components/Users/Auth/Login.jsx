@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 import AuthForm from "./AuthForm.jsx";
-import authStore from "../../store/authStore.js";
+import authStore from "../../../store/authStore.js";
 
 const Login = () => {
   const navigate = useNavigate();

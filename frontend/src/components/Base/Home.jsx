@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import media from "css-in-js-media";
 
-import Categories from "./Categories/Categories.jsx";
-import ProductList from "./Product/ProductList.jsx";
-import Slider from "./Carousel/Slider.jsx";
+import Categories from "../Categories/Categories.jsx";
+import ProductList from "../Product/ProductList.jsx";
+import Slider from "../Carousel/Slider.jsx";
 
 const Title = styled.h2`
   width: var(--container-size);

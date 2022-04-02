@@ -78,7 +78,7 @@ const Right = styled.div`
   ${media("<=phone")} { display: none }
 `;
 
-const ContactItem = styled.div`
+const ContactItem = styled.a`
   margin-bottom: 20px;
   display: flex;
   align-items: center;
@@ -109,7 +109,7 @@ const Footer = () => {
           <List>
             <ListItem><Link to={'/'}>Accueil</Link></ListItem>
             <ListItem><Link to={'/cart'}>Panier</Link></ListItem>
-            <ListItem><Link to={'/account'}>Mon Compte</Link></ListItem>
+            <ListItem><Link to={'/profile'}>Mon Compte</Link></ListItem>
             <ListItem><Link to={'/term'}>Terms</Link></ListItem>
           </List>
         </Center>
@@ -118,7 +118,7 @@ const Footer = () => {
           <ContactItem>
             <Phone style={{ marginRight: "10px" }}/> <strong>Telephone</strong> : 06 XX XX XX XX
           </ContactItem>
-          <ContactItem>
+          <ContactItem href={'mailto:contact@rainyday.fr'}>
             <EmailOutlined style={{ marginRight: "10px" }}/> <strong>Email</strong> : contact@rainyday.fr
           </ContactItem>
         </Right>

@@ -92,8 +92,8 @@ const StyledLink = styled(Link)`
 `;
 
 const NavLink = ({ children, to, ...props }) => {
-  let resolved = useResolvedPath(to);
-  let match = useMatch({ path: resolved.pathname, end: true });
+  const resolved = useResolvedPath(to);
+  const match = useMatch({ path: resolved.pathname, end: true });
 
   return (
     <MenuItem>
@@ -114,11 +114,10 @@ const IsLogged = ({ user, onClick }) => (
     </>
   ) : (
     <>
-      <MenuItem>{user}</MenuItem>
-      <MenuItem onClick={onClick}>déconnexion</MenuItem>
       <MenuItem>
-        <Link to={'/account'}>mon compte</Link>
+        <Link to={'/profile'}>{user}</Link>
       </MenuItem>
+      <MenuItem onClick={onClick}>déconnexion</MenuItem>
     </>
   )
 );

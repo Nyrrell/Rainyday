@@ -4,6 +4,7 @@ import media from "css-in-js-media";
 import { useState } from "react";
 
 import ProductList from "./ProductList.jsx";
+import BaseTitle from "../Common/BaseTitle.jsx";
 
 const CatContainer = styled.div`
   margin: 0 1.6rem 1.6rem 1.6rem; 
@@ -12,14 +13,7 @@ const CatContainer = styled.div`
   align-items: center;
 `;
 
-const Title = styled.h1`
-  font-size: 1.8rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  text-shadow: 2px 2px 2px rgba(0, 0, 0, .4);
-  background: linear-gradient(to top, transparent 10%, rgba(240, 165, 0, 0.8) 10.01%,
-  rgba(240, 165, 0, 0.8) 40%, transparent 40.01%) no-repeat left bottom / 100% 100%;
-`;
+const Title = styled(BaseTitle)``;
 
 const Filter = styled.div`
   ${media("<=phone")} {

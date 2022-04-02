@@ -7,7 +7,7 @@ import DataGridAction from "../DataGrid/DataGridAction.jsx";
 import { DataEllipsis } from "../DataGrid/DataEllipsis.jsx";
 import AdminDataGrid from "../DataGrid/DataGrid.jsx";
 import CategoryForm from "./CategoryForm.jsx";
-import Image from "../../Image.jsx";
+import Image from "../../Common/Image.jsx";
 
 import categoryStore from "../../../store/categoryStore.js";
 import ImagePopover from "../ImagePopover.jsx";

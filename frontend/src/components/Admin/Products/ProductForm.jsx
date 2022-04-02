@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 
 import AdminForm from "../AdminForm.jsx";
-import Image from "../../Image.jsx";
+import Image from "../../Common/Image.jsx";
 
 import productStore from "../../../store/productStore.js";
 

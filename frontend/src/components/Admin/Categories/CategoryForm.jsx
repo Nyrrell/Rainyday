@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 import AdminForm from "../AdminForm.jsx";
 import categoryStore from "../../../store/categoryStore.js";
-import Image from "../../Image.jsx";
+import Image from "../../Common/Image.jsx";
 
 const FormLeft = styled.div`
   flex: 1;

@@ -5,12 +5,13 @@ import { AlreadyAuth, RequireAuth, RequireAuthorization } from "./services/Prote
 // SHOP PAGES
 import ProductCatalog from "./components/Product/ProductCatalog.jsx";
 import ProductDetailPage from "./components/ProductDetail/ProductDetailPage.jsx";
-import Register from "./components/Users/Register.jsx";
-import NoMatch from "./components/NoMatch.jsx";
+import Register from "./components/Users/Auth/Register.jsx";
+import ProfileTabs from "./components/Users/Profile/ProfileTabs.jsx";
 import Layout from "./components/Base/Client.jsx";
-import Login from "./components/Users/Login.jsx";
-import Home from "./components/Home.jsx";
+import Login from "./components/Users/Auth/Login.jsx";
+import NoMatch from "./components/Base/NoMatch.jsx";
 import Cart from "./components/Cart/Cart.jsx";
+import Home from "./components/Base/Home.jsx";
 
 // ADMIN PAGES
 import AdminCategories from "./components/Admin/Categories/Categories.jsx"
@@ -32,7 +33,7 @@ const App = () => {
         <Route path="/cart" element={<Cart/>}/>
         <Route path="/login" element={<AlreadyAuth><Login className={'auth'}/></AlreadyAuth>}/>
         <Route path="/register" element={<AlreadyAuth><Register className={'auth'}/></AlreadyAuth>}/>
-        <Route path="/profile" element={<RequireAuth><Register/></RequireAuth>}/> {/*TODO*/}
+        <Route path="/profile" element={<RequireAuth><ProfileTabs/></RequireAuth>}/>
       </Route>
       <Route path="/admin" element={<RequireAuthorization><AdminLayout/></RequireAuthorization>}>
         <Route index element={<HomeAdmin/>}/>

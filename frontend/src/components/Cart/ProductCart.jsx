@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import cartStore from "../../store/cartStore.js";
-import AmountProduct from "../AmountProduct.jsx";
+import AmountProduct from "../Common/AmountProduct.jsx";
 import media from "css-in-js-media";
 import productStore from "../../store/productStore.js";
 

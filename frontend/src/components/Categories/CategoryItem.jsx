@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import media from "css-in-js-media";
 
-import Image from "../Image.jsx";
+import Image from "../Common/Image.jsx";
 
 const Hover = styled.div`
   opacity: 0;
@@ -67,7 +67,7 @@ const Info = styled.div`
   z-index: 4;
 `;
 
-const Title = styled.h3`
+const CategoryName = styled.h3`
   text-align: center;
   font-size: 1.8rem;
   color: var(--color-light);
@@ -95,7 +95,7 @@ const CategoryItem = ({ item }) => {
         <Img src={process.env.REACT_APP_BACKEND_URL + item['img']}/>
         <Hover/>
         <Info>
-          <Title>{item['title']}</Title>
+          <CategoryName>{item['title']}</CategoryName>
           <Button>voir</Button>
         </Info>
       </Link>

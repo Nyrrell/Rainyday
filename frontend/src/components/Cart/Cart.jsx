@@ -3,14 +3,15 @@ import { Alert, Button } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 import styled from "styled-components";
 import media from "css-in-js-media";
+import { useEffect } from "react";
 
 import PaypalCheckout from "./PaypalCheckout.jsx";
+import BaseTitle from "../Common/BaseTitle.jsx";
 import ProductCart from "./ProductCart.jsx";
 
 import checkoutStore from "../../store/checkoutStore.js";
 import cartStore from "../../store/cartStore.js";
 import authStore from "../../store/authStore.js";
-import { useEffect } from "react";
 
 const Top = styled.div`
   display: flex;
@@ -19,16 +20,9 @@ const Top = styled.div`
   margin: 2rem 0 0.5rem 0;
 `;
 
-const Title = styled.h1`
+const Title = styled(BaseTitle)`
   margin-left: 1.6rem;
-  width: fit-content;
-  font-size: 1.8rem;
-  font-weight: 800;
-  text-transform: uppercase;
   display: inline-flex;
-  text-shadow: 2px 2px 2px rgba(0, 0, 0, .4);
-  background: linear-gradient(to top, transparent 10%, rgba(240, 165, 0, 0.8) 10.01%,
-  rgba(240, 165, 0, 0.8) 40%, transparent 40.01%) no-repeat left bottom / 100% 100%;
 `;
 
 const BackToProduct = styled(Link)`
@@ -149,7 +143,7 @@ const Cart = () => {
             <SummaryItemPrice>5,90 €</SummaryItemPrice>
           </SummaryItem>
           <SummaryItem>
-            <SummaryItemText>Code promo</SummaryItemText>
+            <SummaryItemText>Code promo</SummaryItemText> {/*TODO CODE PROMO*/}
             <SummaryItemPrice>-5,90 €</SummaryItemPrice>
           </SummaryItem>
           <SummaryItem type={"total"}>

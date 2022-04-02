@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
-import AmountProduct from "../AmountProduct.jsx";
-import styled from "styled-components";
-import Image from "../Image.jsx";
-import media from "css-in-js-media";
 import { Button } from "@mui/material";
+import styled from "styled-components";
+import media from "css-in-js-media";
+import { useState } from 'react';
+
+import AmountProduct from "../Common/AmountProduct.jsx";
+import BaseTitle from "../Common/BaseTitle.jsx";
+import Image from "../Common/Image.jsx";
+
 import cartStore from "../../store/cartStore.js";
 
 const ImgContainer = styled.div`
@@ -35,14 +38,8 @@ const InfoContainer = styled.div`
   }
 `;
 
-const Article = styled.h1`
-  width: fit-content;
+const ArticleTitle = styled(BaseTitle)`
   font-size: 3rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  text-shadow: 2px 2px 2px rgba(0, 0, 0, .4);
-  background: linear-gradient(to top, transparent 10%, rgba(240, 165, 0, 0.8) 10.01%,
-  rgba(240, 165, 0, 0.8) 40%, transparent 40.01%) content-box no-repeat left bottom / 100% 100%;
 
   ${media("<=phone")} {
     font-size: 2rem
@@ -101,7 +98,7 @@ const ProductDetail = ({ product }) => {
         <Img src={process.env.REACT_APP_BACKEND_URL + product['img']}/>
       </ImgContainer>
       <InfoContainer>
-        <Article>{product['title']}</Article>
+        <ArticleTitle>{product['title']}</ArticleTitle>
         <Desc>{product['desc']}</Desc>
         <Price>{product['price']} €</Price>
         <AddContainer>

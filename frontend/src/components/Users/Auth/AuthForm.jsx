@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import media from "css-in-js-media";
 
-import authStore from "../../store/authStore.js";
+import authStore from "../../../store/authStore.js";
 
 const Wrapper = styled.div`
   width: 25vw;
