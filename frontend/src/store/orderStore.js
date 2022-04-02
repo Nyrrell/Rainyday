@@ -12,7 +12,7 @@ const OrderStore = create(
     getUserOrder: async (id) => {
       set({ isFetching: true, error: false });
       try {
-        const { data } = await userRequest.get(`/orders/find/${id}`);
+        const { data } = await userRequest.get(`/orders/find/`);
         set({ userOrders: data, isFetching: false });
       } catch {
         set({ isFetching: false, error: true });

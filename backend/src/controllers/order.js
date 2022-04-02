@@ -11,7 +11,7 @@ export const updateOrder = async (req, res) => {
 
     res.send(order);
   } catch (e) {
-    res.send(e);
+    res.send(new Error('ERROR_OCCURRED'));
   }
 };
 
@@ -20,18 +20,34 @@ export const deleteOrder = async (req, res) => {
     const order = await Order.findByIdAndDelete(req.params.id);
     res.send(order)
   } catch (e) {
-    res.send(e);
+    res.send(new Error('ERROR_OCCURRED'));
   }
 };
 
 export const userOrder = async (req, res) => {
-  if (req.user.id !== req.params.id && !req.user.isAdmin) return res.code(403).send(new Error('Unauthorized access'));
-
+  console.log(req.user.id)
   try {
-    const order = await Order.find({ userId: req.params.id });
-    res.send(order);
+    const orders = await Order.find({ customer: req.user.id }).populate({
+      path: "products.productId",
+      select: 'title img',
+      populate: { path: 'category', select: 'title' }
+    });
+
+    const listOrders = orders.map(order => {
+      const { paypalId, productsTotal, total, discount, state, createdAt, products } = order;
+      return {
+        id: paypalId, productsTotal, total, discount, state, createdAt,
+        products: products.map(({ productId, quantity }) => ({
+          article: productId['title'],
+          category: productId['category']['title'],
+          img: productId['img'],
+          quantity
+        }))
+      };
+    })
+    res.send(listOrders);
   } catch (e) {
-    res.send(e);
+    res.send(new Error('ERROR_OCCURRED'));
   }
 };
 
@@ -40,7 +56,7 @@ export const allOrder = async (req, res) => {
     const orders = await Order.find().populate({ path: "customer", select: 'username email' });
     res.send(orders);
   } catch (e) {
-    res.send(e);
+    res.send(new Error('ERROR_OCCURRED'));
   }
 };
 
@@ -50,7 +66,7 @@ export const getOrder = async (req, res) => {
     const products = await Product.find({ _id: { $in: productsOrder.map(p => p['productId']) } }).populate('category');
     res.send(products)
   } catch (e) {
-    res.send(new Error('ERROR_OCCURRED'))
+    res.send(new Error('ERROR_OCCURRED'));
   }
 }
 
