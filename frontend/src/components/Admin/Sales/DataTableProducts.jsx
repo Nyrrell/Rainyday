@@ -2,7 +2,7 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
-import { userRequest } from "../../../services/requestApi.js";
+import { userRequest } from "../../../hooks/requestApi.js";
 import ImageBadge from "../../Common/ImageBadge.jsx";
 
 const Container = styled(TableContainer)`

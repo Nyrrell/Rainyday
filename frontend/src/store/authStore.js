@@ -1,7 +1,7 @@
 import jwtDecode from "jwt-decode";
 import create from "zustand";
 
-import { publicRequest, userRequest } from "../services/requestApi.js";
+import { publicRequest, userRequest } from "../hooks/requestApi.js";
 
 const authStore = create(
   (set, get) => ({

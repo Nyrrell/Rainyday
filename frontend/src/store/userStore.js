@@ -1,12 +1,23 @@
 import create from "zustand";
 
-import { userRequest } from "../services/requestApi.js";
+import { userRequest } from "../hooks/requestApi.js";
 
 const userStore = create(
   set => ({
+    userProfile: {},
     users: [],
     isFetching: false,
     error: false,
+    // USER PROFILE
+    getUserProfile: async () => {
+      set({ isFetching: true, error: false });
+      try {
+        const { data } = await userRequest.get(`/users/profile`);
+        set({ userProfile: data, isFetching: false });
+      } catch {
+        set({ isFetching: false, error: true });
+      }
+    },
     //GET ALL
     getUsers: async () => {
       set({ isFetching: true, error: false });

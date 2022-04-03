@@ -1,6 +1,6 @@
 import create from "zustand";
 
-import { userRequest } from "../services/requestApi.js";
+import { userRequest } from "../hooks/requestApi.js";
 
 const CheckoutStore = create(
   set => ({

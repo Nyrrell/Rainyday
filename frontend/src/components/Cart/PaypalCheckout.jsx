@@ -1,7 +1,7 @@
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { useNavigate } from "react-router-dom";
 
-import { paypalOptions } from "../../services/paypal.js";
+import { paypalOptions } from "../../hooks/paypal.js";
 import checkoutStore from "../../store/checkoutStore.js";
 
 const PaypalCheckout = ({ products }) => {

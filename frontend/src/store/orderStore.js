@@ -1,6 +1,6 @@
 import create from "zustand";
 
-import { userRequest } from "../services/requestApi.js";
+import { userRequest } from "../hooks/requestApi.js";
 
 const OrderStore = create(
   set => ({
@@ -9,7 +9,7 @@ const OrderStore = create(
     isFetching: false,
     error: false,
     // CLIENT ORDER
-    getUserOrder: async (id) => {
+    getUserOrder: async () => {
       set({ isFetching: true, error: false });
       try {
         const { data } = await userRequest.get(`/orders/find/`);

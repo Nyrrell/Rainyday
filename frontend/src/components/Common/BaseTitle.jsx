@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const StyledTitle = styled.h1`
+const Title = styled.h1`
   font-size: 1.8rem;
   font-weight: 800;
   width: fit-content;
@@ -11,9 +11,9 @@ const StyledTitle = styled.h1`
 `;
 
 const BaseTitle = ({ className, children, ...props }) => (
-  <StyledTitle className={className} {...props}>
+  <Title className={className} {...props}>
     {children}
-  </StyledTitle>
+  </Title>
 );
 
 export default BaseTitle;
