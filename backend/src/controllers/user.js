@@ -31,11 +31,9 @@ export const deleteUser = async (req, res) => {
 };
 
 export const getUser = async (req, res) => {
-  if (req.user.id !== req.params.id && !req.user.isAdmin) return res.code(403).send(new Error('Unauthorized access'));
-
   try {
-    const user = await User.findById(req.params.id);
-    const { password, ...other } = user.toJSON();
+    const user = await User.findById(req.user.id);
+    const { password, isAdmin, ...other } = user.toJSON();
     res.send(other);
   } catch (e) {
     if (e.path === '_id') e['message'] = 'Invalid user ID';
