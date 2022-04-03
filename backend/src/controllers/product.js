@@ -10,7 +10,7 @@ export const createProduct = async (req, res) => {
     const product = await newProduct.save();
     res.send(product)
   } catch (e) {
-    res.send(e);
+    res.send(new Error('ERROR_OCCURRED'));
   }
 };
 
@@ -26,7 +26,7 @@ export const updateProduct = async (req, res) => {
     res.send(product);
   } catch (e) {
     if (e.path === '_id') e['message'] = 'Invalid product ID';
-    res.send(e);
+    res.send(new Error('ERROR_OCCURRED'));
   }
 };
 
@@ -37,7 +37,7 @@ export const deleteProduct = async (req, res) => {
     if (existsSync(path)) rmdirSync(path, { recursive: true });
     res.send(product);
   } catch (e) {
-    res.send(e);
+    res.send(new Error('ERROR_OCCURRED'));
   }
 };
 
@@ -46,7 +46,7 @@ export const getProduct = async (req, res) => {
     const product = await Product.findById(req.params.id);
     res.send(product);
   } catch (e) {
-    res.send(e);
+    res.send(new Error('ERROR_OCCURRED'));
   }
 };
 
@@ -75,6 +75,6 @@ export const getAllProducts = async (req, res) => {
     if (visible) return res.send(products.filter(p => p['category']));
     res.send(products);
   } catch (e) {
-    res.send(e);
+    res.send(new Error('ERROR_OCCURRED'));
   }
 };

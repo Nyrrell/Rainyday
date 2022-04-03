@@ -25,7 +25,6 @@ export const deleteOrder = async (req, res) => {
 };
 
 export const userOrder = async (req, res) => {
-  console.log(req.user.id)
   try {
     const orders = await Order.find({ customer: req.user.id }).populate({
       path: "products.productId",
@@ -101,7 +100,7 @@ export const monthlyIncome = async (req, res) => {
     ]);
     res.send(income);
   } catch (e) {
-    res.send(e);
+    res.send(new Error('ERROR_OCCURRED'));
   }
 };
 
@@ -127,6 +126,6 @@ export const getStat = async (req, res) => {
 
     res.send(data);
   } catch (e) {
-    res.send(e);
+    res.send(new Error('ERROR_OCCURRED'));
   }
 };

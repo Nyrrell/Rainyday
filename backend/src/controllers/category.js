@@ -10,7 +10,7 @@ export const createCategory = async (req, res) => {
     const category = await newCategory.save();
     res.send(category)
   } catch (e) {
-    res.send(e);
+    res.send(new Error('ERROR_OCCURRED'));
   }
 };
 
@@ -26,7 +26,7 @@ export const updateCategory = async (req, res) => {
     res.send(category);
   } catch (e) {
     if (e.path === '_id') e['message'] = 'Invalid category ID';
-    res.send(e);
+    res.send(new Error('ERROR_OCCURRED'));
   }
 };
 
@@ -37,7 +37,7 @@ export const deleteCategory = async (req, res) => {
     if (existsSync(path)) rmdirSync(path, { recursive: true });
     res.send(category);
   } catch (e) {
-    res.send(e);
+    res.send(new Error('ERROR_OCCURRED'));
   }
 };
 
@@ -46,7 +46,7 @@ export const getCategory = async (req, res) => {
     const category = await Category.findById(req.params.id);
     res.send(category);
   } catch (e) {
-    res.send(e);
+    res.send(new Error('ERROR_OCCURRED'));
   }
 };
 
@@ -59,11 +59,11 @@ export const getAllCategories = async (req, res) => {
     if (!visible) res.send(await Category.find());
     const categories = await Category.find().where({ visible: true });
     const publicCategories = categories.map(cat => {
-      const { _id, title, desc, img, slug, ...other } = cat.toJSON();
+      const { _id, title, desc, img, slug } = cat.toJSON();
       return { _id, title, desc, img, slug };
     })
     res.send(publicCategories);
   } catch (e) {
-    res.send(e);
+    res.send(new Error('ERROR_OCCURRED'));
   }
 };

@@ -16,7 +16,7 @@ export const updateUser = async (req, res) => {
     res.send(other);
   } catch (e) {
     if (e.path === '_id') e['message'] = 'Invalid user ID';
-    res.send(e);
+    res.send(new Error('ERROR_OCCURRED'));
   }
 };
 
@@ -24,9 +24,9 @@ export const deleteUser = async (req, res) => {
   if (req.user.id !== req.params.id && !req.user.isAdmin) return res.code(403).send(new Error('Unauthorized access'));
   try {
     const user = await User.findByIdAndDelete(req.params.id);
-    res.send(user) // TODO ? "User delete"
+    res.send(user);
   } catch (e) {
-    res.send(e);
+    res.send(new Error('ERROR_OCCURRED'));
   }
 };
 
@@ -39,7 +39,7 @@ export const getUser = async (req, res) => {
     res.send(other);
   } catch (e) {
     if (e.path === '_id') e['message'] = 'Invalid user ID';
-    res.send(e);
+    res.send(new Error('ERROR_OCCURRED'));
   }
 };
 
@@ -57,7 +57,7 @@ export const getAllUsers = async (req, res) => {
     })
     res.send(users);
   } catch (e) {
-    res.send(e);
+    res.send(new Error('ERROR_OCCURRED'));
   }
 };
 
@@ -83,6 +83,6 @@ export const getUsersStats = async (req, res) => {
 
     res.send(data);
   } catch (e) {
-    res.send(e);
+    res.send(new Error('ERROR_OCCURRED'));
   }
 };

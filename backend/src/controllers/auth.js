@@ -36,7 +36,7 @@ export const register = async (req, res) => {
   } catch (e) {
     if (e?.['keyPattern']?.['username']) res.status(409).send(new Error('Utilisateur déjà enregistrer !'));
     if (e?.['keyPattern']?.['email']) res.status(409).send(new Error('Email déjà enregistrer !'));
-    res.send(e);
+    res.send(new Error('ERROR_OCCURRED'));
   }
 };
 
@@ -54,7 +54,7 @@ export const login = async (req, res) => {
 
     res.send(token)
   } catch (e) {
-    res.send(e);
+    res.send(new Error('ERROR_OCCURRED'));
   }
 };
 
@@ -66,6 +66,6 @@ export const authorize = async (req, res) => {
       ? res.send({ allowAccess: true })
       : res.code(403).send(new Error('Unauthorized access'));
   } catch (e) {
-    res.send(e);
+    res.send(new Error('ERROR_OCCURRED'));
   }
 };
