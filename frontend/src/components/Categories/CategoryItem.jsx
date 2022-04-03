@@ -91,11 +91,11 @@ const Button = styled.button`
 const CategoryItem = ({ item }) => {
   return (
     <Category>
-      <Link to={`/products/${item['slug']}`}>
-        <Img src={process.env.REACT_APP_BACKEND_URL + item['img']}/>
+      <Link to={`/products/${item?.['slug']}`}>
+        <Img src={process.env.REACT_APP_BACKEND_URL + item?.['img']}/>
         <Hover/>
         <Info>
-          <CategoryName>{item['title']}</CategoryName>
+          <CategoryName>{item?.['title']}</CategoryName>
           <Button>voir</Button>
         </Info>
       </Link>

@@ -137,7 +137,7 @@ const Navbar = () => {
     <Wrapper>
       <Left>
         <NavLink to={'/'}>home</NavLink>
-        {categories.map(item => <NavLink to={`/products/${item['slug']}`} key={item['_id']}>{item['title']}</NavLink>)}
+        {categories?.map(item => <NavLink to={`/products/${item?.['slug']}`} key={item?.['_id']}>{item?.['title']}</NavLink>)}
       </Left>
       <Center>
         <Link to={'/'}><Logo src={logo} alt="Logo"/></Link>
