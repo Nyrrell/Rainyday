@@ -28,7 +28,7 @@ const TableContent = styled(Table)`
   }
 `;
 
-const Order = () => {
+const OrderTabs = () => {
   const { getUserOrder, userOrders } = orderStore();
 
   useEffect(() => {
@@ -44,8 +44,8 @@ const Order = () => {
             <TableCell>Numéro de commande</TableCell>
             <TableCell align="center" className={'status'}>Status</TableCell>
             <TableCell align="center">Date commande</TableCell>
-            <TableCell align="right">Article</TableCell>
-            <TableCell align="right">Total</TableCell>
+            <TableCell align="right">Articles</TableCell>
+            <TableCell align="right">Prix total</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -58,4 +58,4 @@ const Order = () => {
   );
 };
 
-export default Order;
+export default OrderTabs;

@@ -1,10 +1,11 @@
 import { Box, Collapse, IconButton, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { KeyboardArrowDown, KeyboardArrowRight } from "@mui/icons-material";
+import styled from "styled-components";
 import { useState } from "react";
 
 import { StatusComponent } from "../../Admin/Sales/StatusComponent.jsx";
 import BaseTitle from "../../Common/BaseTitle.jsx";
-import styled from "styled-components";
+import ImageBadge from "../../Common/ImageBadge.jsx";
 
 const ListArticle = styled(BaseTitle)`
   font-size: 1.1rem;
@@ -47,13 +48,16 @@ const OrderRow = ({ order }) => {
                     <TableCell>Article</TableCell>
                     <TableCell>Catégorie</TableCell>
                     <TableCell align="right">Quantités</TableCell>
-                    <TableCell align="right">Prix</TableCell>
+                    <TableCell align="right">Prix unitaire</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {order['products']?.map((product) => (
-                    <TableRow key={product['article'] }>
-                      <TableCell component="th" scope="row">{product['article']}</TableCell>
+                    <TableRow key={product['article']}>
+                      <TableCell component="th" scope="row" sx={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                        <ImageBadge src={product['img']}/>
+                        {product['article']}
+                      </TableCell>
                       <TableCell>{product['category']}</TableCell>
                       <TableCell align="right">{product['quantity']}</TableCell>
                       <TableCell align="right">{product['price']} €</TableCell>

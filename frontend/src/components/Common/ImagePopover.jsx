@@ -3,8 +3,8 @@ import Popover from '@mui/material/Popover';
 import styled from "styled-components";
 
 const Image = styled.img`
-  width: 60vh;
-  height: 60vh;
+  width: 50vh;
+  height: 50vh;
   object-fit: cover;
 `;
 

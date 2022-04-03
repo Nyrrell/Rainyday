@@ -53,7 +53,7 @@ const Sales = () => {
     return (
       <>
         <Typography>{username}</Typography>
-        <Typography Typography variant={"subtitle2"}>{email}</Typography>
+        <Typography variant={"subtitle2"}>{email}</Typography>
       </>
     );
   };
