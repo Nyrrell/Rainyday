@@ -21,7 +21,7 @@ import AdminSales from "./components/Admin/Sales/Sales.jsx";
 import AdminUsers from "./components/Admin/Users/Users.jsx";
 import AdminLayout from "./components/Base/Admin.jsx";
 import HomeAdmin from "./components/Admin/Home.jsx";
-import ScrollToTop from "./utils/scrollToTop.jsx";
+import ScrollToTop from "./hooks/scrollToTop.jsx";
 
 const App = () => {
   return (
