@@ -27,7 +27,7 @@ export const deleteOrder = async (req, res) => {
 export const userOrder = async (req, res) => {
   try {
     const orders = await Order.find({ customer: req.user.id }).populate({
-      path: "products.productId",
+      path: "products._id",
       select: 'title img',
       populate: { path: 'category', select: 'title' }
     });
@@ -36,11 +36,12 @@ export const userOrder = async (req, res) => {
       const { paypalId, productsTotal, total, discount, state, createdAt, products } = order;
       return {
         id: paypalId, productsTotal, total, discount, state, createdAt,
-        products: products.map(({ productId, quantity }) => ({
-          article: productId['title'],
-          category: productId['category']['title'],
-          img: productId['img'],
-          quantity
+        products: products.map(({ _id, quantity, price }) => ({
+          article: _id['title'],
+          category: _id['category']['title'],
+          img: _id['img'],
+          quantity,
+          price
         }))
       };
     })
@@ -62,7 +63,7 @@ export const allOrder = async (req, res) => {
 export const getOrder = async (req, res) => {
   try {
     const { products: productsOrder } = await Order.findById(req.params.id);
-    const products = await Product.find({ _id: { $in: productsOrder.map(p => p['productId']) } }).populate('category');
+    const products = await Product.find({ _id: { $in: productsOrder.map(p => p['_id']) } }).populate('category');
     res.send(products)
   } catch (e) {
     res.send(new Error('ERROR_OCCURRED'));

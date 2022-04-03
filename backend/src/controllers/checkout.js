@@ -38,7 +38,7 @@ export const createOrder = async (req, res) => {
     const newOrder = new Order({
       customer: req['user']['id'],
       products: checkout['items'].map(i => {
-        return { productId: i['sku'], quantity: i['quantity'] }
+        return { _id: i['sku'], quantity: i['quantity'], price: i['unit_amount']['value'] }
       }),
       productsTotal: checkout['items'].reduce((prevValue, currentValue) => prevValue + currentValue['quantity'], 0),
       total: checkout['total'],
@@ -94,7 +94,7 @@ export const cancelOrder = async (req, res) => {
     await Product.bulkWrite(
       order['products'].map(product => ({
         updateOne: {
-          filter: { _id: product['productId'] },
+          filter: { _id: product['_id'] },
           update: { $inc: { quantity: product['quantity'] } }
         }
       })));
