@@ -1,41 +1,76 @@
-import { Tab, Tabs } from "@mui/material";
+import { TextField } from "@mui/material";
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect } from 'react';
 
-import BaseTitle from "../../Common/BaseTitle.jsx";
-import TabPanel from "./TabPanel.jsx";
-import Order from "./Order.jsx";
+import { ValidateForm } from "../../../hooks/ValidateForm.js";
+import useForm from "../../../hooks/UseForm.jsx";
 
-const StyledTabs = styled(Tabs)`
-  margin-top: 2rem;
+import userStore from "../../../store/userStore.js";
 
-  & .MuiTabs-indicator {
-    background-color: var(--color-yellow);
+const Container = styled.form`
+  background-color: var(--color-dark-alt);
+  border: 2px solid var(--color-gray);
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+const Username = styled.p`
+  flex: 0 0 100%;
+  padding: 1rem;
+  font-size: 3rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--color-yellow);
+`;
+
+const Detail = styled.div`
+  flex: 1;
+  padding: 1rem;
+
+  & .sub-detail {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
   }
 
-  & .MuiTab-root {
+  & .MuiOutlinedInput-root, .MuiInputLabel-root {
     color: var(--color-light);
-    font-weight: 800;
+  }
+  
+  & .MuiOutlinedInput-root {
+    background: var(--color-gray);
   }
 `;
 
 const ProfileTabs = () => {
-  const [value, setValue] = useState(0);
+  const { getUserProfile, userProfile } = userStore();
+  const {
+    values,
+    errors,
+    handleChange,
+    handleSubmit,
+  } = useForm(login, ValidateForm, userProfile);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  useEffect(() => {
+    getUserProfile();
+  }, [getUserProfile]);
+
+  function login() {
+    console.log('No errors, submit callback called!');
+  }
 
   return (
-    <>
-      <BaseTitle>Mon compte</BaseTitle>
-      <StyledTabs textColor="inherit" value={value} onChange={handleChange}>
-        <Tab label="Profile" id={'0'}/>
-        <Tab label="Commande" id={'1'}/>
-      </StyledTabs>
-      <TabPanel value={value} index={0}>PROFILE</TabPanel>
-      <TabPanel value={value} index={1}><Order /></TabPanel>
-    </>
+    <Container onSubmit={handleSubmit}>
+      <Username>{userProfile['username']}</Username>
+      <Detail>
+        <TextField label={"Email"} name={'email'} value={values.email || ''} onChange={handleChange} type={'email'}
+                   error={Boolean(errors.email)} helperText={errors.email}/>
+        <button type="submit" className="button is-block is-info is-fullwidth">Login</button>
+      </Detail>
+      <Detail>
+        bla bla
+      </Detail>
+    </Container>
   );
 };
 

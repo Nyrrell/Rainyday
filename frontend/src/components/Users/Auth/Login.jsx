@@ -43,7 +43,7 @@ const Login = () => {
         passwordEmpty: !Boolean(password)
       })
     }
-    login({ username, password }, () => setTimeout(() => navigate(from, { replace: true })), 1000);
+    login({ username, password }, () => setTimeout(() => navigate(from, { replace: true }), 1000));
   }
 
   return (
