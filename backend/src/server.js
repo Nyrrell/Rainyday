@@ -1,4 +1,5 @@
 import fastifyStatic from 'fastify-static';
+import fastifyCors from 'fastify-cors';
 import multer from 'fastify-multer';
 import mongoose from 'mongoose';
 import fastify from 'fastify';
@@ -27,6 +28,7 @@ mongoose.connect(process.env.MONGO_DB)
 server.register(fastifyStatic, { root: path.join(path.resolve(), 'media'), prefix: '/media/' });
 server.register(jwt, { secret: process.env.JWT_SEC });
 server.register(multer.contentParser);
+server.register(fastifyCors);
 
 server.decorate('authenticate', authenticate);
 server.decorate('isAdmin', isAdmin);
