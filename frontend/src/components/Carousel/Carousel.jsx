@@ -6,7 +6,7 @@ import media from "css-in-js-media";
 const Arrow = styled.div`
   width: 50px;
   height: 100%;
-  background-color: var(--color-dark-alt);
+  background-color: rgba(0, 0, 0, 0.2);
   color: var(--color-light);
   display: flex;
   align-items: center;
@@ -18,14 +18,18 @@ const Arrow = styled.div`
   cursor: pointer;
   opacity: 0;
   z-index: 2;
-  transition: opacity 0.4s;
+  transition: all 0.6s;
+
+  &:hover {
+    color: var(--color-yellow);
+  }
 `;
 
 const Container = styled.section`
   display: none;
   position: relative;
   overflow: hidden;
-  
+
   ${media(">phone")} {
     display: block;
     width: 100vw;
@@ -40,7 +44,7 @@ const Container = styled.section`
   }
 
   &:hover ${Arrow} {
-    opacity: 0.5;
+    opacity: 1;
   }
 `;
 

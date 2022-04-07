@@ -4,37 +4,33 @@ import media from "css-in-js-media";
 import Categories from "../Categories/Categories.jsx";
 import ProductList from "../Product/ProductList.jsx";
 import Slider from "../Carousel/Slider.jsx";
+import BaseTitle from "../Common/BaseTitle.jsx";
 
-const Title = styled.h2`
+
+const TitleContainer = styled.div`
   width: var(--container-size);
-  margin: 2rem auto;
-  font-size: 1.8rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  text-shadow: 2px 2px 2px rgba(0, 0, 0, .4);
-  text-align: right;
+  margin: 3rem auto;
+  display: flex;
+  justify-content: end;
+  align-items: center;
   padding-right: 2rem;
+`;
 
-  & > span {
-    background: linear-gradient(to top, transparent 10%, rgba(240, 165, 0, 0.8) 10.01%,
-    rgba(240, 165, 0, 0.8) 40%, transparent 40.01%) no-repeat left bottom / 100% 100%;
-  }
-
-  ${media("<=phone")} {
-    margin: 1rem auto;
-    font-size: 1.4rem;
-    text-align: center;
-    padding-right: unset;
-  }
+const Title = styled(BaseTitle)`
+  font-size: 2.8rem;
 `;
 
 const Home = () => {
   return (
     <>
       <Slider/>
-      <Title><span>Catégories</span></Title>
+      <TitleContainer>
+        <Title forwardedAs={'h2'}>Catégories</Title>
+      </TitleContainer>
       <Categories/>
-      <Title><span>Produits populaire</span></Title>
+      <TitleContainer>
+        <Title forwardedAs={'h2'}>Produits populaire</Title>
+      </TitleContainer>
       <ProductList limit={12}/>
     </>
   );
