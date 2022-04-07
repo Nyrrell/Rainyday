@@ -1,21 +1,22 @@
 import { useState, useEffect } from 'react';
 
-const useForm = (callback, validate, data) => {
+import { ValidateForm } from "./ValidateForm.js";
+
+const useForm = (callback, fields) => {
   const [values, setValues] = useState({});
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    if (Object.keys(values).length === 0 && data) setValues(data)
     if (Object.keys(errors).length === 0 && isSubmitting) {
       callback();
     }
     console.log(errors)
-  }, [values, errors, isSubmitting, callback, data]);
+  }, [errors, isSubmitting, callback]);
 
   const handleSubmit = (event) => {
     if (event) event.preventDefault();
-    setErrors(validate(values));
+    setErrors(ValidateForm(values, fields));
     setIsSubmitting(true);
   };
 

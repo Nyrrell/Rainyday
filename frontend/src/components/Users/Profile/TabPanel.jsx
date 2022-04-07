@@ -1,4 +1,9 @@
-import { Box } from "@mui/material";
+import styled from "styled-components";
+
+const Children = styled.div`
+  border: 2px solid var(--color-gray);
+  background-color: var(--color-dark-alt);
+`;
 
 const TabPanel = ({ children, value, index, ...other }) => {
   return (
@@ -10,9 +15,9 @@ const TabPanel = ({ children, value, index, ...other }) => {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <Children>
           {children}
-        </Box>
+        </Children>
       )}
     </div>
   );

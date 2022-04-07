@@ -47,7 +47,7 @@ const Option = styled.option``;
 const ProductCatalog = () => {
   const { category } = useParams();
 
-  const [sort, setSort] = useState("newest");
+  const [sort, setSort] = useState("newest"); // TODO RESET CHANGEMENT PAGE
 
   return (
     <>
