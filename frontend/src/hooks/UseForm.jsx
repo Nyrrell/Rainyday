@@ -8,10 +8,10 @@ const useForm = (callback, fields) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    if (Object.keys(errors).length === 0 && isSubmitting) {
+    if (isSubmitting && Object.keys(errors).length === 0) {
       callback();
+      setIsSubmitting(false);
     }
-    console.log(errors)
   }, [errors, isSubmitting, callback]);
 
   const handleSubmit = (event) => {

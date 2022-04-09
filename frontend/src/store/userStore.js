@@ -18,6 +18,17 @@ const userStore = create(
         set({ isFetching: false, error: true });
       }
     },
+    // USER UPDATE
+    profileUpdate: async (payload) => {
+      set({ isFetching: true, error: false });
+      try {
+        const { data } = await userRequest.put(`/users/${payload['_id']}`, payload);
+        console.log(data)
+        set({ userProfile: data, isFetching: false });
+      } catch {
+        set({ isFetching: false, error: true });
+      }
+    },
     //GET ALL
     getUsers: async () => {
       set({ isFetching: true, error: false });
@@ -32,7 +43,6 @@ const userStore = create(
     deleteUser: async (payload) => {
       set({ isFetching: true, error: false });
       try {
-        // TODO REMOVE BDD
         set(state => {
           state.users = state.users.filter(p => p['_id'] !== payload);
           state.isFetching = false;

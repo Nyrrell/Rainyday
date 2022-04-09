@@ -25,7 +25,7 @@ export const ValidateForm = (values, fields) => {
     if (fields.includes('password')) {
       if (!values['password']) {
         errors['password'] = 'Mot de passe requis.';
-      } else if (isStrongPassword(values['password'])) {
+      } else if (!isStrongPassword(values['password'])) {
         errors['password'] = 'Minimum 8 caractères, 1 majuscule, 1 minuscule et 1 chiffre, 1 symbole.';
       }
     }
@@ -41,7 +41,7 @@ export const ValidateForm = (values, fields) => {
       if (!values['currentPassword'] || !values['newPassword'] || !values['newPasswordConfirm']) {
         if (!values['currentPassword']) errors['currentPassword'] = 'Ancien mot de passe requis.';
         if (!values['newPassword']) errors['newPassword'] = 'Nouveau mot de passe requis.';
-      } else if (isStrongPassword(values['newPassword'])) {
+      } else if (!isStrongPassword(values['newPassword'])) {
         errors['newPassword'] = 'Minimum 8 caractères, 1 majuscule, 1 minuscule et 1 chiffre, 1 symbole.';
       }
       if (values['newPassword'] !== values['newPasswordConfirm']) {

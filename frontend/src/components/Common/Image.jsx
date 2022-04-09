@@ -1,5 +1,3 @@
-import notFound from "../../assets/not_found.png"
-
 const Image = (props, { src, alt, className }) => (
   <img src={src} alt={alt} className={className} {...props}
        // onError={({ currentTarget }) => {

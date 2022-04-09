@@ -1,6 +1,8 @@
-import { Alert, Button, LinearProgress } from "@mui/material";
+import { Button, LinearProgress } from "@mui/material";
 import styled from "styled-components";
 import React from 'react';
+
+import Feedback from "../Common/Feedback.jsx";
 
 const Form = styled.form`
   padding: 0 1.5rem 1rem 1.5rem;
@@ -16,9 +18,8 @@ const Title = styled.h2`
   margin: 1rem 0;
 `;
 
-const Feedback = styled(Alert)`
+const ErrorFeedback = styled(Feedback)`
   flex: 0 0 100%;
-  margin-bottom: 1rem;
 `;
 
 const Fetching = styled(LinearProgress)`
@@ -39,7 +40,7 @@ const AdminForm = ({ children, title, valid, close, error, fetching }) => {
   return (
     <Form>
       <Title>{title}</Title>
-      {error && <Feedback variant={"outlined"} severity={"error"}>Une erreur est survenue !</Feedback>}
+      {error && <ErrorFeedback severity={"error"}>Une erreur est survenue !</ErrorFeedback>}
       {children}
       <BtnContainer>
         <Button variant={'contained'} color="info" onClick={valid}>Enregistrer</Button>

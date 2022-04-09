@@ -70,6 +70,12 @@ const List = styled.ul`
 const ListItem = styled.li`
   width: 50%;
   margin-bottom: 10px;
+
+    
+  & > a:hover {
+    transition: all .20s;
+    border-bottom: 1px solid var(--color-yellow);
+  }
 `;
 
 const Right = styled.div`
@@ -116,10 +122,10 @@ const Footer = () => {
         <Right>
           <Title>Contact</Title>
           <ContactItem>
-            <Phone style={{ marginRight: "10px" }}/> <strong>Telephone</strong> : 06 XX XX XX XX
+            <Phone style={{ marginRight: "10px" }}/> 06 XX XX XX XX
           </ContactItem>
           <ContactItem href={'mailto:contact@rainyday.fr'}>
-            <EmailOutlined style={{ marginRight: "10px" }}/> <strong>Email</strong> : contact@rainyday.fr
+            <EmailOutlined style={{ marginRight: "10px" }}/> contact@rainyday.fr
           </ContactItem>
         </Right>
       </Wrapper>

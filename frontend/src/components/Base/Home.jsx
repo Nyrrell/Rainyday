@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import media from "css-in-js-media";
 
 import Categories from "../Categories/Categories.jsx";
 import ProductList from "../Product/ProductList.jsx";

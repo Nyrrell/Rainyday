@@ -22,6 +22,21 @@ const Container = styled.div`
     justify-content: center;
   }
 
+  // CUSTOM INPUT 
+  & .MuiOutlinedInput-root {
+    background: var(--color-gray);
+  }
+  & .MuiInputBase-input, .MuiInputLabel-outlined {
+    color: var(--color-light);
+  }
+  & .Mui-disabled {
+    -webkit-text-fill-color: inherit;
+    opacity: 0.7;
+  }
+  & .show-password {
+    color: var(--color-light);
+  }
+  
   ${media("<=phone")} {
     width: 90vw;
   }
