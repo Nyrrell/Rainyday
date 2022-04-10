@@ -19,7 +19,7 @@ export const register = async (req, res) => {
   const isValidPassword = validatePassword(password);
   const isValidEmail = validateEmail(email);
 
-  !(isValidUsername && isValidEmail && isValidPassword) && res.status(422).send(new Error('Informations erronées !'));
+  if (!(isValidUsername && isValidEmail && isValidPassword)) return res.status(422).send(new Error('Informations erronées !'));
 
   const newUser = new User({
     username: username,

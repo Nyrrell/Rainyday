@@ -32,7 +32,7 @@ export const ValidateForm = (values, fields) => {
     // CONFIRM PASSWORD
     if (fields.includes('password') && fields.includes('passwordConfirm')) {
       if (values['password'] !== values['passwordConfirm']) {
-        errors['passwordAreSame'] = 'Les mots de passe ne sont pas identique.';
+        errors['passwordConfirm'] = 'Les mots de passe ne sont pas identique.';
       }
     }
 

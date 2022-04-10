@@ -26,7 +26,7 @@ const Container = styled.div`
   & .MuiOutlinedInput-root {
     background: var(--color-gray);
   }
-  & .MuiInputBase-input, .MuiInputLabel-outlined {
+  & .MuiInputBase-input, .MuiInputLabel-outlined, .MuiFormHelperText-sizeMedium:not(.Mui-error) {
     color: var(--color-light);
   }
   & .Mui-disabled {
