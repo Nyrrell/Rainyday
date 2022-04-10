@@ -8,9 +8,9 @@ const AlertCustom = styled(Alert)`
   margin-bottom: 1rem;  
 `;
 
-const Feedback = ({ className, severity, light, children, ...props }) => {
+const Feedback = ({ className, severity, light = false, children, ...props }) => {
   return (
-    <AlertCustom className={className} variant={"outlined"} severity={severity} light={light} {...props}>
+    <AlertCustom className={className} variant={"outlined"} severity={severity} light={+light} {...props}>
       {children}
     </AlertCustom>
   );

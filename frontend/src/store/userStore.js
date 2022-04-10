@@ -23,10 +23,11 @@ const userStore = create(
       set({ isFetching: true, error: false });
       try {
         const { data } = await userRequest.put(`/users/${payload['_id']}`, payload);
-        console.log(data)
         set({ userProfile: data, isFetching: false });
-      } catch {
+        return data;
+      } catch(e) {
         set({ isFetching: false, error: true });
+        throw e['response']?.['data']['message'];
       }
     },
     //GET ALL

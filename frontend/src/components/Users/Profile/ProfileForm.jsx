@@ -10,10 +10,11 @@ const Form = styled.form`
   gap: 20px;
 `;
 
-const ProfileForm = ({ error, children }) => {
+const ProfileForm = ({ error, success, children }) => {
   return (
     <Form>
-      {error && <Feedback severity={"error"} light>Une erreur est survenue !</Feedback>}
+      {error && <Feedback severity={"error"} light>{error === 'ERROR_OCCURRED' ? 'Une erreur est survenue !' : error}</Feedback>}
+      {success && <Feedback severity={"success"} light>{success}</Feedback>}
       {children}
     </Form>
   );

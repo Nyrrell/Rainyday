@@ -5,28 +5,38 @@ import useForm from "../../../hooks/UseForm.jsx";
 import ProfileForm from "./ProfileForm.jsx";
 
 import userStore from "../../../store/userStore.js";
+import { useState } from "react";
 
 const PasswordTabs = () => {
-  const { userProfile, profileUpdate, error, isFetching } = userStore();
+  const { userProfile, profileUpdate, isFetching } = userStore();
+  const [success, setSuccess] = useState(null);
+  const [error, setError] = useState(null);
 
-  const updatePassword = async () => {
-    await profileUpdate({
+  const updatePassword = () => {
+    profileUpdate({
       '_id': userProfile['_id'],
       'password': values['newPassword'],
       'currentPassword': values['currentPassword']
-    });
+    })
+      .then(() => {
+        setSuccess('Enregistrement des modifications.');
+        setValues({});
+        return setError(null);
+      })
+      .catch(e => setError(e));
   }
 
   const {
     values,
     errors,
+    setValues,
     handleChange,
     handleSubmit,
   } = useForm(updatePassword, ['newPassword']);
 
 
   return (
-    <ProfileForm error={error}>
+    <ProfileForm error={error} success={success}>
       <PasswordField label={'Mot de passe actuel'} name={'currentPassword'} value={values['currentPassword'] || ''}
                      fullWidth onChange={handleChange} error={Boolean(errors['currentPassword'])}
                      helperText={errors['currentPassword']}/>
