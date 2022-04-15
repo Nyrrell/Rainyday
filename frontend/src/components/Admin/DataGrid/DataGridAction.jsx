@@ -24,16 +24,21 @@ const DataGridAction = ({ id, handleDelete, onClick }) => {
       <IconButton aria-label="éditer" color={'info'} onClick={() => onClick(id)}>
         <EditOutlined/>
       </IconButton>
-      <IconButton aria-label="delete" color={"warning"} onClick={handleClickOpen}>
-        <DeleteOutline/>
-      </IconButton>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogContent>{"Cette opération est irréversible, confirmer la suppresion."}</DialogContent>
-        <DialogActions>
-          <Button fullWidth variant={'contained'} color="info" onClick={(e) => handleDelete(e, id)}>Confirmer</Button>
-          <Button fullWidth variant={'outlined'} color="error" onClick={handleClose}>Annuler</Button>
-        </DialogActions>
-      </Dialog>
+      {handleDelete && (
+        <>
+          <IconButton aria-label="delete" color={"warning"} onClick={handleClickOpen}>
+            <DeleteOutline/>
+          </IconButton>
+          <Dialog open={open} onClose={handleClose}>
+            <DialogContent>{"Cette opération est irréversible, confirmer la suppression."}</DialogContent>
+            <DialogActions>
+              <Button fullWidth variant={'contained'} color="info"
+                      onClick={(e) => handleDelete(e, id)}>Confirmer</Button>
+              <Button fullWidth variant={'outlined'} color="error" onClick={handleClose}>Annuler</Button>
+            </DialogActions>
+          </Dialog>
+        </>
+      )}
     </>
   );
 };

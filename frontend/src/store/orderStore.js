@@ -29,12 +29,12 @@ const OrderStore = create(
       }
     },
     // UPDATE
-    updateOrders: async (id, payload) => {
+    updateOrders: async (payload) => {
       set({ isFetching: true, error: false });
       try {
-        const { data } = await userRequest.put(`/orders/${id}`, payload);
+        const { data } = await userRequest.put(`/orders/${payload['_id']}`, payload);
         set(state => {
-          state.allOrders = state.allOrders.map(o => o['_id'] === id ? data : o);
+          state.allOrders = state.allOrders.map(o => o['_id'] === payload['_id'] ? data : o);
           state.isFetching = false;
           state.error = false;
         });

@@ -47,9 +47,7 @@ const DataTableProducts = ({ order }) => {
       try {
         const { data } = await userRequest.post(`/orders/${order['_id']}/find`);
         setProduct(data);
-      } catch (e) {
-        console.log(e)
-      }
+      } catch {}
     }
     getOrder()
   }, [order])
