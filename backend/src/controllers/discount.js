@@ -35,8 +35,9 @@ export const deleteDiscount = async (req, res) => {
 
 export const getDiscount = async (req, res) => {
   try {
-    const discount = await Discount.findById(req.params.id);
-    res.send(discount);
+    const discount = await Discount.findOne({ title: req.params.code }).where({ active: true });
+    !discount && res.code(403).send(new Error('Code promo invalide'));
+    res.send({ reduction: discount['percentage'] });
   } catch (e) {
     res.send(new Error('ERROR_OCCURRED'));
   }

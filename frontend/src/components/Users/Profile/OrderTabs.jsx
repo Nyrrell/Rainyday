@@ -45,6 +45,7 @@ const OrderTabs = () => {
             <TableCell align="center" className={'status'}>Status</TableCell>
             <TableCell align="center">Date commande</TableCell>
             <TableCell align="right">Articles</TableCell>
+            <TableCell align="right">Promo</TableCell>
             <TableCell align="right">Prix total</TableCell>
           </TableRow>
         </TableHead>

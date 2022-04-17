@@ -2,15 +2,19 @@ import Product from "../models/Product.js";
 import Order from "../models/Order.js";
 
 import { paypalCaptureOrder, paypalCreateOrder } from "../services/paypalApi.js";
+import Discount from "../models/Discount.js";
 
 export const createOrder = async (req, res) => {
-  const productsInCart = req.body;
+  const productsInCart = req['body']['products'];
+  const discountCode = req['body']['discount']?.['code'];
   const productsInCartID = productsInCart.map(p => p['_id']);
 
   const checkout = { items: [], total: 0 };
   const notAvailable = [];
+
   try {
     const products = await Product.find({ _id: { $in: productsInCartID } });
+    const discount = await Discount.findOne({ title: discountCode }).where({ active: true });
 
     for await (const product of products) {
       const { _id, quantity } = product.toJSON();
@@ -29,6 +33,7 @@ export const createOrder = async (req, res) => {
           quantity: inCart['quantity'],
         });
         checkout['total'] += product['price'] * inCart['quantity'];
+        checkout['reduction'] = ((discount?.['percentage'] / 100) * checkout['total']).toFixed(2);
       }
     }
 
@@ -41,9 +46,9 @@ export const createOrder = async (req, res) => {
         return { _id: i['sku'], quantity: i['quantity'], price: i['unit_amount']['value'] }
       }),
       productsTotal: checkout['items'].reduce((prevValue, currentValue) => prevValue + currentValue['quantity'], 0),
-      total: checkout['total'],
-      discount: '',
-      discountAmount: 0,
+      total: checkout['total'] - checkout['reduction'],
+      discount: discount?.['title'] || '',
+      discountAmount: discount?.['percentage'] || 0,
     });
 
     const { id } = await paypalCreateOrder(checkout, newOrder['_id'].toString());
@@ -101,7 +106,6 @@ export const cancelOrder = async (req, res) => {
 
     res.send();
   } catch (e) {
-    console.log(e)
     res.send(new Error('ERROR_OCCURRED'));
   }
 }

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { paypalOptions } from "./paypal.js";
 import checkoutStore from "../../store/checkoutStore.js";
+import discountStore from "../../store/discountStore.js";
 
 const PaypalCheckout = ({ products }) => {
   const { createOrder, cancelOrder, approveOrder } = checkoutStore();
@@ -10,7 +11,8 @@ const PaypalCheckout = ({ products }) => {
 
   const handleClick = async (data, actions) => {
     if (!Boolean(products.length)) return actions.reject();
-    return createOrder(products, actions);
+    const discount = discountStore.getState().discountCart;
+    return createOrder({ products, discount }, actions);
   }
 
   const handleOrder = async () => {

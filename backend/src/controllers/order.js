@@ -33,9 +33,9 @@ export const userOrder = async (req, res) => {
     });
 
     const listOrders = orders.map(order => {
-      const { paypalId, productsTotal, total, discount, state, createdAt, products } = order;
+      const { paypalId, productsTotal, total, discountAmount, state, createdAt, products } = order;
       return {
-        id: paypalId, productsTotal, total, discount, state, createdAt,
+        id: paypalId, productsTotal, total, discountAmount, state, createdAt,
         products: products.map(({ _id, quantity, price }) => ({
           article: _id['title'],
           category: _id['category']['title'],

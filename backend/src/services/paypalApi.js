@@ -17,12 +17,16 @@ export const paypalCreateOrder = async (checkout, id) => {
       {
         reference_id: id,
         amount: {
-          value: checkout['total'],
+          value: checkout['total'] - checkout['reduction'],
           currency_code: 'EUR',
           breakdown: {
             item_total: {
               value: checkout['total'],
               currency_code: 'EUR'
+            },
+            discount: {
+              currency_code: "EUR",
+              value: checkout['reduction']
             }
           },
         },

@@ -7,11 +7,13 @@ import { useEffect } from "react";
 
 import PaypalCheckout from "./PaypalCheckout.jsx";
 import BaseTitle from "../Common/BaseTitle.jsx";
+import DiscountCode from "./DiscountCode.jsx";
 import ProductCart from "./ProductCart.jsx";
 
 import checkoutStore from "../../store/checkoutStore.js";
 import cartStore from "../../store/cartStore.js";
 import authStore from "../../store/authStore.js";
+import discountStore from "../../store/discountStore.js";
 
 const Top = styled.div`
   display: flex;
@@ -81,6 +83,13 @@ const SummaryItem = styled.div`
   justify-content: space-between;
   font-weight: ${props => props['type'] === "total" && 500};
   font-size: ${props => props['type'] === "total" && "24px"};
+  &.discount-code {
+    gap: 0 5px;
+    margin-bottom: 10px;
+  }
+  &.discount-reduction {
+    margin-top: 0;
+  }
 `;
 
 const SummaryItemText = styled.span``;
@@ -96,17 +105,26 @@ const Empty = styled.div`
 const Cart = () => {
   const { products, total, emptyProduct } = cartStore();
   const { notAvailable, error } = checkoutStore();
+  const { discountCart } = discountStore();
   const { token } = authStore();
   const location = useLocation();
   const approve = location.state?.approve;
 
   useEffect(() => {
-    if (approve) emptyProduct();
+    if (approve) {
+      emptyProduct();
+      discountStore.setState({ discountCart: null });
+    }
   }, [approve, emptyProduct])
 
   const handleClick = (e) => {
     e.preventDefault();
     emptyProduct();
+  };
+
+  const getTotal = () => {
+    const reduction = discountCart?.['reduction'] || 0;
+    return total - ((reduction / 100) * total);
   };
 
   const isEmpty = !products.length;
@@ -138,20 +156,21 @@ const Cart = () => {
             <SummaryItemText>Sous-total</SummaryItemText>
             <SummaryItemPrice>{total} €</SummaryItemPrice>
           </SummaryItem>
-          <SummaryItem>
-            <SummaryItemText>Frais de port</SummaryItemText>
-            <SummaryItemPrice>5,90 €</SummaryItemPrice>
+          <SummaryItem className={'discount-code'}>
+            <DiscountCode/>
           </SummaryItem>
-          <SummaryItem>
-            <SummaryItemText>Code promo</SummaryItemText> {/*TODO CODE PROMO*/}
-            <SummaryItemPrice>-5,90 €</SummaryItemPrice>
-          </SummaryItem>
+          { Boolean(discountCart) && (
+            <SummaryItem className={'discount-reduction'}>
+              <SummaryItemText>Réduction appliquer</SummaryItemText>
+              <SummaryItemPrice>-{discountCart['reduction']} %</SummaryItemPrice>
+            </SummaryItem>
+          )}
           <SummaryItem type={"total"}>
             <SummaryItemText>Total</SummaryItemText>
-            <SummaryItemPrice>{total} €</SummaryItemPrice>
+            <SummaryItemPrice>{getTotal()} €</SummaryItemPrice>
           </SummaryItem>
           { token
-            ? <PaypalCheckout products={products}/>
+            ? <PaypalCheckout products={products} discount={discountCart}/>
             : <Link to={"/login"} state={{ from: location }}><Button variant={'outlined'} fullWidth>Connectez vous</Button></Link>
           }
         </Summary>

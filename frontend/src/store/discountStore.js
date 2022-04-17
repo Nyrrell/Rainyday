@@ -4,9 +4,19 @@ import { publicRequest, userRequest } from "../hooks/requestApi.js";
 
 const DiscountStore = create(
   set => ({
+    discountCart: null,
     discountCodes: [],
     isFetching: false,
     error: false,
+    checkDiscountCode: async (payload) => {
+      set({ isFetching: true, error: false });
+      try {
+        const { data } = await publicRequest.get(`/discounts/find/${payload}`);
+        set({ discountCart: { code: payload, ...data }, isFetching: false });
+      } catch {
+        set({ isFetching: false, error: true });
+      }
+    },
     getDiscountCodes: async () => {
       set({ isFetching: true, error: false });
       try {
