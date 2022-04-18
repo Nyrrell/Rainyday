@@ -1,4 +1,4 @@
-import { Logout } from "@mui/icons-material";
+import { AttachMoney, Category, LocalOffer, Logout, PermIdentity, Storefront } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
@@ -41,9 +41,22 @@ const Wrapper = styled.nav`
   justify-content: space-between;
 `;
 
-const Left = styled.div`
+const Left = styled.ul`
   display: flex;
   align-items: center;
+  justify-content: start;
+  gap: 20px;
+  padding: 0;
+  list-style: none;
+  color: lightgrey;
+
+  & > a {
+    transition: all .2s;
+  }
+
+  & > a:hover {
+    color: var(--color-light);
+  }
 `;
 
 const Logo = styled.span`
@@ -51,16 +64,33 @@ const Logo = styled.span`
   font-size: 1.5rem;
   text-transform: uppercase;
   cursor: pointer;
+  margin-right: 1rem;
+  color: var(--color-light);
 `
 
 const Right = styled.div`
   display: flex;
   align-items: center;
+  gap: 10px;
 `;
 
-const MenuItem = styled.div`
-  margin: 0 10px;
+const MenuItem = styled.li`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  & > svg {
+    font-size: 1rem;
+  }
 `;
+
+const NavLink = ({ to, children }) => (
+  <Link to={'/admin/' + to}>
+    <MenuItem>
+      {children}
+    </MenuItem>
+  </Link>
+);
 
 function Navbar() {
   const { username, logout } = authStore();
@@ -79,6 +109,21 @@ function Navbar() {
           <Link to={'/'}>
             <Logo>{process.env.REACT_APP_NAME}</Logo>
           </Link>
+          <NavLink to={'sales'}>
+            <AttachMoney/> Ventes
+          </NavLink>
+          <NavLink to={'users'}>
+            <PermIdentity/> Utilisateurs
+          </NavLink>
+          <NavLink to={'categories'}>
+            <Category/> Catégories
+          </NavLink>
+          <NavLink to={'products'}>
+            <Storefront/> Produits
+          </NavLink>
+          <NavLink to={'discounts'}>
+            <LocalOffer/> Code Promo
+          </NavLink>
         </Left>
         <Right>
           <MenuItem>{username.toUpperCase()}</MenuItem>

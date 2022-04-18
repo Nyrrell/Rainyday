@@ -1,18 +1,17 @@
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 
-import Sidebar from "../Admin/Layout/Sidebar.jsx";
 import Navbar from "../Admin/Layout/Navbar.jsx";
 
 const Container = styled.div`
-  display: flex;
-`;
-
-const Content = styled.div`
-  flex: 6;
-  padding: 20px;
+  width: 80vw;
+  margin: 0 auto;
+  padding-top: 1rem;
+  flex-grow: 1;
   background: white;
   color: black;
+  position: relative;
+  outline: 10vw solid white;
 `;
 
 const Admin = () => {
@@ -20,10 +19,7 @@ const Admin = () => {
     <>
       <Navbar/>
       <Container>
-        <Sidebar/>
-        <Content>
-          <Outlet/>
-        </Content>
+        <Outlet/>
       </Container>
     </>
   );

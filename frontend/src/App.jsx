@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import React from 'react';
 
 import { AlreadyAuth, RequireAuth, RequireAuthorization } from "./hooks/ProtectedRoute.js";
+import ScrollToTop from "./hooks/scrollToTop.jsx";
 
 // SHOP PAGES
 import ProductDetailPage from "./components/ProductDetail/ProductDetailPage.jsx";
@@ -22,7 +23,6 @@ import AdminSales from "./components/Admin/Sales/Sales.jsx";
 import AdminUsers from "./components/Admin/Users/Users.jsx";
 import AdminLayout from "./components/Base/Admin.jsx";
 import HomeAdmin from "./components/Admin/Home.jsx";
-import ScrollToTop from "./hooks/scrollToTop.jsx";
 
 const App = () => {
   return (
